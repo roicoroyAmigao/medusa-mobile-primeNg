@@ -1,0 +1,66 @@
+<form [formGroup]="adressForm" (ngSubmit)="submitAddressForm(adressForm.value)">
+  <label for="address_1">
+    {{ 'ADDRESS 1' | translate }}
+  </label>
+  <input formControlName="address_1" id="address_1" type="text" placeholder="{{ 'Addres first line' | translate }}"
+    pInputText class="w-full mb-2">
+  <p-message severity="error" [text]="'Address 1st line' | translate"
+    *ngIf="!adressForm.get('address_1').valid && adressForm.get('address_1').dirty"></p-message>
+
+  <label for="address_2">
+    {{ 'ADDRESS 1' | translate }}
+  </label>
+  <input formControlName="address_2" id="address_2" type="text" placeholder="{{ 'Last Name Placeholder' | translate }}"
+    pInputText class="w-full mb-2">
+  <p-message severity="error" [text]="'Address 2nd line' | translate"
+    *ngIf="!adressForm.get('address_2').valid && adressForm.get('address_2').dirty"></p-message>
+
+  <div>
+    <label for="region">
+      {{ 'Region' | translate }}
+    </label>
+    <p-dropdown id="region" [options]="regionsList"
+      (onChange)="onRegionCodeChange(adressForm.get('region_code').value.id !== null ? adressForm.get('region_code').value.id : '')"
+      formControlName="region_code" placeholder="{{'Select a region' | translate }}" optionLabel="name"
+      [showClear]="true"></p-dropdown>
+  </div>
+
+  <div>
+    <label for="country">
+      {{ 'Region' | translate }}
+    </label>
+    <p-dropdown id="country" [options]="countriesList" formControlName="country" placeholder="Select a country"
+      optionLabel="display_name" [showClear]="true"></p-dropdown>
+  </div>
+
+  <div>
+    <label for="city">
+      {{ 'City' | translate }}
+    </label>
+    <input formControlName="city" id="city" type="text" placeholder="{{ 'City Placeholder' | translate }}" pInputText
+      class="w-full mb-2">
+    <p-message severity="error" [text]="'City is required'"
+      *ngIf="!adressForm.get('city').valid && adressForm.get('city').dirty"></p-message>
+  </div>
+
+  <div>
+    <label for="postal_code">
+      {{ 'Postal Code' | translate }}
+    </label>
+    <input formControlName="postal_code" id="postal_code" type="text"
+      placeholder="{{ 'postal_code Placeholder' | translate }}" pInputText class="w-full mb-2">
+    <p-message severity="error" [text]="'postal_code is required'"
+      *ngIf="!adressForm.get('postal_code').valid && adressForm.get('postal_code').dirty"></p-message>
+  </div>
+
+  <div>
+    <label for="phone">
+      {{ 'phone' | translate }}
+    </label>
+    <input formControlName="phone" id="phone" type="text" placeholder="{{ 'postal_code Placeholder' | translate }}"
+      pInputText class="w-full mb-2">
+    <p-message severity="error" [text]="'phone is required'"
+      *ngIf="!adressForm.get('phone').valid && adressForm.get('phone').dirty"></p-message>
+  </div>
+
+</form>

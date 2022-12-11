@@ -1,0 +1,91 @@
+<ion-header [translucent]="true" collapse="condense">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal('dismiss')">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal('save')">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-card-header>
+        <ion-card-subtitle>{{ !isEdit ? 'Add New' : 'Edit' }} </ion-card-subtitle>
+        <ion-card-title>Address</ion-card-title>
+      </ion-card-header>
+    </ion-toolbar>
+  </ion-header>
+
+  <form [formGroup]="address_form">
+
+    <ion-item>
+      <ion-label position="floating" color="primary">First Name</ion-label>
+      <ion-input type="text" formControlName="first_name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Last name</ion-label>
+      <ion-input type="text" formControlName="last_name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Address line 1</ion-label>
+      <ion-input type="text" formControlName="address_1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Address line 2</ion-label>
+      <ion-input type="text" formControlName="address_2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary">City</ion-label>
+      <ion-input type="text" formControlName="city"></ion-input>
+    </ion-item>
+
+    <ion-col size="12">
+      <ion-label color="primary">
+        Your Region
+      </ion-label>
+      <ion-radio-group formControlName="region_code">
+        <ion-item *ngFor="let region of regionsList">
+          <ion-label>{{ region.name }}</ion-label>
+          <ion-radio slot="start" [value]="region.id" (click)="onRegionCodeChange(region.id)"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-col>
+
+    <ion-col size="12">
+      <ion-label color="primary">
+        Your Country according region
+      </ion-label>
+      <ion-radio-group formControlName="country">
+        <ion-item *ngFor="let country of countriesList">
+          <ion-label>
+            {{ country.display_name }}
+          </ion-label>
+          <ion-radio slot="start" [value]="country?.iso_2"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-col>
+
+    <ion-item>
+      <ion-label color="primary">Post Code</ion-label>
+      <ion-input type="text" formControlName="postal_code"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color="primary">Phone</ion-label>
+      <ion-input type="text" formControlName="phone"></ion-input>
+    </ion-item>
+    
+  </form>
+
+</ion-content>

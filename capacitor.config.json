@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "medusa-mobile-primeNg",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

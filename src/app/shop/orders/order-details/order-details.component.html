@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Order Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-grid *ngIf="orderDetails as vs">
+    <ion-row>
+      <ion-col size="12">
+          <ion-row>
+            <ion-col>
+              Thumb
+            </ion-col>
+            <ion-col>
+              Title
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let item of vs.items">
+            <ion-col>
+              <ion-img [src]="item.thumbnail"></ion-img>
+            </ion-col>
+            <ion-col>
+              {{ item.title }}
+            </ion-col>
+
+
+            {{ orderId }}
+          </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

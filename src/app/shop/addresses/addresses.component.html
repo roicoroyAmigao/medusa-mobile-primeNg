@@ -1,0 +1,83 @@
+<ion-header [translucent]="true" collapse="condense">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigateBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="openShippingAddressModal()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-card-header>
+        <ion-card-subtitle>Manage your addresses</ion-card-subtitle>
+      </ion-card-header>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-row>
+    <ion-col size="12">
+      <ion-button (click)="viewBilingAddress()" expand="block" fill="outline" shape="round">
+        View Billing Address
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col *ngIf="viewState$ | async as vs">
+      <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
+        <ion-item>
+          <ion-buttons slot="start">
+            <ion-button>
+              <ion-icon color='danger' name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button (click)="openShippingAddressModal(address)">
+              <ion-icon color="warning" name="create-outline"></ion-icon>
+              <ion-text color="warning">
+                Edit
+              </ion-text>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <ion-card-header>
+          <ion-row>
+            <ion-col>
+              <ion-card-subtitle>{{ address.first_name }}</ion-card-subtitle>
+              <ion-card-title>{{ address.last_name }}</ion-card-title>
+            </ion-col>
+          </ion-row>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row>
+            <ion-col size="6">
+              <p>Address_1: {{ address.address_1 }}</p>
+              <p>Address_2: {{ address.address_2 }}</p>
+              <p>City: {{ address.city }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p>Province: {{ address.province }}</p>
+              <p>Postal Code: {{ address.postal_code }}</p>
+              <p>Country: {{ address.country_code }}</p>
+              <p>Phone: {{ address.phone }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+        <ion-item>
+          <ion-note slot="start">Delivery address</ion-note>
+          <ion-icon color="success" slot="end" name="checkmark-outline"></ion-icon>
+          <ion-checkbox slot="end" [value]="i" (ionChange)="onCheckboxChange(address.id, $event)"></ion-checkbox>
+        </ion-item>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

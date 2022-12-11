@@ -1,0 +1,7 @@
+{
+  "name": "medusa-mobile-primeNg",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
