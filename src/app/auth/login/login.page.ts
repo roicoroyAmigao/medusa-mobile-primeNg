@@ -43,18 +43,16 @@ export class LoginPage implements OnInit, OnDestroy {
       password: this.signupForm.value.login?.password
     }
     console.log(request);
-
-    // this.store.dispatch(new AuthActions.MedusaLogin(request))
-    //   .pipe(
-    //     takeUntil(this.ngUnsubscribe),
-    //   )
-    //   .subscribe((state) => {
-    //     if (state) {
-    //       // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.defaultRegion[0]?.region_id));
-    //       // this.navigation.navigateForward('/home', 'forward');
-    //     }
-    //   });
-
+    this.store.dispatch(new AuthActions.MedusaLogin(request))
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+      )
+      .subscribe((state) => {
+        if (state) {
+          // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.defaultRegion[0]?.region_id));
+          this.navigation.navigateForward('/shop/products-list', 'forward');
+        }
+      });
   }
   back(): void {
     this.navigation.navControllerDefault('/home');

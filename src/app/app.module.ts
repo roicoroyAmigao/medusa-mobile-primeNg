@@ -24,8 +24,8 @@ import localePT from '@angular/common/locales/pt';
 import localeEN from '@angular/common/locales/en';
 import localeUK from '@angular/common/locales/uk';
 import { AuthState } from './store/auth/auth.state';
-import { ComponentsModule } from './components/components.module';
-import { AddressesComponent } from './shop/addresses/addresses.component';
+import { TruncatePipe } from './shared/pipes/truncate.pipe';
+
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
 registerLocaleData(localeUK, 'uk');

@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
   ],
   declarations: [
     ProductListPage,
+    TruncatePipe
   ]
 })
 export class ProductListPageModule {}
