@@ -32,6 +32,10 @@ const routes: Routes = [
     redirectTo: '/products-list',
     pathMatch: 'full'
   },
+  {
+    path: 'details',
+    loadChildren: () => import('./addresses/details/details.module').then( m => m.DetailsPageModule)
+  },
 
 ];
 

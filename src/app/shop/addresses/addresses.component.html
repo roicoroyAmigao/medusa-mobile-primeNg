@@ -33,10 +33,7 @@
   <ion-row>
     <ion-col *ngIf="viewState$ | async as vs">
 
-
-      {{ vs | json }}
-
-      <!-- <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
+      <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
         <ion-item>
           <ion-buttons slot="start">
             <ion-button>
@@ -80,7 +77,7 @@
           <ion-icon color="success" slot="end" name="checkmark-outline"></ion-icon>
           <ion-checkbox slot="end" [value]="i" (ionChange)="onCheckboxChange(address.id, $event)"></ion-checkbox>
         </ion-item>
-      </ion-card> -->
+      </ion-card>
     </ion-col>
   </ion-row>
 

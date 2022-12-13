@@ -22,70 +22,22 @@
       </ion-card-header>
     </ion-toolbar>
   </ion-header>
+  <form [formGroup]="addressForm">
+    <label for="first_name">
+      {{ 'First Name' | translate }}
+    </label>
+    <input formControlName="first_name" id="first_name" type="text" placeholder="First Name" pInputText
+      class="w-full mb-2">
+    <p-message severity="error" [text]="'First name is required' | translate"
+      *ngIf="!addressForm.get('first_name')?.valid && addressForm.get('first_name')?.dirty"></p-message>
 
-  <form [formGroup]="address_form">
-
-    <ion-item>
-      <ion-label position="floating" color="primary">First Name</ion-label>
-      <ion-input type="text" formControlName="first_name"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating" color="primary">Last name</ion-label>
-      <ion-input type="text" formControlName="last_name"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating" color="primary">Address line 1</ion-label>
-      <ion-input type="text" formControlName="address_1"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating" color="primary">Address line 2</ion-label>
-      <ion-input type="text" formControlName="address_2"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label color="primary">City</ion-label>
-      <ion-input type="text" formControlName="city"></ion-input>
-    </ion-item>
-
-    <ion-col size="12">
-      <ion-label color="primary">
-        Your Region
-      </ion-label>
-      <ion-radio-group formControlName="region_code">
-        <ion-item *ngFor="let region of regionsList">
-          <ion-label>{{ region.name }}</ion-label>
-          <ion-radio slot="start" [value]="region.id" (click)="onRegionCodeChange(region.id)"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
-    </ion-col>
-
-    <ion-col size="12">
-      <ion-label color="primary">
-        Your Country according region
-      </ion-label>
-      <ion-radio-group formControlName="country">
-        <ion-item *ngFor="let country of countriesList">
-          <ion-label>
-            {{ country.display_name }}
-          </ion-label>
-          <ion-radio slot="start" [value]="country?.iso_2"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
-    </ion-col>
-
-    <ion-item>
-      <ion-label color="primary">Post Code</ion-label>
-      <ion-input type="text" formControlName="postal_code"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating" color="primary">Phone</ion-label>
-      <ion-input type="text" formControlName="phone"></ion-input>
-    </ion-item>
-    
+    <label for="last_name">
+      {{ 'Last Name' | translate }}
+    </label>
+    <input formControlName="last_name" id="last_name" type="text"
+      placeholder="{{ 'Last Name Placeholder' | translate }}" pInputText class="w-full mb-2">
+    <p-message severity="error" [text]="'Last name is required'"
+      *ngIf="!addressForm.get('last_name')?.valid && addressForm.get('last_name')?.dirty"></p-message>
+    <app-address-form #form formControlName="address"></app-address-form>
   </form>
-
 </ion-content>

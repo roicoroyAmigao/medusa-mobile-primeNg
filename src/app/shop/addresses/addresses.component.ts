@@ -42,9 +42,9 @@ export class AddressesComponent {
 
   ionViewWillEnter() {
     this.viewState$ = this.facade.viewState$;
-    this.viewState$.subscribe((state) => {
-      console.log(state);
-    });
+    // this.viewState$.subscribe((state) => {
+    //   console.log(state);
+    // });
     this.store.dispatch(new AuthActions.GetSession());
     // const cartid = this.store.selectSnapshot<any>((state) => state.medusaState.cartId);
     // this.store.dispatch(new MedusaActions.GetMedusaCart(cartid));
@@ -68,6 +68,9 @@ export class AddressesComponent {
     });
     await modal.present();
   }
+  shippingAddress() {
+    this.navigation.navigateFlip('/shop/details');
+  }
   async openShippingAddressModal(address?: IRegisterAddress) {
     const modal = await this.modalCtrl.create({
       component: AddressDetailsComponent,
@@ -77,30 +80,24 @@ export class AddressesComponent {
     });
     await modal.present();
     const { data, role } = await modal.onWillDismiss();
-    const address_form: IRegisterAddress = {
-      last_name: data?.last_name,
-      first_name: data?.first_name,
-      address_1: data?.address_1,
-      address_2: data?.address_2,
-      city: data?.city,
-      country_code: data?.country,
-      postal_code: data?.postal_code,
-      phone: data?.phone,
-    }
-    if (data.id === null || data.id === "" && role === 'save') {
-      this.saveNewAddress(address_form);
-    } else if (data.id != null && role === 'save') {
-      const addressId: string = data.id;
-      this.updateAdress(addressId, address_form);
-    }
+    // console.log(data);
+    // console.log(data);
+    const addressId: string = data.id;
+    this.updateAdress(addressId, data);
+    // if (data.id === null || data.id === "" && role === 'save') {
+    //   this.saveNewAddress(data);
+    // } else if (data.id != null && role === 'save') {
+    //   const addressId: string = data.id;
+    //   this.updateAdress(addressId, data);
+    // }
   }
-  updateAdress(addressId?: any, address_form?: IRegisterAddress) {
-    console.log(addressId, address_form);
-    this.store.dispatch(new MedusaActions.UpdateCustomerRegisterAddress(addressId, address_form));
+  updateAdress(addressId?: any, addressForm?: IRegisterAddress) {
+    // console.log(addressId, addressForm);
+    this.store.dispatch(new MedusaActions.UpdateCustomerRegisterAddress(addressId, addressForm));
   }
-  saveNewAddress(address_form?: IRegisterAddress) {
-    console.log(address_form);
-    this.store.dispatch(new MedusaActions.AddaShippingAddress(address_form));
+  saveNewAddress(addressForm?: IRegisterAddress) {
+    // console.log(addressForm);
+    this.store.dispatch(new MedusaActions.AddaShippingAddress(addressForm));
   }
 }
 

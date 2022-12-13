@@ -26,20 +26,14 @@ export class AddressComponent implements OnInit, OnDestroy {
   @ViewChild('form') form: AddressFormComponent;
 
   adressForm: FormGroup | any;
-
-
   regionsList: any = [];
   countriesList: any = [];
-
-  presentingElement: any;
 
   private readonly ngUnsubscribe = new Subject();
 
   public error: any;
 
   defaultRegion: any;
-
-  userform: FormGroup | any;
 
   submitted: boolean;
 
@@ -54,41 +48,21 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setupForm();
-    this.store.dispatch(new MedusaActions.GetMedusaRegionList()).subscribe((state) => {
-      this.regionsList = state.medusa.regionList;
-      // console.log(this.regionsList);
-    });
-  }
-
-  onRegionCodeChange(regionId?: string) {
-    // console.log(regionId);
-    // console.log(this.adressForm.get('region_code').value.id);
-    this.countriesList = [];
-    this.store.dispatch(new MedusaActions.GetCountries(regionId));
-    this.countriesList = this.store.selectSnapshot<any>((state) => state.medusa.countriesList);
   }
 
   setupForm() {
     this.adressForm = this.formBuilder.group({
       address: [],
-
     });
   }
   finish() {
-    console.log(this.form);
+    // console.log(this.form);
     console.log(this.adressForm.value);
     // console.log(this.adressForm.value.country.iso_2);
-    const data: IRegisterAddress = {
-      address_1: this.adressForm.value.address?.address_1,
-      address_2: this.adressForm.value.address?.address_2,
-      region_code: this.adressForm.value.address?.region_code?.id,
-      country_code: this.adressForm.value.address?.country?.iso_2,
-      city: this.adressForm.value.address?.city,
-      postal_code: this.adressForm.value.address?.postal_code,
-      phone: this.adressForm.value.address?.phone,
-    };
-    console.log(data);
-    this.navigation.navControllerDefault('/home');
+
+    // console.log(data);
+
+    this.updateCustomerAddress(this.adressForm.value);
   }
   updateCustomerAddress(shippingAddress: IRegisterAddress) {
     const data: IRegisterAddress = {
@@ -106,16 +80,23 @@ export class AddressComponent implements OnInit, OnDestroy {
     };
 
     // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.defaultRegion[0]?.region_id))
-    // this.store.dispatch(new MedusaActions.AddBillingAddress(data));
-    // this.store.dispatch(new MedusaActions.AddaShippingAddress(data));
-    // this.store.dispatch(new AuthActions.UpdateCustomerRegisterAddress(data));
-
+    this.store.dispatch(new MedusaActions.AddBillingAddress(data));
+    this.store.dispatch(new MedusaActions.AddaShippingAddress(data));
+    this.store.dispatch(new AuthActions.UpdateCustomerRegisterAddress(data));
+    this.navigation.navControllerDefault('/home');
   }
-
-  get diagnostic() { return JSON.stringify(this.userform.value); }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);
     this.ngUnsubscribe.complete();
   }
 }
+    // const data: IRegisterAddress = {
+    //   address_1: this.adressForm.value.address?.address_1,
+    //   address_2: this.adressForm.value.address?.address_2,
+    //   region_code: this.adressForm.value.address?.region_code?.id,
+    //   country_code: this.adressForm.value.address?.country?.iso_2,
+    //   city: this.adressForm.value.address?.city,
+    //   postal_code: this.adressForm.value.address?.postal_code,
+    //   phone: this.adressForm.value.address?.phone,
+    // };

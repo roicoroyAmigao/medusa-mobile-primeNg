@@ -114,7 +114,8 @@ import { AddressBillingDetailsComponent } from '../shop/addresses/billing-addres
         UserFormComponent,
         AddressesComponent,
         AddressDetailsComponent,
-        AddressBillingDetailsComponent
+        AddressBillingDetailsComponent,
+
     ],
     exports: [
         PasswordFormComponent,
@@ -122,6 +123,9 @@ import { AddressBillingDetailsComponent } from '../shop/addresses/billing-addres
         AddressFormComponent,
         LoginFormComponent,
         UserFormComponent,
+        AddressesComponent,
+        AddressDetailsComponent,
+        AddressBillingDetailsComponent,
         // 
         AutoCompleteModule,
         ButtonModule,

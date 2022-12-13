@@ -87,7 +87,8 @@ export class AuthState {
             let response = await this.medusaClient.customers?.create(payload);
             const res = await response;
             await this.store.dispatch(new AuthActions.MedusaLogin(loginReq));
-            return ctx.patchState({
+            
+            await ctx.patchState({
                 customer: res?.customer,
                 isLoggedIn: true,
                 errors: null

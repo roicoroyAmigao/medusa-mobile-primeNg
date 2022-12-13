@@ -38,7 +38,7 @@ export interface Message {
 export class UserComponent implements OnInit {
   @ViewChild('form') form: UserFormComponent;
 
-  public registerReq: IRegisterData;
+  // public registerReq: IRegisterData;
 
   userForm: FormGroup | any
 
@@ -61,23 +61,22 @@ export class UserComponent implements OnInit {
   }
 
   register(): void {
-    this.registerReq = this.userForm.value;
     const data: IRegisterData = {
-      "first_name": this.registerReq?.first_name,
-      "last_name": this.registerReq?.last_name,
-      "email": this.registerReq?.email,
-      "password": this.userForm.value?.passwordConfirmation,
-      "phone": this.registerReq?.phone,
+      first_name: this.userForm.value.user?.first_name,
+      last_name: this.userForm.value.user?.last_name,
+      email: this.userForm.value.user?.email,
+      password: this.userForm.value.user?.passwordConfirmation,
+      phone: this.userForm.value.user?.phone,
     };
-    console.log(data);
+    console.log(this.userForm.value.user.email);
     this.submitted = true;
 
-    // this.store.dispatch(new AuthActions.MedusaRegister(data))
-    //   .subscribe(async (state) => {
-    //     if (state.authState.isLoggedIn && state.authState.customer != null) {
+    this.store.dispatch(new AuthActions.MedusaRegister(data))
+      .subscribe(async (state) => {
+        if (state.authState.isLoggedIn && state.authState.customer != null) {
           this.navigation.navigateFlip('/auth/register/address');
-    //     }
-    //   });
+        }
+      });
   }
   back() {
     this.navigation.navControllerDefault('/auth/login');
