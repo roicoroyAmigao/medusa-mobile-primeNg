@@ -25,6 +25,7 @@ import localeEN from '@angular/common/locales/en';
 import localeUK from '@angular/common/locales/uk';
 import { AuthState } from './store/auth/auth.state';
 import { TruncatePipe } from './shared/pipes/truncate.pipe';
+import { AddressesState } from './store/addresses/addresses.state';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -58,6 +59,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     NgxsModule.forRoot([
       MedusaState,
       AuthState,
+      AddressesState
     ]),
     NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({

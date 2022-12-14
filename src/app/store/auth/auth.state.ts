@@ -158,7 +158,7 @@ export class AuthState {
 
             return ctx.patchState({
                 session: response?.customer,
-                customer: response?.customer,
+                customer: customer,
                 isLoggedIn: true,
                 errors: null
             });

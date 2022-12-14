@@ -34,6 +34,11 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
+  ionViewDidEnter(){
+    this.form?.loginForm.get('email').setValue('roicoroy@yahoo.com.br');
+    this.form?.loginForm.get('password').setValue('Rwbento123!');
+  }
+
   submitForm() {
     console.log(this.signupForm.value.login);
   }

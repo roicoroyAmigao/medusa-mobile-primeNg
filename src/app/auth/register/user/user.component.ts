@@ -11,7 +11,6 @@ import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { IRegisterData } from 'src/app/store/state.interfaces';
 
-
 export interface Message {
   severity?: string;
   summary?: string;
@@ -68,14 +67,15 @@ export class UserComponent implements OnInit {
       password: this.userForm.value.user?.passwordConfirmation,
       phone: this.userForm.value.user?.phone,
     };
-    console.log(this.userForm.value.user.email);
+    console.log(this.userForm.value.user?.email);
     this.submitted = true;
 
     this.store.dispatch(new AuthActions.MedusaRegister(data))
       .subscribe(async (state) => {
-        if (state.authState.isLoggedIn && state.authState.customer != null) {
-          this.navigation.navigateFlip('/auth/register/address');
-        }
+        this.navigation.navigateFlip('/auth/register/address');
+        // if (state.authState.isLoggedIn && state.authState.customer != null) {
+        //   this.navigation.navigateFlip('/auth/register/address');
+        // }
       });
   }
   back() {

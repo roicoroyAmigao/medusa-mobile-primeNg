@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Injectable } from "@angular/core";
 import Medusa from "@medusajs/medusa-js";
-import { environment } from 'src/environments/environment';
-import { MedusaActions } from './medusa.actions';
-import { IRegisterAddress } from '../state.interfaces';
-import { UtilityService } from '../../shared/services/utility.service';
-import { HandleErrorService } from '../../shared/services/handle-error.service';
-import { AuthActions } from '../auth/auth.actions';
+import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
+import { HandleErrorService } from "src/app/shared/services/handle-error.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
+import { environment } from "src/environments/environment";
+import { AuthActions } from "../auth/auth.actions";
+import { MedusaActions } from "../medusa/medusa.actions";
 
 export interface MedusaStateModel {
     cartId: string | any;
@@ -61,6 +60,10 @@ export class MedusaState {
     @Selector()
     static getProductList(state: MedusaStateModel) {
         return state.productsList;
+    }
+    @Selector()
+    static getRegionList(state: MedusaStateModel) {
+        return state.regionList;
     }
     @Selector()
     static retriveCustomer(state: MedusaStateModel) {
@@ -212,6 +215,9 @@ export class MedusaState {
                 postal_code: payload?.postal_code,
                 phone: payload?.phone,
             });
+
+            // console.log(customer);
+
             this.store.dispatch(new AuthActions.GetSession());
 
         } catch (err: any) {
@@ -562,4 +568,3 @@ export class MedusaState {
         }
     }
 }
-

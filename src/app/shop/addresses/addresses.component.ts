@@ -1,17 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
-import { MessageService, ConfirmationService, SelectItem } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { Product } from 'src/app/home/interfaces';
-import { ProductService } from 'src/app/home/product.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
+import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { IRegisterAddress } from 'src/app/store/state.interfaces';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { AddressesFacade } from './addresses.facade';
-import { AddressBillingDetailsComponent } from './billing-address-details/billing-address-details.component';
 
 @Component({
   selector: 'app-addresses',
@@ -28,26 +25,16 @@ export class AddressesComponent {
 
   submitted: boolean;
 
-
   constructor(
     private modalCtrl: ModalController,
     private store: Store,
     private navigation: NavigationService,
     private readonly facade: AddressesFacade,
-    private productService: ProductService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    // private productService: ProductService
   ) { }
 
   ionViewWillEnter() {
     this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe((state) => {
-    //   console.log(state);
-    // });
     this.store.dispatch(new AuthActions.GetSession());
-    // const cartid = this.store.selectSnapshot<any>((state) => state.medusaState.cartId);
-    // this.store.dispatch(new MedusaActions.GetMedusaCart(cartid));
     this.store.dispatch(new MedusaActions.GetMedusaRegionList());
   }
 
@@ -62,43 +49,20 @@ export class AddressesComponent {
       await this.modalCtrl.dismiss();
     }
   }
-  async viewBilingAddress() {
-    const modal = await this.modalCtrl.create({
-      component: AddressBillingDetailsComponent,
-    });
-    await modal.present();
-  }
+  // async viewBilingAddress() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: AddressBillingDetailsComponent,
+  //   });
+  //   await modal.present();
+  // }
   shippingAddress() {
     this.navigation.navigateFlip('/shop/details');
   }
   async openShippingAddressModal(address?: IRegisterAddress) {
     const modal = await this.modalCtrl.create({
-      component: AddressDetailsComponent,
-      componentProps: {
-        address: address != null ? address : null,
-      }
+      component: AddressDetailsComponent
     });
+    this.store.dispatch(new AddressesActions.AddAddressToState(address));
     await modal.present();
-    const { data, role } = await modal.onWillDismiss();
-    // console.log(data);
-    // console.log(data);
-    const addressId: string = data.id;
-    this.updateAdress(addressId, data);
-    // if (data.id === null || data.id === "" && role === 'save') {
-    //   this.saveNewAddress(data);
-    // } else if (data.id != null && role === 'save') {
-    //   const addressId: string = data.id;
-    //   this.updateAdress(addressId, data);
-    // }
-  }
-  updateAdress(addressId?: any, addressForm?: IRegisterAddress) {
-    // console.log(addressId, addressForm);
-    this.store.dispatch(new MedusaActions.UpdateCustomerRegisterAddress(addressId, addressForm));
-  }
-  saveNewAddress(addressForm?: IRegisterAddress) {
-    // console.log(addressForm);
-    this.store.dispatch(new MedusaActions.AddaShippingAddress(addressForm));
   }
 }
-
-

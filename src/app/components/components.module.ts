@@ -40,7 +40,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DataViewModule } from 'primeng/dataview';
-// 
+//
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
@@ -48,8 +48,6 @@ import { NgxsModule } from '@ngxs/store';
 import { UserFormComponent } from './user-form/user-form.component';
 import { AddressDetailsComponent } from '../shop/addresses/address-details/address-details.component';
 import { AddressesComponent } from '../shop/addresses/addresses.component';
-import { AddressBillingDetailsComponent } from '../shop/addresses/billing-address-details/billing-address-details.component';
-
 
 @NgModule({
     imports: [
@@ -61,7 +59,7 @@ import { AddressBillingDetailsComponent } from '../shop/addresses/billing-addres
         NgxsFormPluginModule,
         NgxsStoragePluginModule,
         ReactiveFormsModule,
-        // 
+        //
         AutoCompleteModule,
         ButtonModule,
         CardModule,
@@ -113,8 +111,7 @@ import { AddressBillingDetailsComponent } from '../shop/addresses/billing-addres
         LoginFormComponent,
         UserFormComponent,
         AddressesComponent,
-        AddressDetailsComponent,
-        AddressBillingDetailsComponent,
+        AddressDetailsComponent
 
     ],
     exports: [
@@ -125,8 +122,7 @@ import { AddressBillingDetailsComponent } from '../shop/addresses/billing-addres
         UserFormComponent,
         AddressesComponent,
         AddressDetailsComponent,
-        AddressBillingDetailsComponent,
-        // 
+        //
         AutoCompleteModule,
         ButtonModule,
         CardModule,
