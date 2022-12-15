@@ -48,15 +48,19 @@ export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
         postal_code: '',
         phone: '',
       },
-      // []
     });
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {
+  async ngOnInit() {
+    // await this.populateEditForm();
+  }
+  ionViewWillEnter() {
+    this.populateEditForm();
   }
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngAfterViewInit(): void {
+
   }
   async populateEditForm() {
     await this.utility.presentLoading('...');
@@ -78,23 +82,19 @@ export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
         phone: selectedAddress?.phone,
       }
     }
-    await this.form.onRegionCodeChange(region_code);
+    await this.form?.onRegionCodeChange(region_code);
     setTimeout(async () => {
       this.store.dispatch(new FormsActions.UpdateAddressForm(formModel));
       await this.utility.dismissLoading();
     }, 1000);
   }
-  clearForm() {
-    this.addressForm.reset();
-    this.store.dispatch(new FormsActions.ClearAddressForm());
-  }
-  buildRegionCode(country_code: string, regionList: any): any {
+  buildRegionCode(country_code: string, regionList: any): string {
     const countries = regionList.map((region: any, i: any) => region.countries);
     const result = [].concat(...countries);
     const filtered: any = result.filter((region: any) => {
       return region.iso_2 === country_code;
     });
-    return filtered[0].region_id;
+    return filtered[0]?.region_id;
   }
   updateAdress(addressId: string | any, addressForm: IRegisterAddress) {
     this.store.dispatch(new MedusaActions.UpdateCustomerRegisterAddress(addressId, addressForm));
@@ -105,12 +105,16 @@ export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
   }
   async navigateBack() {
     await this.navigation.navigateFlip('/shop/addresses');
+    // this.clearForm();
+  }
+  clearForm() {
+    this.addressForm.reset();
+    this.store.dispatch(new FormsActions.ClearAddressForm());
+    this.store.dispatch(new AddressesActions.RemoveAddressFromState());
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);
     this.ngUnsubscribe.complete();
-    this.addressForm.reset();
-    this.store.dispatch(new AddressesActions.RemoveAddressFromState());
-    this.store.dispatch(new FormsActions.ClearAddressForm());
+    // this.clearForm();
   }
 }

@@ -44,7 +44,7 @@ export class AddressFormComponent implements OnInit, ControlValueAccessor, OnDes
     return this.adressForm.value;
   }
   set value(value: any) {
-    this.adressForm.setValue(value);
+    this.adressForm?.setValue(value);
     this.onChange(value);
     this.onTouched();
   }

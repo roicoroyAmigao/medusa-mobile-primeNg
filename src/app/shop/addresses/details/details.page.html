@@ -11,16 +11,8 @@
 
 <ion-content>
 
-<ion-toolbar>
-  <ion-button (click)="populateEditForm()" expand="block" fill="solid" shape="round">
-    Populate Form
-  </ion-button>
-  <ion-button (click)="clearForm()" expand="block" fill="outline" shape="round">
-    Clear
-  </ion-button>
-</ion-toolbar>
-
   <form [formGroup]="addressForm" ngxsForm="forms.addressForm">
+
     <label for="first_name">
       {{ 'First Name' | translate }}
     </label>
@@ -40,4 +32,5 @@
     <app-address-form #form formControlName="address"></app-address-form>
 
   </form>
+
 </ion-content>
