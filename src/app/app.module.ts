@@ -26,6 +26,7 @@ import localeUK from '@angular/common/locales/uk';
 import { AuthState } from './store/auth/auth.state';
 import { TruncatePipe } from './shared/pipes/truncate.pipe';
 import { AddressesState } from './store/addresses/addresses.state';
+import { FormsState } from './store/forms/forms.state';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -59,6 +60,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     NgxsModule.forRoot([
       MedusaState,
       AuthState,
+      FormsState,
       AddressesState
     ]),
     NgxsFormPluginModule.forRoot(),
@@ -69,6 +71,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     NgxsStoragePluginModule.forRoot({
       key: [
         'medusa',
+        "addresses",
+        'auth',
+        'forms'
       ]
     }),
     ReactiveFormsModule,

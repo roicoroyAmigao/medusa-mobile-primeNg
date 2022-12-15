@@ -1,4 +1,4 @@
-<form [formGroup]="adressForm">
+<form [formGroup]="adressForm" ngxsForm="forms.addressForm.address">
   <label for="address_1">
     {{ 'ADDRESS 1' | translate }}
   </label>
@@ -15,50 +15,34 @@
   <p-message severity="error" [text]="'Address 2nd line' | translate"
     *ngIf="!adressForm.get('address_2').valid && adressForm.get('address_2').dirty"></p-message>
 
-  <!-- <div>
-    <label for="region">
-      {{ 'Region' | translate }}
-    </label>
-    <p-dropdown id="region" [options]="regionsList"
-      (onChange)="onRegionCodeChange(adressForm.get('region_code').value.id !== null ? adressForm.get('region_code').value.id : '')"
-      formControlName="region_code" placeholder="{{'Select a region' | translate }}" optionLabel="name"
-      [showClear]="true">
-    </p-dropdown>
-  </div> -->
+  <div>
+    <ion-col size="12">
+      <ion-label color="primary">
+        Your Region
+      </ion-label>
+      <ion-radio-group formControlName="region_code" *ngIf="viewState$ | async as vs">
+        <ion-item *ngFor="let region of vs?.regionList">
+          <ion-label>{{ region.name }}</ion-label>
+          <ion-radio slot="start" [value]="region.id !== null ? region.id : null"
+            (click)="onRegionCodeChange(region.id)"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-col>
 
-  <!-- <div>
-    <label for="country">
-      {{ 'Region' | translate }}
-    </label>
-    <p-dropdown id="country" [options]="countriesList" formControlName="country" placeholder="Select a country"
-      optionLabel="display_name" [showClear]="true"></p-dropdown>
-  </div> -->
-
-  <ion-col size="12">
-    <ion-label color="primary">
-      Your Region
-    </ion-label>
-    <ion-radio-group formControlName="region_code">
-      <ion-item *ngFor="let region of regionsList">
-        <ion-label>{{ region.name }}</ion-label>
-        <ion-radio slot="start" [value]="region.id" (click)="onRegionCodeChange(region.id)"></ion-radio>
-      </ion-item>
-    </ion-radio-group>
-  </ion-col>
-
-  <ion-col size="12">
-    <ion-label color="primary">
-      Your Country according region
-    </ion-label>
-    <ion-radio-group formControlName="country">
-      <ion-item *ngFor="let country of countriesList">
-        <ion-label>
-          {{ country.display_name }}
-        </ion-label>
-        <ion-radio slot="start" [value]="country?.iso_2"></ion-radio>
-      </ion-item>
-    </ion-radio-group>
-  </ion-col>
+    <ion-col size="12">
+      <ion-label color="primary">
+        Your Country according region
+      </ion-label>
+      <ion-radio-group formControlName="country" *ngIf="viewState$ | async as vs">
+        <ion-item *ngFor="let country of vs?.countryList">
+          <ion-label>
+            {{ country.display_name }}
+          </ion-label>
+          <ion-radio slot="start" [value]="country?.iso_2 !== null ? country?.iso_2 : null"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-col>
+  </div>
 
   <div>
     <label for="city">

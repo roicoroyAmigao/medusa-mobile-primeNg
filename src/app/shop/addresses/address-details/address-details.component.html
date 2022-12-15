@@ -22,6 +22,7 @@
       </ion-card-header>
     </ion-toolbar>
   </ion-header>
+
   <form [formGroup]="addressForm">
     <label for="first_name">
       {{ 'First Name' | translate }}
@@ -39,7 +40,7 @@
     <p-message severity="error" [text]="'Last name is required'"
       *ngIf="!addressForm.get('last_name')?.valid && addressForm.get('last_name')?.dirty"></p-message>
 
-    <app-address-form #form [incomingAddress]="addressForm" formControlName="address"></app-address-form>
+    <app-address-form #form formControlName="address"></app-address-form>
 
   </form>
 </ion-content>

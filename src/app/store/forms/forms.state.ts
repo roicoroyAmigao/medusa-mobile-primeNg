@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { State } from '@ngxs/store';
+import { Action, State, StateContext } from '@ngxs/store';
+import { AddressesActions } from '../addresses/addresses.actions';
+import { AddressesStateModel } from '../addresses/addresses.state';
+import { FormsActions } from './forms.actions';
 
 export interface FormsStateModel {
     errors: any | any;
@@ -32,4 +35,50 @@ export const initFormsStateModel: FormsStateModel = {
 })
 @Injectable()
 export class FormsState {
+
+    @Action(FormsActions.UpdateAddressForm)
+    updateAddressForm(ctx: StateContext<FormsStateModel>, { addressForm }: FormsActions.UpdateAddressForm) {
+        // console.log(addressForm);
+
+        return ctx.patchState({
+            addressForm: {
+                model: {
+                    id: addressForm?.id,
+                    first_name: addressForm?.first_name,
+                    last_name: addressForm?.last_name,
+                    address: {
+                        address_1: addressForm?.address?.address_1,
+                        address_2: addressForm?.address?.address_2,
+                        region_code: addressForm?.address?.region_code,
+                        country: addressForm?.address?.country,
+                        city: addressForm?.address?.city,
+                        postal_code: addressForm?.address?.postal_code,
+                        phone: addressForm?.address?.phone,
+                    }
+                }
+            }
+        });
+    }
+
+    @Action(FormsActions.ClearAddressForm)
+    clearAddressForm(ctx: StateContext<FormsStateModel>) {
+        return ctx.patchState({
+            addressForm: {
+                model: {
+                    id: null,
+                    first_name: null,
+                    last_name: null,
+                    address: {
+                        address_1: null,
+                        address_2: null,
+                        region_code: null,
+                        country: null,
+                        city: null,
+                        postal_code: null,
+                        phone: null,
+                    }
+                }
+            }
+        });
+    }
 }

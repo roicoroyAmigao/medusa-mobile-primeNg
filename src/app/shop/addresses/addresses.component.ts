@@ -35,7 +35,6 @@ export class AddressesComponent {
   ionViewWillEnter() {
     this.viewState$ = this.facade.viewState$;
     this.store.dispatch(new AuthActions.GetSession());
-    this.store.dispatch(new MedusaActions.GetMedusaRegionList());
   }
 
   onCheckboxChange(id: any, $event: any) {
@@ -57,6 +56,10 @@ export class AddressesComponent {
   // }
   shippingAddress() {
     this.navigation.navigateFlip('/shop/details');
+  }
+  detailsPage(address?: IRegisterAddress) {
+    this.navigation.navigateFlip('/shop/details');
+    this.store.dispatch(new AddressesActions.AddAddressToState(address));
   }
   async openShippingAddressModal(address?: IRegisterAddress) {
     const modal = await this.modalCtrl.create({

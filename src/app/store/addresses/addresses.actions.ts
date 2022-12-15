@@ -8,5 +8,11 @@ export namespace AddressesActions {
     export class RemoveAddressFromState {
         static readonly type = '[AddressesActions] Clear address from state';
     }
-
+    export class GetRegionList {
+        static readonly type = '[FormsActions] Get Medusa Region List';
+    }
+    export class GetCountries {
+        static readonly type = '[FormsActions] Get Medusa Countries';
+        constructor(public regionId: string | any) { }
+    }
 }

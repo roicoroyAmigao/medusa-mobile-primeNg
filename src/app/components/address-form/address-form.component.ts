@@ -2,7 +2,11 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, forwardRef, Input, O
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
+import { AddressFacade } from './address.facade';
+import Medusa from "@medusajs/medusa-js";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-address-form',
@@ -23,17 +27,16 @@ import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
-  @Input() incomingAddress: any;
+
   adressForm: FormGroup | any;
-  regionId: string | any;
-  regionsList: any = [];
-  countriesList: any = [];
   onChange: any = () => { };
   onTouched: any = () => { };
 
   subscriptions: Subscription[] = [];
 
   viewState$: Observable<any>;
+
+  medusaClient: any;
 
   private readonly ngUnsubscribe = new Subject();
 
@@ -51,6 +54,7 @@ export class AddressFormComponent implements OnInit, ControlValueAccessor, OnDes
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
+    private facade: AddressFacade
   ) {
     this.adressForm = this.formBuilder.group({
       address_1: new FormControl('', Validators.required),
@@ -65,37 +69,17 @@ export class AddressFormComponent implements OnInit, ControlValueAccessor, OnDes
     });
     this.subscriptions.push(
       this.adressForm.valueChanges.subscribe((value: any) => {
-        if (value?.region_code) {
-          this.countriesList = [];
-          this.onRegionCodeChange(value?.region_code);
-        }
         this.onChange(value);
         this.onTouched();
       })
     );
+    this.viewState$ = this.facade.viewState$;
   }
-
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
-    this.regionsList = this.store.selectSnapshot<any>((state) => state.medusa?.regionList);
-    const selectedAddress = this.store.selectSnapshot<any>((state) => state.addresses?.selectedAddress);
-    this.regionId = this.buildRegionCode(selectedAddress?.country_code);
-    if (this.regionId) {
-      this.countriesList = [];
-      this.onRegionCodeChange(this.regionId);
-    }
   }
-  buildRegionCode(country_code: string): void {
-    const countries = this.regionsList.map((region: any, i: any) => region.countries);
-    const result = [].concat(...countries);
-    const filtered: any = result.filter((region: any) => {
-      return region.iso_2 === country_code;
-    });
-    return filtered[0]?.region_id;
-  }
-  onRegionCodeChange(regionId?: string) {
-    this.countriesList = [];
-    this.store.dispatch(new MedusaActions.GetCountries(regionId));
-    return this.countriesList = this.store.selectSnapshot<any>((state) => state.medusa.countriesList);
+  async onRegionCodeChange(regionId?: string) {
+    this.store.dispatch(new AddressesActions.GetCountries(regionId));
   }
   registerOnChange(fn: any) {
     this.onChange = fn;
@@ -122,6 +106,5 @@ export class AddressFormComponent implements OnInit, ControlValueAccessor, OnDes
     this.ngUnsubscribe.complete();
     this.subscriptions.forEach(s => s.unsubscribe());
     this.reset();
-    this.countriesList = [];
   }
 }

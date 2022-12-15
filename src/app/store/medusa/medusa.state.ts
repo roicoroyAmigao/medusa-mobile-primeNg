@@ -122,15 +122,11 @@ export class MedusaState {
     @Action(MedusaActions.GetCountries)
     async getCountries(ctx: StateContext<MedusaStateModel>, { regionId }: MedusaActions.GetCountries) {
 
-        // console.log(regionId);
-
-        ctx.patchState({ errors: null });
-
         try {
             let region = await this.medusaClient?.regions?.retrieve(regionId)
 
             // console.log(region.region?.countries);
-            // this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new AuthActions.GetSession());
 
             return ctx.patchState({
                 countriesList: region.region?.countries

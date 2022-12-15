@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import { map, Observable, Subject } from 'rxjs';
 import { AddressFormComponent } from 'src/app/components/address-form/address-form.component';
 import { UtilityService } from 'src/app/shared/services/utility.service';
+import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { IRegisterAddress } from 'src/app/store/state.interfaces';
@@ -48,7 +49,7 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
   }
   async save() {
     const addressData: IRegisterAddress = {
-      id: this.addressForm.value?.id,
+      // id: this.addressForm.value?.id,
       last_name: this.addressForm.value.first_name,
       first_name:this.addressForm.value.last_name,
       address_1: this.addressForm.value.address.address_1,
@@ -61,25 +62,26 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     };
     console.log(addressData);
     console.log(this.addressForm.value);
+    // this.updateAdress(this.addressForm.value?.id, addressData);
   }
   async populateEditForm() {
-    await this.uttily.presentLoading('...');
-    const address = await this.store.selectSnapshot<any>((state) => state.addresses.selectedAddress);
-    await setTimeout(async () => {
-      this.addressForm.get('id')?.setValue(address?.id);
-      this.addressForm.get('first_name')?.setValue(address?.first_name);
-      this.addressForm.get('last_name')?.setValue(address?.last_name);
-      this.form?.adressForm.get('address_1')?.setValue(address?.address_1);
-      this.form?.adressForm.get('address_2')?.setValue(address?.address_2);
+    // await this.uttily.presentLoading('...');
+    // const address = await this.store.selectSnapshot<any>((state) => state.addresses.selectedAddress);
+    // await setTimeout(async () => {
+    //   this.addressForm.get('id')?.setValue(address?.id);
+    //   this.addressForm.get('first_name')?.setValue(address?.first_name);
+    //   this.addressForm.get('last_name')?.setValue(address?.last_name);
+    //   this.form?.adressForm.get('address_1')?.setValue(address?.address_1);
+    //   this.form?.adressForm.get('address_2')?.setValue(address?.address_2);
 
-      this.form?.adressForm.get('region_code')?.setValue(this.buildRegionCode(address.country_code));
-      this.form?.adressForm.get('country')?.setValue(address.country_code);
+    //   this.form?.adressForm.get('region_code')?.setValue(this.buildRegionCode(address.country_code));
+    //   this.form?.adressForm.get('country')?.setValue(address.country_code);
 
-      this.form?.adressForm.get('city')?.setValue(address?.city);
-      this.form?.adressForm.get('postal_code')?.setValue(address?.postal_code);
-      this.form?.adressForm.get('phone')?.setValue(address?.phone);
-      await this.uttily.dismissLoading();
-    }, 100);
+    //   this.form?.adressForm.get('city')?.setValue(address?.city);
+    //   this.form?.adressForm.get('postal_code')?.setValue(address?.postal_code);
+    //   this.form?.adressForm.get('phone')?.setValue(address?.phone);
+    //   await this.uttily.dismissLoading();
+    // }, 100);
   }
   buildRegionCode(country_code: string): any {
     const regionList = this.store.selectSnapshot<any>((state) => state.medusa.regionList);
@@ -90,10 +92,10 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     });
     return filtered[0].region_id;
   }
-  updateAdress(addressId?: string | any, addressForm?: IRegisterAddress) {
+  updateAdress(addressId: string | any, addressForm: IRegisterAddress) {
     this.store.dispatch(new MedusaActions.UpdateCustomerRegisterAddress(addressId, addressForm));
     this.store.dispatch(new AuthActions.GetSession());
-    this.closeModal();
+    // this.closeModal();
   }
   saveNewAddress(addressForm?: IRegisterAddress) {
     this.store.dispatch(new MedusaActions.AddaShippingAddress(addressForm));
@@ -102,5 +104,6 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next(null);
     this.ngUnsubscribe.complete();
     this.addressForm.reset();
+    this.store.dispatch(new AddressesActions.RemoveAddressFromState());
   }
 }
