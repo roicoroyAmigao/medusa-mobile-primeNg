@@ -96,51 +96,7 @@ export class MedusaState {
             }
         }
     }
-    @Action(MedusaActions.GetMedusaRegionList)
-    async getMedusaRegionList(ctx: StateContext<MedusaStateModel>) {
 
-        ctx.patchState({ errors: null });
-
-        try {
-            let response = await this.medusaClient.regions?.list();
-            // console.log(response?.regions);
-            ctx.patchState({
-                regionList: response?.regions,
-                errors: null
-            });
-
-        } catch (err: any) {
-            if (err.response) {
-                await ctx.patchState({
-                    cart: null,
-                    errors: err.response,
-                });
-            }
-        }
-    }
-    // Get Countrie
-    @Action(MedusaActions.GetCountries)
-    async getCountries(ctx: StateContext<MedusaStateModel>, { regionId }: MedusaActions.GetCountries) {
-
-        try {
-            let region = await this.medusaClient?.regions?.retrieve(regionId)
-
-            // console.log(region.region?.countries);
-            this.store.dispatch(new AuthActions.GetSession());
-
-            return ctx.patchState({
-                countriesList: region.region?.countries
-            })
-
-        }
-        catch (err: any) {
-            if (err.response) {
-                await ctx.patchState({
-                    errors: err.response,
-                });
-            }
-        }
-    }
     // AddaShippingAddress
     @Action(MedusaActions.AddaShippingAddress)
     async addaShippingAddress(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.AddaShippingAddress) {
@@ -195,30 +151,25 @@ export class MedusaState {
             }
         }
     }
-    @Action(MedusaActions.UpdateCustomerRegisterAddress)
-    async updateCustomerRegisterAddress(ctx: StateContext<MedusaStateModel>, { addressId, payload }: MedusaActions.UpdateCustomerRegisterAddress) {
-        // console.log(addressId, payload);
-        ctx.patchState({ errors: null });
-
+    @Action(MedusaActions.UpdateCustomerAddress)
+    async updateCustomerAddress(ctx: StateContext<MedusaStateModel>, { addressId, payload }: MedusaActions.UpdateCustomerAddress) {
         try {
             let customer = await this.medusaClient.customers.addresses.updateAddress(addressId, {
-                last_name: payload?.last_name,
                 first_name: payload?.first_name,
-                address_1: payload?.address_1,
-                address_2: payload?.address_2,
-                city: payload?.city,
-                country_code: payload?.country,
-                postal_code: payload?.postal_code,
-                phone: payload?.phone,
+                last_name: payload?.last_name,
+                address_1: payload.address?.address_1,
+                address_2: payload.address?.address_2,
+                city: payload.address?.city,
+                country_code: payload.address?.country,
+                postal_code: payload.address?.postal_code,
+                phone: payload.address?.phone,
             });
-
-            // console.log(customer);
-
             this.store.dispatch(new AuthActions.GetSession());
 
-        } catch (err: any) {
+        }
+        catch (err: any) {
             if (err.response) {
-                await ctx.patchState({
+                ctx.patchState({
                     errors: err.response,
                 });
             }
@@ -233,25 +184,6 @@ export class MedusaState {
             this.store.dispatch(new AuthActions.GetSession());
             await ctx.patchState({
                 retivedCustomer: customer.customer
-            });
-        }
-        catch (err: any) {
-            if (err.response) {
-                await ctx.patchState({
-                    errors: err.response,
-                });
-            }
-        }
-    }
-    @Action(MedusaActions.GetRegionList)
-    async GetRegionList(ctx: StateContext<MedusaStateModel>, { }: MedusaActions.GetRegionList) {
-
-        ctx.patchState({ errors: null });
-
-        try {
-            let region = await this.medusaClient.regions.list();
-            await ctx.patchState({
-                regionList: region.regions,
             });
         }
         catch (err: any) {
@@ -474,19 +406,6 @@ export class MedusaState {
                 }
             });
     }
-    @Action(MedusaActions.AddProductToState)
-    addProductToState(ctx: StateContext<MedusaStateModel>, { selectedProduct }: MedusaActions.AddProductToState) {
-        // console.log(selectedProduct);
-        return ctx.patchState({
-            selectedProduct
-        });;
-    }
-    @Action(MedusaActions.RemoveProductFromState)
-    clearProductFromState(ctx: StateContext<MedusaStateModel>) {
-        return ctx.patchState({
-            selectedProduct: null
-        });;
-    }
     @Action(MedusaActions.GetMedusaProductList)
     getMedusaProductList({ patchState }: StateContext<MedusaStateModel>) {
         return this.medusaClient.products.list().then((result: any) => {
@@ -510,20 +429,24 @@ export class MedusaState {
             errors: null,
         });
     }
-    @Action(MedusaActions.UpdateCustomer)
-    async updateCustomer(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.UpdateCustomer) {
-        console.log(payload);
-        ctx.patchState({ errors: null });
+    @Action(MedusaActions.UpdateCustomerBIllingAddress)
+    async updateCustomer(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.UpdateCustomerBIllingAddress) {
+        // console.log(payload);
         try {
             let customer = this.medusaClient.customers.update({
-                first_name: payload.first_name,
-                last_name: payload.last_name,
+                billing_address: {
+                    first_name: payload?.first_name,
+                    last_name: payload?.last_name,
+                    address_1: payload.address?.address_1,
+                    address_2: payload.address?.address_2,
+                    city: payload.address?.city,
+                    country_code: payload.address?.country_code,
+                    postal_code: payload.address?.postal_code,
+                    phone: payload.address?.phone
+                }
             });
             this.store.dispatch(new MedusaActions.RetriveCustomer());
             this.store.dispatch(new AuthActions.GetSession());
-            // customer.then((customer: any) => {
-            //     console.log(customer?.customer);
-            // });
         } catch (err: any) {
             if (err.response) {
                 ctx.patchState({
@@ -558,6 +481,52 @@ export class MedusaState {
         } catch (err: any) {
             if (err.response) {
                 ctx.patchState({
+                    errors: err.response,
+                });
+            }
+        }
+    }
+
+    @Action(MedusaActions.GetMedusaRegionList)
+    async getMedusaRegionList(ctx: StateContext<MedusaStateModel>) {
+
+        ctx.patchState({ errors: null });
+
+        try {
+            let response = await this.medusaClient.regions?.list();
+            // console.log(response?.regions);
+            ctx.patchState({
+                regionList: response?.regions,
+                errors: null
+            });
+
+        } catch (err: any) {
+            if (err.response) {
+                await ctx.patchState({
+                    cart: null,
+                    errors: err.response,
+                });
+            }
+        }
+    }
+    // Get Countrie
+    @Action(MedusaActions.GetCountries)
+    async getCountries(ctx: StateContext<MedusaStateModel>, { regionId }: MedusaActions.GetCountries) {
+
+        try {
+            let region = await this.medusaClient?.regions?.retrieve(regionId)
+
+            // console.log(region.region?.countries);
+            this.store.dispatch(new AuthActions.GetSession());
+
+            return ctx.patchState({
+                countriesList: region.region?.countries
+            })
+
+        }
+        catch (err: any) {
+            if (err.response) {
+                await ctx.patchState({
                     errors: err.response,
                 });
             }

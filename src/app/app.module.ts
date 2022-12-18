@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 // import { uk_UA } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
@@ -27,6 +27,12 @@ import { AuthState } from './store/auth/auth.state';
 import { TruncatePipe } from './shared/pipes/truncate.pipe';
 import { AddressesState } from './store/addresses/addresses.state';
 import { FormsState } from './store/forms/forms.state';
+import { RegisterState } from './store/register/register.state';
+import { ErrorsModule } from './shared/errors/errors.module';
+import { ErrorsLoggingStateModule } from './store/errors-logging/errors-logging.state';
+import { ErrorCatchingInterceptor } from './shared/errors/errors/error-catching.interceptor';
+import { ErrorService } from './shared/errors/errors/server-error.service';
+import { ProductState } from './store/products/products.state';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -61,7 +67,10 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       MedusaState,
       AuthState,
       FormsState,
-      AddressesState
+      AddressesState,
+      RegisterState,
+      ErrorsLoggingStateModule,
+      ProductState
     ]),
     NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -77,11 +86,22 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       ]
     }),
     ReactiveFormsModule,
+    // ErrorsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     // { provide: NZ_I18N, useValue: uk_UA },
     { provide: LOCALE_ID, useValue: 'en' },
+    {
+      provide: ErrorHandler,
+      useClass: ErrorService,
+      multi: false
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorCatchingInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })

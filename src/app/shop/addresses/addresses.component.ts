@@ -30,16 +30,32 @@ export class AddressesComponent {
     private store: Store,
     private navigation: NavigationService,
     private readonly facade: AddressesFacade,
-  ) { }
-
-  ionViewWillEnter() {
+  ) {
+    this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
-    this.store.dispatch(new AuthActions.GetSession());
+    // this.viewState$.subscribe((vs) => {
+    //   console.log(vs.customer.billing_address_id);
+    //   console.log(vs.session.billing_address_id);
+    //   // const result = vs.customer.billing_address_id === vs.session.billing_address_id ? true : false;
+    //   // console.log(result);
+    //   // console.log(vs.session.shipping_addresses);
+    //   // vs.session.shipping_addresses.forEach((address: any, i: any) => {
+    //   //   // console.log(vs.session.billing_address_id === address[i].id ? true : false);
+    //   //   // console.log(vs.session.billing_address_id);
+    //   //   console.log(address.id);
+    //   //   // const result = vs.customer.billing_address_id === address?.id ? true : false;
+    //   //   // console.log(result);
+    //   // });
+    // });
   }
 
-  onCheckboxChange(id: any, $event: any) {
-    // console.log(id, $event.detail);
-    // console.log(id, $event.detail.checked);
+  ionViewWillEnter() {
+    this.store.dispatch(new AuthActions.GetSession());
+  }
+  onCheckboxChange(address: IRegisterAddress, $event: any) {
+    // console.log(address, $event.detail);
+    // console.log(address, $event.detail.checked);
+    this.store.dispatch(new MedusaActions.UpdateCustomerBIllingAddress(address));
   }
   async navigateBack() {
     if (this.isEdit === false) {
@@ -48,14 +64,29 @@ export class AddressesComponent {
       await this.modalCtrl.dismiss();
     }
   }
-  // async viewBilingAddress() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: AddressBillingDetailsComponent,
-  //   });
-  //   await modal.present();
-  // }
-  shippingAddress() {
+  async newAddress() {
+    const modal = await this.modalCtrl.create({
+      component: AddressDetailsComponent,
+      componentProps: {
+        isNewAddress: true
+      }
+    });
+    await modal.present();
+  }
+  async viewBilingAddress(address: IRegisterAddress) {
+    const modal = await this.modalCtrl.create({
+      component: AddressDetailsComponent,
+      presentingElement: this.presentingElement,
+      componentProps: {
+        isNewAddress: false
+      }
+    });
+    this.store.dispatch(new AddressesActions.AddAddressToState(address));
+    await modal.present();
+  }
+  editBillingAddress(address?: IRegisterAddress) {
     this.navigation.navigateFlip('/shop/details');
+    this.store.dispatch(new AddressesActions.AddAddressToState(address));
   }
   detailsPage(address?: IRegisterAddress) {
     this.navigation.navigateFlip('/shop/details');
@@ -63,7 +94,11 @@ export class AddressesComponent {
   }
   async openShippingAddressModal(address?: IRegisterAddress) {
     const modal = await this.modalCtrl.create({
-      component: AddressDetailsComponent
+      component: AddressDetailsComponent,
+      presentingElement: this.presentingElement,
+      componentProps: {
+        isNewAddress: false
+      }
     });
     this.store.dispatch(new AddressesActions.AddAddressToState(address));
     await modal.present();

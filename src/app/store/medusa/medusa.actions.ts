@@ -19,7 +19,7 @@ export namespace MedusaActions {
         constructor(public payload: IRegisterAddress | any) { }
     }
 
-    export class UpdateCustomerRegisterAddress {
+    export class UpdateCustomerAddress {
         static readonly type = '[MedusaActions] Update Address for customer Actions';
         constructor(public addressId: string, public payload: any) { }
     }
@@ -82,13 +82,6 @@ export namespace MedusaActions {
         static readonly type = '[MedusaActions] Create Medusa Cart With Items';
         constructor(public selectedVariant: any) { }
     }
-    export class AddProductToState {
-        static readonly type = '[MedusaActions] Add product to state';
-        constructor(public selectedProduct: any) { }
-    }
-    export class RemoveProductFromState {
-        static readonly type = '[MedusaActions] Clear product from state';
-    }
 
     export class GetMedusaProductList {
         static readonly type = '[MedusaActions] Get Full Medusa Product List';
@@ -97,7 +90,7 @@ export namespace MedusaActions {
         static readonly type = '[MedusaActions] Logout, clear shop state';
     }
 
-    export class UpdateCustomer {
+    export class UpdateCustomerBIllingAddress {
         static readonly type = '[MedusaActions] Update Customer';
         constructor(public payload: any | any) { }
     }

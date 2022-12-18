@@ -75,8 +75,8 @@ export class AddressFormComponent implements OnInit, ControlValueAccessor, OnDes
     );
     this.viewState$ = this.facade.viewState$;
   }
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
+    this.store.dispatch(new AddressesActions.GetRegionList());
   }
   async onRegionCodeChange(regionId?: string) {
     this.store.dispatch(new AddressesActions.GetCountries(regionId));

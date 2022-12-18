@@ -7,6 +7,7 @@ import { AddressFormComponent } from 'src/app/components/address-form/address-fo
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
+import { FormsActions } from 'src/app/store/forms/forms.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { IRegisterAddress } from 'src/app/store/state.interfaces';
 import { AddressesFacade } from '../addresses.facade';
@@ -16,11 +17,17 @@ import { AddressesFacade } from '../addresses.facade';
   templateUrl: './address-details.component.html',
   styleUrls: ['./address-details.component.scss'],
 })
-export class AddressDetailsComponent implements OnInit, OnDestroy {
-  @ViewChild('form') form: AddressFormComponent;
-  addressForm: FormGroup;
-  isEdit: boolean;
-  viewState$: Observable<any>;
+export class AddressDetailsComponent implements OnDestroy {
+  @ViewChild('form') form: any;
+  @Input() isNewAddress: boolean;
+  addressDetailsForm: FormGroup;
+
+  regionsList: any = [];
+  countriesList: any = [];
+  selectedRegion: string;
+  address: any;
+
+  isEdit = false;
 
   private readonly ngUnsubscribe = new Subject();
 
@@ -30,80 +37,117 @@ export class AddressDetailsComponent implements OnInit, OnDestroy {
     private store: Store,
     private uttily: UtilityService,
     private readonly facade: AddressesFacade,
+    private utility: UtilityService,
   ) {
-    this.addressForm = this.formBuilder.group({
+    this.addressDetailsForm = this.formBuilder.group({
       id: new FormControl('', [Validators.required]),
       first_name: new FormControl('', [Validators.required]),
       last_name: new FormControl('', [Validators.required]),
-      address: [],
+      address:
+      {
+        address_1: '',
+        address_2: '',
+        region_code: '',
+        country: '',
+        city: '',
+        postal_code: '',
+        phone: '',
+      },
     });
-    this.viewState$ = this.facade.viewState$;
   }
-  ngOnInit() {
-    this.populateEditForm();
+  ionViewWillEnter() {
+    if (!this.isNewAddress) {
+      this.populateEditForm();
+    } else {
+      this.clearForm();
+    }
   }
-  ionViewDidEnter() {
+  save() {
+    if (this.isNewAddress === true) {
+      const address = {
+        first_name: this.addressDetailsForm.value?.first_name,
+        last_name: this.addressDetailsForm.value?.last_name,
+        address_1: this.addressDetailsForm.value.address?.address_1,
+        address_2: this.addressDetailsForm.value.address?.address_2,
+        city: this.addressDetailsForm.value.address?.city,
+        country_code: this.addressDetailsForm.value.address?.country,
+        postal_code: this.addressDetailsForm.value.address?.postal_code,
+        phone: this.addressDetailsForm.value.address?.phone
+      };
+      this.store.dispatch(new MedusaActions.AddaShippingAddress(address));
+    }
+    if (this.isNewAddress === false) {
+      const address = {
+        first_name: this.addressDetailsForm.value?.first_name,
+        last_name: this.addressDetailsForm.value?.last_name,
+        address_1: this.addressDetailsForm.value.address?.address_1,
+        address_2: this.addressDetailsForm.value.address?.address_2,
+        city: this.addressDetailsForm.value.address?.city,
+        country_code: this.addressDetailsForm.value.address?.country,
+        postal_code: this.addressDetailsForm.value.address?.postal_code,
+        phone: this.addressDetailsForm.value.address?.phone
+      };
+      console.log(address);
+      this.updateAdress(this.addressDetailsForm.value.id, address);
+    }
+    this.closeModal();
   }
-  async closeModal() {
-    await this.modalCtrl.dismiss();
-  }
-  async save() {
-    const addressData: IRegisterAddress = {
-      // id: this.addressForm.value?.id,
-      last_name: this.addressForm.value.first_name,
-      first_name:this.addressForm.value.last_name,
-      address_1: this.addressForm.value.address.address_1,
-      address_2: this.addressForm.value.address.address_2,
-      region_code: this.addressForm.value.address?.region_code,
-      country_code: this.addressForm.value.address?.country,
-      city: this.addressForm.value.address.city,
-      postal_code: this.addressForm.value.address.postal_code,
-      phone: this.addressForm.value.address.phone,
-    };
-    console.log(addressData);
-    console.log(this.addressForm.value);
-    // this.updateAdress(this.addressForm.value?.id, addressData);
+  clear() {
   }
   async populateEditForm() {
-    // await this.uttily.presentLoading('...');
-    // const address = await this.store.selectSnapshot<any>((state) => state.addresses.selectedAddress);
-    // await setTimeout(async () => {
-    //   this.addressForm.get('id')?.setValue(address?.id);
-    //   this.addressForm.get('first_name')?.setValue(address?.first_name);
-    //   this.addressForm.get('last_name')?.setValue(address?.last_name);
-    //   this.form?.adressForm.get('address_1')?.setValue(address?.address_1);
-    //   this.form?.adressForm.get('address_2')?.setValue(address?.address_2);
-
-    //   this.form?.adressForm.get('region_code')?.setValue(this.buildRegionCode(address.country_code));
-    //   this.form?.adressForm.get('country')?.setValue(address.country_code);
-
-    //   this.form?.adressForm.get('city')?.setValue(address?.city);
-    //   this.form?.adressForm.get('postal_code')?.setValue(address?.postal_code);
-    //   this.form?.adressForm.get('phone')?.setValue(address?.phone);
-    //   await this.uttily.dismissLoading();
-    // }, 100);
+    await this.utility.presentLoading('...');
+    const regionList = this.store.selectSnapshot<any>((state) => state.addresses.regionList);
+    const selectedAddress = this.store.selectSnapshot<any>((state) => state.addresses?.selectedAddress);
+    const region_code = this.buildRegionCode(selectedAddress?.country_code, regionList);
+    const formModel = {
+      id: selectedAddress?.id,
+      first_name: selectedAddress?.first_name,
+      last_name: selectedAddress?.last_name,
+      address: {
+        address_1: selectedAddress?.address_1,
+        address_2: selectedAddress?.address_2,
+        region_code: region_code,
+        country: selectedAddress?.country_code,
+        city: selectedAddress?.city,
+        postal_code: selectedAddress?.postal_code,
+        phone: selectedAddress?.phone,
+      }
+    }
+    await this.form?.onRegionCodeChange(region_code);
+    setTimeout(async () => {
+      this.store.dispatch(new FormsActions.UpdateAddressForm(formModel));
+      await this.utility.dismissLoading();
+    }, 1000);
   }
-  buildRegionCode(country_code: string): any {
-    const regionList = this.store.selectSnapshot<any>((state) => state.medusa.regionList);
+  buildRegionCode(country_code: string, regionList: any): string {
     const countries = regionList.map((region: any, i: any) => region.countries);
     const result = [].concat(...countries);
-    const filtered: any = result.filter(async (region: any) => {
-      return await region.iso_2 === country_code;
+    const filtered: any = result.filter((region: any) => {
+      return region.iso_2 === country_code;
     });
-    return filtered[0].region_id;
+    return filtered[0]?.region_id;
   }
   updateAdress(addressId: string | any, addressForm: IRegisterAddress) {
-    this.store.dispatch(new MedusaActions.UpdateCustomerRegisterAddress(addressId, addressForm));
-    this.store.dispatch(new AuthActions.GetSession());
-    // this.closeModal();
+    console.log(addressId, addressForm);
+    this.store.dispatch(new MedusaActions.UpdateCustomerAddress(addressId, addressForm));
   }
   saveNewAddress(addressForm?: IRegisterAddress) {
     this.store.dispatch(new MedusaActions.AddaShippingAddress(addressForm));
   }
+
+  clearForm() {
+    this.addressDetailsForm.reset();
+    this.store.dispatch(new FormsActions.ClearAddressForm());
+    this.store.dispatch(new AddressesActions.RemoveAddressFromState());
+  }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);
     this.ngUnsubscribe.complete();
-    this.addressForm.reset();
-    this.store.dispatch(new AddressesActions.RemoveAddressFromState());
+    // this.clearForm();
   }
+  async closeModal() {
+    this.clearForm();
+    await this.modalCtrl.dismiss();
+  }
+
 }

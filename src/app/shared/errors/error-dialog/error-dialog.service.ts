@@ -12,7 +12,6 @@ export class ErrorDialogService {
   private opened = false;
 
   constructor(
-    // private dialog: MatDialog,
     private alertController: AlertController
   ) { }
 
@@ -20,8 +19,8 @@ export class ErrorDialogService {
     if (!this.opened) {
       this.opened = true;
       const alert = await this.alertController.create({
-        // header: 'Alert',
-        // subHeader: 'Important message',
+        header: 'Alert',
+        subHeader: 'Important message',
         message: message,
         buttons: ['OK'],
       });

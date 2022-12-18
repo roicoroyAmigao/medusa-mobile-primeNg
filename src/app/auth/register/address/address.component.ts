@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-
-import { Store } from '@ngxs/store';
-import { MessageService, SelectItem } from 'primeng/api';
-import { Subject, takeUntil } from 'rxjs';
-import { AddressFormComponent } from 'src/app/components/address-form/address-form.component';
-import { fade } from 'src/app/shared/animations/animations';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { UtilityService } from 'src/app/shared/services/utility.service';
-import { AuthActions } from 'src/app/store/auth/auth.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { AppStateModel, IRegisterAddress } from 'src/app/store/state.interfaces';
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { FormGroup, FormBuilder } from "@angular/forms";
+import { Store } from "@ngxs/store";
+import { MessageService } from "primeng/api";
+import { Observable, Subject } from "rxjs";
+import { AddressFormComponent } from "src/app/components/address-form/address-form.component";
+import { fade } from "src/app/shared/animations/animations";
+import { NavigationService } from "src/app/shared/services/navigation.service";
+import { UtilityService } from "src/app/shared/services/utility.service";
+import { AuthActions } from "src/app/store/auth/auth.actions";
+import { MedusaActions } from "src/app/store/medusa/medusa.actions";
+import { RegisterActions } from "src/app/store/register/register.actions";
+import { IRegisterAddress } from "src/app/store/state.interfaces";
+import { RegisterFacade } from "../register.facade";
 
 @Component({
   selector: 'app-address',
@@ -18,72 +19,74 @@ import { AppStateModel, IRegisterAddress } from 'src/app/store/state.interfaces'
   styleUrls: ['./address.component.scss'],
   providers: [MessageService],
   styles: [`
- 
+
   `],
   animations: [fade()],
 })
-export class AddressComponent implements OnInit, OnDestroy {
+export class AddressComponent implements OnDestroy {
   @ViewChild('form') form: AddressFormComponent;
 
   adressForm: FormGroup | any;
-  regionsList: any = [];
-  countriesList: any = [];
 
+  viewState$: Observable<any>;
+  first_name: string;
+  last_name: string;
   private readonly ngUnsubscribe = new Subject();
-
-  public error: any;
-
-  defaultRegion: any;
-
-  submitted: boolean;
 
   constructor(
     private store: Store,
     private formBuilder: FormBuilder,
+    private readonly facade: RegisterFacade,
     private navigation: NavigationService,
     private utility: UtilityService,
     private fb: FormBuilder,
     private messageService: MessageService
-  ) { }
+  ) {
+    this.viewState$ = this.facade.viewState$;
+    // this.viewState$.subscribe((vs: any) => {
+    //   // console.log(vs.customer.first_name);
+    //   // console.log(vs.customer.last_name);
+    //   this.first_name = vs.customer?.first_name;
+    //   this.last_name = vs.customer?.last_name;
+    // });
 
-  ngOnInit() {
-    this.setupForm();
-  }
-
-  setupForm() {
     this.adressForm = this.formBuilder.group({
-      address: [],
+      address:
+      {
+        address_1: 'aa',
+        address_2: '',
+        region_code: '',
+        country: '',
+        city: '',
+        postal_code: '',
+        phone: '',
+      },
     });
   }
-  finish() {
-    // console.log(this.form);
-    console.log(this.adressForm.value);
-    // console.log(this.adressForm.value.country.iso_2);
 
-    // console.log(data);
-
-    this.updateCustomerAddress(this.adressForm.value);
-  }
-  updateCustomerAddress(shippingAddress: IRegisterAddress) {
+  updateCustomerAddress() {
+    this.utility.presentLoading('...');
     const data: IRegisterAddress = {
-      first_name: shippingAddress?.first_name,
-      last_name: shippingAddress?.last_name,
-      address_1: shippingAddress?.address_1,
-      address_2: shippingAddress?.address_2,
-      city: shippingAddress?.city,
-      country_code: shippingAddress?.country,
-      postal_code: shippingAddress?.postal_code,
-      phone: shippingAddress?.phone,
+      first_name: this?.first_name,
+      last_name: this?.last_name,
+      address_1: this.adressForm.get('address').value?.address_1,
+      address_2: this.adressForm.get('address').value?.address_2,
+      city: this.adressForm.get('address').value?.city,
+      country_code: this.adressForm.get('address').value?.country,
+      postal_code: this.adressForm.get('address').value?.postal_code,
+      phone: this.adressForm.get('address').value?.phone,
       company: 'Wyman LLC',
       province: 'Georgia',
       metadata: {}
     };
-
-    // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.defaultRegion[0]?.region_id))
-    this.store.dispatch(new MedusaActions.AddBillingAddress(data));
-    this.store.dispatch(new MedusaActions.AddaShippingAddress(data));
-    this.store.dispatch(new AuthActions.UpdateCustomerRegisterAddress(data));
-    this.navigation.navControllerDefault('/home');
+    // console.log(data);
+    // console.log(this.adressForm.get('address').value.region_code);
+    this.store.dispatch(new RegisterActions.UpdateCustomerRegisterAddress(data));
+    // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
+    setTimeout(() => {
+      this.navigation.navControllerDefault('/home');
+      this.utility.dismissLoading();
+    }, 200);
   }
 
   ngOnDestroy(): void {

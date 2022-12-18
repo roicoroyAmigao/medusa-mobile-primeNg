@@ -23,7 +23,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <form [formGroup]="addressForm">
+  <form [formGroup]="addressDetailsForm" ngxsForm="forms.addressDetailsForm">
 
     <label for="first_name">
       {{ 'First Name' | translate }}
@@ -31,7 +31,7 @@
     <input formControlName="first_name" id="first_name" type="text" placeholder="First Name" pInputText
       class="w-full mb-2">
     <p-message severity="error" [text]="'First name is required' | translate"
-      *ngIf="!addressForm.get('first_name')?.valid && addressForm.get('first_name')?.dirty"></p-message>
+      *ngIf="!addressDetailsForm.get('first_name')?.valid && addressDetailsForm.get('first_name')?.dirty"></p-message>
 
     <label for="last_name">
       {{ 'Last Name' | translate }}
@@ -39,7 +39,7 @@
     <input formControlName="last_name" id="last_name" type="text"
       placeholder="{{ 'Last Name Placeholder' | translate }}" pInputText class="w-full mb-2">
     <p-message severity="error" [text]="'Last name is required'"
-      *ngIf="!addressForm.get('last_name')?.valid && addressForm.get('last_name')?.dirty"></p-message>
+      *ngIf="!addressDetailsForm.get('last_name')?.valid && addressDetailsForm.get('last_name')?.dirty"></p-message>
 
     <app-address-form #form formControlName="address"></app-address-form>
 

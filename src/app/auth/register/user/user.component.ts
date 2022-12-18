@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
-import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { UserFormComponent } from 'src/app/components/user-form/user-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
@@ -32,7 +31,7 @@ export interface Message {
   styleUrls: ['./user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [MessageService],
+  providers: [],
 })
 export class UserComponent implements OnInit {
   @ViewChild('form') form: UserFormComponent;
@@ -67,12 +66,12 @@ export class UserComponent implements OnInit {
       password: this.userForm.value.user?.passwordConfirmation,
       phone: this.userForm.value.user?.phone,
     };
-    console.log(this.userForm.value.user?.email);
+    // console.log(this.userForm.value.user?.email);
     this.submitted = true;
 
     this.store.dispatch(new AuthActions.MedusaRegister(data))
       .subscribe(async (state) => {
-        this.navigation.navigateFlip('/auth/register/address');
+        // this.navigation.navigateFlip('/auth/register/address');
         // if (state.authState.isLoggedIn && state.authState.customer != null) {
         //   this.navigation.navigateFlip('/auth/register/address');
         // }

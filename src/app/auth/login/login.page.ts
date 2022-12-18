@@ -55,7 +55,7 @@ export class LoginPage implements OnInit, OnDestroy {
       .subscribe((state) => {
         if (state) {
           // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.defaultRegion[0]?.region_id));
-          this.navigation.navigateForward('/shop/products-list', 'forward');
+          // this.navigation.navigateForward('/home', 'forward');
         }
       });
   }

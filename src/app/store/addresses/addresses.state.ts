@@ -3,6 +3,7 @@ import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import Medusa from "@medusajs/medusa-js";
 import { AddressesActions } from '../addresses/addresses.actions';
 import { environment } from 'src/environments/environment';
+import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
 
 export interface AddressesStateModel {
     selectedAddress: any | null;
@@ -48,8 +49,8 @@ export class AddressesState {
                 regionList: response?.regions,
             });
         } catch (err: any) {
-            if (err.response) {
-                console.error(err.response);
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
             }
         }
     }
@@ -62,22 +63,21 @@ export class AddressesState {
             });
         }
         catch (err: any) {
-            if (err.response) {
-                console.log(err.response);
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
             }
         }
     }
     @Action(AddressesActions.AddAddressToState)
     addAddressToState(ctx: StateContext<AddressesStateModel>, { selectedAddress }: AddressesActions.AddAddressToState) {
-        // console.log(selectedProduct);
-        return ctx.patchState({
+        ctx.patchState({
             selectedAddress
-        });;
+        });
     }
     @Action(AddressesActions.RemoveAddressFromState)
     removeAddressFromState(ctx: StateContext<AddressesStateModel>) {
-        return ctx.patchState({
+        ctx.patchState({
             selectedAddress: null
-        });;
+        });
     }
 }

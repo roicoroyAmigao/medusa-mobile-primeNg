@@ -4,16 +4,13 @@ import { AuthActions } from './auth.actions';
 import Medusa from "@medusajs/medusa-js";
 import { Order, Customer } from "@medusajs/medusa"
 import { environment } from 'src/environments/environment';
-import { UtilityService } from '../../shared/services/utility.service';
-import { catchError, Observable, of, tap, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { ServerErrorInterceptorService } from '../../shared/errors/core/errors/server-error.service';
-import { HandleErrorService } from '../../shared/services/handle-error.service';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
 
 export class AuthStateModel {
     customer: any | any;
     isLoggedIn: boolean | any;
-    errors: any | any;
     session: any | any;
 }
 
@@ -22,7 +19,6 @@ export class AuthStateModel {
     defaults: {
         customer: null,
         isLoggedIn: null,
-        errors: null,
         session: null
     }
 })
@@ -34,10 +30,6 @@ export class AuthState {
 
     constructor(
         private store: Store,
-        private utility: UtilityService,
-        private http: HttpClient,
-        private serverErrors: ServerErrorInterceptorService,
-        private handleErrorService: HandleErrorService
     ) {
         this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
     }
@@ -61,15 +53,18 @@ export class AuthState {
     async medusaLogin(ctx: StateContext<AuthStateModel>, { payload }: AuthActions.MedusaLogin) {
         try {
             let response = await this.medusaClient.auth?.authenticate(payload);
-            return ctx.patchState({
+            console.log(response);
+            ctx.patchState({
                 customer: response?.customer,
                 isLoggedIn: true,
-                errors: null
             });
-
-        } catch (err: any) {
-            if (err.response) {
-                this.handleErrorService.handleError(err);
+        }
+        catch (err: any) {
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
+                ctx.patchState({
+                    isLoggedIn: false,
+                });
             }
         }
     }
@@ -80,66 +75,22 @@ export class AuthState {
             email: payload.email,
             password: payload.password,
         };
-
-        ctx.patchState({ errors: null });
-
         try {
             let response = await this.medusaClient.customers?.create(payload);
-            const res = await response;
-            await this.store.dispatch(new AuthActions.MedusaLogin(loginReq));
-            
-            await ctx.patchState({
-                customer: res?.customer,
-                isLoggedIn: true,
-                errors: null
-            });
 
-        } catch (err: any) {
-            if (err.response) {
-                // console.log(err.message);
+            await this.store.dispatch(new AuthActions.MedusaLogin(loginReq));
+            if (response != null) {
                 ctx.patchState({
-                    customer: null,
-                    isLoggedIn: false,
-                    errors: err.response,
+                    customer: response?.customer,
+                    isLoggedIn: true,
                 });
             }
         }
-    }
-
-    @Action(AuthActions.UpdateCustomerRegisterAddress)
-    async updateCustomerRegisterAddress(ctx: StateContext<AuthStateModel>, { payload }: AuthActions.UpdateCustomerRegisterAddress) {
-
-        ctx.patchState({ errors: null });
-
-        try {
-            let response = await this.medusaClient.customers?.update({
-                billing_address: payload,
-            });
-            let response2 = await this.medusaClient.customers.addresses.addAddress({
-                address: payload
-            })
-            let res = await response;
-            let res2 = await response2;
-            // console.log(res);
-            // console.log(res2);
-
-            await ctx.patchState({
-                customer: res?.customer,
-                isLoggedIn: true,
-                errors: null
-            });
-            await ctx.patchState({
-                customer: res2?.customer,
-                isLoggedIn: true,
-                errors: null
-            });
-
-        } catch (err: any) {
-            if (err.response) {
-                await ctx.patchState({
-                    customer: null,
+        catch (err: any) {
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
+                ctx.patchState({
                     isLoggedIn: false,
-                    errors: err.response,
                 });
             }
         }
@@ -148,28 +99,24 @@ export class AuthState {
     @Action(AuthActions.GetSession)
     async getSession(ctx: StateContext<AuthStateModel>) {
 
-        ctx.patchState({ errors: null });
-
         try {
-            let response = await this.medusaClient.auth?.getSession();
+            let session = await this.medusaClient.auth?.getSession();
             let customer = await this.medusaClient.customers.retrieve();
-
-            // console.log(response?.customer);
-
-            return ctx.patchState({
-                session: response?.customer,
-                customer: customer,
-                isLoggedIn: true,
-                errors: null
+            console.log(session);
+            console.log(customer);
+            ctx.patchState({
+                session: session?.customer ? session?.customer : null,
+                customer: customer?.customer ? customer?.customer : null,
+                isLoggedIn: true
             });
-
-        } catch (err: any) {
-            if (err.response) {
-                // console.log(err.message);
-                return ctx.patchState({
+        }
+        catch (err: any) {
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
+                ctx.patchState({
                     session: null,
-                    isLoggedIn: false,
-                    errors: err.response,
+                    customer: null,
+                    isLoggedIn: false
                 });
             }
         }
@@ -180,7 +127,6 @@ export class AuthState {
         ctx.patchState({
             customer: null,
             isLoggedIn: false,
-            errors: null
         });
     }
 }

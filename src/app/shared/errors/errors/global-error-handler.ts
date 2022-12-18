@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable, NgZone } from '@angular/core';
-import { ErrorDialogService } from '../../errors/error-dialog.service';
+import { ErrorDialogService } from '../error-dialog/error-dialog.service';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -19,7 +19,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     // this.zone.run(async () =>
 
     //   await this.errorDialogService.openDialog(
-    //     // error?.message || 'Undefined client error', 
+    //     // error?.message || 'Undefined client error',
     //     error?.error.error?.message || 'Undefined client error', error?.status),
     // );
 

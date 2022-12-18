@@ -40,7 +40,7 @@
                         <ion-label> Orders </ion-label>
                     </ion-list-header>
 
-                    <ion-item *ngFor="let order of vs.customer?.orders">
+                    <ion-item *ngFor="let order of vs.session?.orders">
                         <ion-button (click)="openOrderDetails(order.id)" expand="block" fill="clear" shape="round">
                             {{ order.id }}
                         </ion-button>

@@ -6,8 +6,8 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="openShippingAddressModal()">
-        <ion-icon name="add"></ion-icon>
+      <ion-button (click)="newAddress()">
+        Add new Shipping Address
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -22,19 +22,47 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-row>
-    <ion-col size="12">
-      <ion-button expand="block" fill="outline" shape="round">
+  <ion-row *ngIf="viewState$ | async as vs">
+    <!-- <ion-col size="12">
+      <ion-button (click)="viewBilingAddress(vs.customer.billing_address)" expand="block" fill="outline" shape="round">
         View Billing Address
       </ion-button>
-    </ion-col>
+    </ion-col> -->
+    <ion-card>
+      <ion-item>
+        <!-- <ion-buttons slot="start">
+          <ion-button>
+            <ion-icon color='danger' name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons> -->
+        <ion-buttons slot="end">
+          <ion-button (click)="viewBilingAddress(vs.customer?.billing_address)">
+            <ion-icon color="warning" name="create-outline"></ion-icon>
+            <ion-text color="warning">
+              Edit
+            </ion-text>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+      <ion-card-header>
+        <ion-card-subtitle>
+          {{ vs.customer.billing_address?.first_name }}
+        </ion-card-subtitle>
+        <ion-card-title>
+          {{ vs.customer.billing_address?.last_name }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ vs.customer.billing_address?.address_1 }}
+        {{ vs.customer.billing_address?.address_2 }}
+        {{ vs.customer.billing_address?.country_code }}
+        {{ vs.customer.billing_address?.postal_code }}
+        {{ vs.customer.billing_address?.phone }}
+      </ion-card-content>
+    </ion-card>
   </ion-row>
 
   <ion-row>
-
-    <ion-button (click)="detailsPage()" expand="block" fill="solid" shape="round">
-      Details Page
-    </ion-button>
 
     <ion-col *ngIf="viewState$ | async as vs">
 
@@ -46,7 +74,7 @@
             </ion-button>
           </ion-buttons>
           <ion-buttons slot="end">
-            <ion-button (click)="detailsPage(address)">
+            <ion-button (click)="openShippingAddressModal(address)">
               <ion-icon color="warning" name="create-outline"></ion-icon>
               <ion-text color="warning">
                 Edit
@@ -65,22 +93,31 @@
         <ion-card-content>
           <ion-row>
             <ion-col size="6">
-              <p>Address_1: {{ address.address_1 }}</p>
-              <p>Address_2: {{ address.address_2 }}</p>
-              <p>City: {{ address.city }}</p>
+              <p>Address_1: {{ address?.address_1 }}</p>
+              <p>Address_2: {{ address?.address_2 }}</p>
+              <p>City: {{ address?.city }}</p>
             </ion-col>
             <ion-col size="6">
-              <p>Province: {{ address.province }}</p>
-              <p>Postal Code: {{ address.postal_code }}</p>
-              <p>Country: {{ address.country_code }}</p>
-              <p>Phone: {{ address.phone }}</p>
+              <p>Province: {{ address?.province }}</p>
+              <p>Postal Code: {{ address?.postal_code }}</p>
+              <p>Country: {{ address?.country_code }}</p>
+              <p>Phone: {{ address?.phone }}</p>
             </ion-col>
           </ion-row>
         </ion-card-content>
         <ion-item>
           <ion-note slot="start">Delivery address</ion-note>
           <ion-icon color="success" slot="end" name="checkmark-outline"></ion-icon>
-          <ion-checkbox slot="end" [value]="i" (ionChange)="onCheckboxChange(address.id, $event)"></ion-checkbox>
+
+          <ion-buttons slot="end">
+            <ion-button (click)="onCheckboxChange(address, $event)">
+              <ion-icon slot="start" name="add"></ion-icon>
+              Add as billing address
+            </ion-button>
+          </ion-buttons>
+          <!-- <ion-button slot="end"
+            (ionChange)="onCheckboxChange(address, $event)">
+          </ion-button> -->
         </ion-item>
       </ion-card>
     </ion-col>

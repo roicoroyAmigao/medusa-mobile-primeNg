@@ -15,7 +15,7 @@
         <form [formGroup]="adressForm">
             <app-address-form #form formControlName="address"></app-address-form>
         </form>
-        <ion-button (click)="finish()" expand="block" fill="solid">
+        <ion-button (click)="updateCustomerAddress()" expand="block" fill="solid">
           {{ 'Finish Registration' | translate }}
         </ion-button>
       </div>

@@ -1,22 +1,20 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { AddressFormComponent } from 'src/app/components/address-form/address-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
-import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { FormsActions } from 'src/app/store/forms/forms.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { IRegisterAddress } from 'src/app/store/state.interfaces';
+
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.page.html',
   styleUrls: ['./details.page.scss'],
 })
-export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
+export class DetailsPage implements OnDestroy {
   @ViewChild('form') form: any;
 
   addressForm: FormGroup;
@@ -42,7 +40,7 @@ export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
       {
         address_1: '',
         address_2: '',
-        region_code: '',
+        region_code: new FormControl(),
         country: '',
         city: '',
         postal_code: '',
@@ -50,21 +48,15 @@ export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
       },
     });
   }
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  async ngOnInit() {
-    // await this.populateEditForm();
-  }
   ionViewWillEnter() {
-    this.populateEditForm();
+    // this.populateEditForm();
   }
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngAfterViewInit(): void {
-
+  save() {
+    this.store.dispatch(new MedusaActions.UpdateCustomerBIllingAddress(this.addressForm.value));
+    this.navigation.navigateFlip('/shop/addresses');
   }
   async populateEditForm() {
     await this.utility.presentLoading('...');
-    this.store.dispatch(new AddressesActions.GetRegionList());
     const regionList = this.store.selectSnapshot<any>((state) => state.addresses.regionList);
     const selectedAddress = this.store.selectSnapshot<any>((state) => state.addresses?.selectedAddress);
     const region_code = this.buildRegionCode(selectedAddress?.country_code, regionList);
@@ -96,16 +88,8 @@ export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
     });
     return filtered[0]?.region_id;
   }
-  updateAdress(addressId: string | any, addressForm: IRegisterAddress) {
-    this.store.dispatch(new MedusaActions.UpdateCustomerRegisterAddress(addressId, addressForm));
-    this.store.dispatch(new AuthActions.GetSession());
-  }
-  saveNewAddress(addressForm?: IRegisterAddress) {
-    this.store.dispatch(new MedusaActions.AddaShippingAddress(addressForm));
-  }
-  async navigateBack() {
-    await this.navigation.navigateFlip('/shop/addresses');
-    // this.clearForm();
+  navigateBack() {
+    this.navigation.navigateFlip('/shop/addresses');
   }
   clearForm() {
     this.addressForm.reset();
@@ -115,6 +99,6 @@ export class DetailsPage implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);
     this.ngUnsubscribe.complete();
-    // this.clearForm();
+    this.clearForm();
   }
 }

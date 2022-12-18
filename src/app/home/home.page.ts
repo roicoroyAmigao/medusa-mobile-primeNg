@@ -5,6 +5,7 @@ import { MedusaActions } from '../store/medusa/medusa.actions';
 import { ProductService } from './product.service';
 import { Select, Store } from '@ngxs/store';
 import { NavigationService } from '../shared/services/navigation.service';
+import { AuthActions } from '../store/auth/auth.actions';
 
 @Component({
     selector: 'app-home',
@@ -23,18 +24,21 @@ export class HomePage implements OnInit, OnDestroy {
         private navigation: NavigationService,
     ) { }
 
+    // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
     ngOnInit() {
-        this.store.dispatch(new MedusaActions.GetMedusaProductList())
-            .subscribe((state) => {
-                console.log(state.medusa.productsList);
-                this.products = state.medusa.productsList;
-            });
+        // this.store.dispatch(new MedusaActions.GetMedusaProductList())
+        //     .subscribe((state) => {
+        //         console.log(state.medusa.productsList);
+        //         this.products = state.medusa.productsList;
+        //     });
     }
     enterShop() {
         this.navigation.navControllerDefault('/shop/products-list');
     }
     logout() {
         this.navigation.navControllerDefault('/auth/login');
+        this.store.dispatch(new AuthActions.LogOutMedusaUser());
+        this.store.dispatch(new MedusaActions.LogOut());
     }
     testPage() {
         this.navigation.navControllerDefault('/test');
