@@ -83,9 +83,9 @@ export namespace MedusaActions {
         constructor(public selectedVariant: any) { }
     }
 
-    export class GetMedusaProductList {
-        static readonly type = '[MedusaActions] Get Full Medusa Product List';
-    }
+    // export class GetMedusaProductList {
+    //     static readonly type = '[MedusaActions] Get Full Medusa Product List';
+    // }
     export class LogOut {
         static readonly type = '[MedusaActions] Logout, clear shop state';
     }

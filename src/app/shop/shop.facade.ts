@@ -1,17 +1,17 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { MedusaState } from '../store/medusa/medusa.state';
+import { ProductState } from '../store/products/products.state';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ShopFacade {
     @Select(MedusaState.getCart) cart$: Observable<any>;
-    @Select(MedusaState.getProductList) productList$: Observable<any>;
-    
+    @Select(ProductState.getProductList) productList$: Observable<any>;
+
     readonly viewState$: Observable<any>;
 
     constructor(
@@ -51,4 +51,3 @@ export class ShopFacade {
         }
     }
 }
-

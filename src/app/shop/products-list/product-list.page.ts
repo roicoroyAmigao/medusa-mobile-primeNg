@@ -4,7 +4,7 @@ import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { ShopFacade } from '../shop.facade';
-import { addProduct, addVariant } from 'src/app/store/products/products.actions';
+import { addProduct, addVariant, GetProductList } from 'src/app/store/products/products.actions';
 
 @Component({
   selector: 'app-product-list',
@@ -43,7 +43,7 @@ export class ProductListPage implements OnInit {
     }
   }
   ngOnInit() {
-    this.store.dispatch(new MedusaActions.GetMedusaProductList());
+    this.store.dispatch(new GetProductList());
   }
   async selectProduct(product: any) {
     this.store.dispatch(new addProduct(product));

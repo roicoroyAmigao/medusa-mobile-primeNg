@@ -34,7 +34,7 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.form?.loginForm.get('email').setValue('roicoroy@yahoo.com.br');
     this.form?.loginForm.get('password').setValue('Rwbento123!');
   }
@@ -42,6 +42,7 @@ export class LoginPage implements OnInit, OnDestroy {
   submitForm() {
     console.log(this.signupForm.value.login);
   }
+
   public login(): void {
     const request: ILoginData = {
       email: this.signupForm.value.login?.email,
@@ -54,11 +55,11 @@ export class LoginPage implements OnInit, OnDestroy {
       )
       .subscribe((state) => {
         if (state) {
-          // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.defaultRegion[0]?.region_id));
-          // this.navigation.navigateForward('/home', 'forward');
+          this.navigation.navigateForward('/home', 'forward');
         }
       });
   }
+
   back(): void {
     this.navigation.navControllerDefault('/home');
   }

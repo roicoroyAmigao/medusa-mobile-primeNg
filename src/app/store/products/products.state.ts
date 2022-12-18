@@ -1,19 +1,22 @@
 import { Injectable } from "@angular/core";
 import Medusa from "@medusajs/medusa-js";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
-import { HandleErrorService } from "src/app/shared/services/handle-error.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
-import { addProduct, addVariant, clearProduct, clearVariant } from "./products.actions";
+import { LogErrorEntry } from "../errors-logging/errors-logging.actions";
+import { MedusaStateModel } from "../medusa/medusa.state";
+import { addProduct, addVariant, clearProduct, clearVariant, GetProductList } from "./products.actions";
 
 export interface ProductStateModel {
     selectedProduct: any | null;
     selectedVariant: any | null;
+    productsList: any | null;
 }
 
 export const initStateModel: ProductStateModel = {
     selectedProduct: null,
     selectedVariant: null,
+    productsList: null,
 };
 @State({
     name: 'product',
@@ -25,16 +28,34 @@ export class ProductState {
 
     constructor(
         private store: Store,
-        private utility: UtilityService,
-        private handleErrorService: HandleErrorService
     ) {
         this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
+    }
+    @Selector()
+    static getProductList(state: MedusaStateModel) {
+        return state.productsList;
     }
     @Selector()
     static getSelectedProduct(state: ProductStateModel) {
         return state.selectedProduct;
     }
-
+    @Action(GetProductList)
+    async getProductList({ patchState }: StateContext<MedusaStateModel>) {
+        try {
+            const response = await this.medusaClient.products.list();
+            console.log(response);
+            if (response?.products != null && response.response?.status === 200) {
+                patchState({
+                    productsList: response.products,
+                });
+            }
+        }
+        catch (err: any) {
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
+            }
+        }
+    }
     @Action(addProduct)
     addProductToState(ctx: StateContext<ProductStateModel>, { payload }: addProduct) {
         console.log(payload);

@@ -15,7 +15,7 @@ export class AuthStateModel {
 }
 
 @State<AuthStateModel>({
-    name: 'auth',
+    name: 'user',
     defaults: {
         customer: null,
         isLoggedIn: null,
@@ -38,26 +38,24 @@ export class AuthState {
     static isLoggedIn(state: AuthStateModel) {
         return state.isLoggedIn;
     }
-
     @Selector()
     static getCustomer(state: AuthStateModel) {
         return state.customer;
     }
-
     @Selector()
     static getSession(state: AuthStateModel): Observable<any> {
         return state.session;
     }
-
     @Action(AuthActions.MedusaLogin)
     async medusaLogin(ctx: StateContext<AuthStateModel>, { payload }: AuthActions.MedusaLogin) {
         try {
             let response = await this.medusaClient.auth?.authenticate(payload);
             console.log(response);
-            ctx.patchState({
-                customer: response?.customer,
-                isLoggedIn: true,
-            });
+            if (response?.customer != null && response?.status === 200)
+                ctx.patchState({
+                    customer: response?.customer,
+                    isLoggedIn: true,
+                });
         }
         catch (err: any) {
             if (err) {
@@ -77,9 +75,8 @@ export class AuthState {
         };
         try {
             let response = await this.medusaClient.customers?.create(payload);
-
-            await this.store.dispatch(new AuthActions.MedusaLogin(loginReq));
-            if (response != null) {
+            if (response?.customer != null && response?.status === 200) {
+                this.store.dispatch(new AuthActions.MedusaLogin(loginReq));
                 ctx.patchState({
                     customer: response?.customer,
                     isLoggedIn: true,
@@ -100,15 +97,19 @@ export class AuthState {
     async getSession(ctx: StateContext<AuthStateModel>) {
 
         try {
-            let session = await this.medusaClient.auth?.getSession();
-            let customer = await this.medusaClient.customers.retrieve();
-            console.log(session);
-            console.log(customer);
-            ctx.patchState({
-                session: session?.customer ? session?.customer : null,
-                customer: customer?.customer ? customer?.customer : null,
-                isLoggedIn: true
-            });
+            let sessionRes = await this.medusaClient.auth?.getSession();
+            let customerRes = await this.medusaClient.customers.retrieve();
+
+            console.log(sessionRes);
+            console.log(customerRes);
+
+            if (sessionRes?.customer != null && sessionRes.response?.status === 200 && customerRes?.customer != null && customerRes.response?.status === 200) {
+                ctx.patchState({
+                    session: sessionRes?.customer ? sessionRes?.customer : null,
+                    customer: customerRes?.customer ? customerRes?.customer : null,
+                    isLoggedIn: true
+                });
+            }
         }
         catch (err: any) {
             if (err) {

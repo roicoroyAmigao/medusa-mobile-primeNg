@@ -33,6 +33,7 @@ export class AddressesComponent {
   ) {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
+
     // this.viewState$.subscribe((vs) => {
     //   console.log(vs.customer.billing_address_id);
     //   console.log(vs.session.billing_address_id);
@@ -47,10 +48,11 @@ export class AddressesComponent {
     //   //   // console.log(result);
     //   // });
     // });
+
   }
 
   ionViewWillEnter() {
-    this.store.dispatch(new AuthActions.GetSession());
+    // this.store.dispatch(new AuthActions.GetSession());
   }
   onCheckboxChange(address: IRegisterAddress, $event: any) {
     // console.log(address, $event.detail);

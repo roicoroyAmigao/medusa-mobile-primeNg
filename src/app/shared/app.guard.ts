@@ -54,48 +54,12 @@ export class AppGuard implements CanActivate, CanActivateChild {
     | UrlTree {
     return this.checkAuthState();
   }
-
   checkAuthState(): boolean {
-
-    // this.router.events.subscribe((e: any) => {
-    //   // console.log('e', e.route?.path);
-    //   this.urlPath = e.route?.path;
-    // });
-
     this.isLoggedIn = this.store.selectSnapshot<boolean>((state) => state.authState.isLoggedIn);
-    console.log('isLoggedIn', this.isLoggedIn);
-    // console.log('this.urlPath', this.urlPath);
-    // const authState = this.authService.isAuthenticated;
-    // const authState = this.authService.isAuthenticated;
-    // this.isLoggedIn$ = this.store.select(state => state.autState.isLoggedIn);
-    // // console.log(this.isLoggedIn$);
-    // this.isLoggedIn$.subscribe((isLoggedIn) => {
-    //   console.log('isLoggedIn', isLoggedIn);
-    // });
-
     if (!this.isLoggedIn) {
-      console.log('isLoggedIn', this.isLoggedIn);
-      // this.utility.presentAlert('You need to Login first, please.').then((res)=>{
-      //   // console.log(res);
-      //   this.navigation.navControllerDefault('login');
-        
-      // });
+      // console.log('isLoggedIn', this.isLoggedIn);
       return false;
-      
     }
     return true;
   }
-
-  // async openModal() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: ModalExampleComponent,
-  //   });
-  //   modal.present();
-
-  //   const { data, role } = await modal.onWillDismiss();
-
-  //   if (role === 'confirm') {
-  //     this.message = `Hello, ${data}!`;
-  //   }
-  // }
 }

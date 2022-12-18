@@ -21,9 +21,9 @@ export class ErrorService implements ErrorHandler {
    * @param error - client error
    */
   handleError(error: Error): void {
-    console.table(error);
+    // console.table(error);
     if (!environment.production) {
-      console.error(error);
+      // console.error(error);
     }
     if (this.store == null) {
       this.store = this.injector.get(Store);
