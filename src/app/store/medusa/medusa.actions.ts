@@ -1,7 +1,5 @@
 import { IRegisterAddress } from "../state.interfaces";
 
-
-/* eslint-disable @typescript-eslint/no-namespace */
 export namespace MedusaActions {
     export class GetMedusaCart {
         static readonly type = '[MedusaActions] Get Medsa Cart With ID';
@@ -18,7 +16,6 @@ export namespace MedusaActions {
         static readonly type = '[MedusaActions] Add a Shipping Address';
         constructor(public payload: IRegisterAddress | any) { }
     }
-
     export class UpdateCustomerAddress {
         static readonly type = '[MedusaActions] Update Address for customer Actions';
         constructor(public addressId: string, public payload: any) { }
@@ -82,35 +79,11 @@ export namespace MedusaActions {
         static readonly type = '[MedusaActions] Create Medusa Cart With Items';
         constructor(public selectedVariant: any) { }
     }
-
-    // export class GetMedusaProductList {
-    //     static readonly type = '[MedusaActions] Get Full Medusa Product List';
-    // }
-    export class LogOut {
-        static readonly type = '[MedusaActions] Logout, clear shop state';
-    }
-
     export class UpdateCustomerBIllingAddress {
         static readonly type = '[MedusaActions] Update Customer';
         constructor(public payload: any | any) { }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    export class LogOut {
+        static readonly type = '[MedusaActions] Logout, clear medusa state';
+    }
 }

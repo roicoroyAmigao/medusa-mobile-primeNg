@@ -4,8 +4,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AddressesState } from 'src/app/store/addresses/addresses.state';
-import { AuthState } from 'src/app/store/auth/auth.state';
-import { MedusaState } from 'src/app/store/medusa/medusa.state';
 
 @Injectable({
     providedIn: 'root'

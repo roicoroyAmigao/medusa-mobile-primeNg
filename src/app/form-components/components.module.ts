@@ -1,11 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { AddressFormComponent } from './address-form/address-form.component';
-import { LoginFormComponent } from './login-form/login-form.component';
-import { PasswordFormComponent } from './password-form/password-form.component';
-import { ProfileFormComponent } from './profile-form/profile-form.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -40,26 +33,9 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DataViewModule } from 'primeng/dataview';
-//
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxsFormPluginModule } from '@ngxs/form-plugin';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { NgxsModule } from '@ngxs/store';
-import { UserFormComponent } from './user-form/user-form.component';
-import { AddressDetailsComponent } from '../shop/addresses/address-details/address-details.component';
-import { AddressesComponent } from '../shop/addresses/addresses.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        TranslateModule,
-        NgxsModule,
-        NgxsFormPluginModule,
-        NgxsStoragePluginModule,
-        ReactiveFormsModule,
-        //
         AutoCompleteModule,
         ButtonModule,
         CardModule,
@@ -105,24 +81,8 @@ import { AddressesComponent } from '../shop/addresses/addresses.component';
         MessageService,
     ],
     declarations: [
-        PasswordFormComponent,
-        ProfileFormComponent,
-        AddressFormComponent,
-        LoginFormComponent,
-        UserFormComponent,
-        AddressesComponent,
-        AddressDetailsComponent
-
     ],
     exports: [
-        PasswordFormComponent,
-        ProfileFormComponent,
-        AddressFormComponent,
-        LoginFormComponent,
-        UserFormComponent,
-        AddressesComponent,
-        AddressDetailsComponent,
-        //
         AutoCompleteModule,
         ButtonModule,
         CardModule,

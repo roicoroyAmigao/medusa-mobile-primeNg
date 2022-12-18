@@ -2,15 +2,14 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
-import { map, Observable, Subject } from 'rxjs';
-import { AddressFormComponent } from 'src/app/components/address-form/address-form.component';
+import { Subject } from 'rxjs';
+
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
-import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { FormsActions } from 'src/app/store/forms/forms.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { IRegisterAddress } from 'src/app/store/state.interfaces';
-import { AddressesFacade } from '../addresses.facade';
+import { ShopFacade } from '../../shop.facade';
 
 @Component({
   selector: 'app-address-details',
@@ -36,7 +35,7 @@ export class AddressDetailsComponent implements OnDestroy {
     private formBuilder: FormBuilder,
     private store: Store,
     private uttily: UtilityService,
-    private readonly facade: AddressesFacade,
+    private readonly facade: ShopFacade,
     private utility: UtilityService,
   ) {
     this.addressDetailsForm = this.formBuilder.group({

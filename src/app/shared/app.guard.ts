@@ -1,20 +1,14 @@
-import { Injectable, ViewChild } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CanActivate,
   CanActivateChild,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
-  Router,
-  NavigationEnd,
-  RouterEvent
 } from '@angular/router';
-import { IonModal, ModalController } from '@ionic/angular';
+
 import { Store } from '@ngxs/store';
 import { filter, Observable } from 'rxjs';
-import { isNullOrUndefined } from 'util';
-import { AuthState } from '../store/auth/auth.state';
-import { IonStorageService } from './services/ionstorage.service';
 import { NavigationService } from './services/navigation.service';
 import { UtilityService } from './services/utility.service';
 

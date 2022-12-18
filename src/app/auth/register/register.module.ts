@@ -13,7 +13,7 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { UserComponent } from './user/user.component';
 import { AddressComponent } from './address/address.component';
-import { ComponentsModule } from 'src/app/components/components.module';
+import { ComponentsModule } from 'src/app/form-components/components.module';
 
 @NgModule({
   imports: [

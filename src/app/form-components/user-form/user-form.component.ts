@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, forwardRef, OnDestroy, OnInit } fro
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import Validation from 'src/app/shared/validators/validation';
-import { ProfileFormComponent, ProfileFormValues } from '../profile-form/profile-form.component';
 
 @Component({
   selector: 'app-user-form',
@@ -29,7 +28,7 @@ export class UserFormComponent implements OnInit,ControlValueAccessor, OnDestroy
 
   onChange: any = () => { };
   onTouched: any = () => { };
-  
+
   get value() {
     return this.userForm.value;
   }
@@ -57,7 +56,7 @@ export class UserFormComponent implements OnInit,ControlValueAccessor, OnDestroy
       phone: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       passwordConfirmation: new FormControl('', [Validators.required])
-    }, { validators: [Validation.match('password', 'passwordConfirmation')] 
+    }, { validators: [Validation.match('password', 'passwordConfirmation')]
     });
 
     this.subscriptions.push(
@@ -67,7 +66,7 @@ export class UserFormComponent implements OnInit,ControlValueAccessor, OnDestroy
       })
     );
   }
-  
+
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {}
 

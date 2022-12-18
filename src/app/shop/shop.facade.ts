@@ -4,6 +4,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { MedusaState } from '../store/medusa/medusa.state';
 import { ProductState } from '../store/products/products.state';
+import { UserState } from '../store/user/user.state';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,9 @@ import { ProductState } from '../store/products/products.state';
 export class ShopFacade {
     @Select(MedusaState.getCart) cart$: Observable<any>;
     @Select(ProductState.getProductList) productList$: Observable<any>;
+
+    @Select(UserState.getCustomer) customer$: Observable<any>;
+    @Select(UserState.getSession) session$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 
@@ -20,34 +24,22 @@ export class ShopFacade {
         this.viewState$ = combineLatest(
             [
                 this.cart$,
-                this.productList$
+                this.productList$,
+                this.customer$,
+                this.session$,
             ]
         ).pipe(
             map(([
                 cart,
-                productList
+                productList,
+                customer,
+                session
             ]) => ({
                 cart,
-                productList
+                productList,
+                customer,
+                session
             }))
         );
-    }
-
-    getUserDetails() {
-        this.viewState$.pipe(tap((state) => {
-            console.log(state);
-        }));
-    }
-
-    filterProductsByCollection(collectionId: string) {
-        // console.log(collectionId);
-        if (collectionId) {
-            this.viewState$
-                .pipe(tap((state) => {
-                    return state.productList.filter((item: any) => {
-                        return item.collection_id === collectionId;
-                    });
-                }));
-        }
     }
 }

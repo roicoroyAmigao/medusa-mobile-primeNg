@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import { ComponentsModule } from '../components/components.module';
     NgxsModule,
     NgxsFormPluginModule,
     NgxsStoragePluginModule,
-    ComponentsModule
   ],
   declarations: [
     TestPage,

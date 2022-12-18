@@ -23,18 +23,19 @@
   </ion-header>
 
   <ion-row *ngIf="viewState$ | async as vs">
-    <!-- <ion-col size="12">
+    <ion-col size="12">
       <ion-button (click)="viewBilingAddress(vs.customer.billing_address)" expand="block" fill="outline" shape="round">
         View Billing Address
       </ion-button>
-    </ion-col> -->
+    </ion-col>
+    <!--
     <ion-card>
       <ion-item>
-        <!-- <ion-buttons slot="start">
+        <ion-buttons slot="start">
           <ion-button>
             <ion-icon color='danger' name="close"></ion-icon>
           </ion-button>
-        </ion-buttons> -->
+        </ion-buttons>
         <ion-buttons slot="end">
           <ion-button (click)="viewBilingAddress(vs.customer?.billing_address)">
             <ion-icon color="warning" name="create-outline"></ion-icon>
@@ -59,14 +60,11 @@
         {{ vs.customer.billing_address?.postal_code }}
         {{ vs.customer.billing_address?.phone }}
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
   </ion-row>
-
   <ion-row>
-
     <ion-col *ngIf="viewState$ | async as vs">
-
-      <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
+      <!-- <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
         <ion-item>
           <ion-buttons slot="start">
             <ion-button>
@@ -115,11 +113,11 @@
               Add as billing address
             </ion-button>
           </ion-buttons>
-          <!-- <ion-button slot="end"
+          <ion-button slot="end"
             (ionChange)="onCheckboxChange(address, $event)">
-          </ion-button> -->
+          </ion-button>
         </ion-item>
-      </ion-card>
+      </ion-card> -->
     </ion-col>
   </ion-row>
 

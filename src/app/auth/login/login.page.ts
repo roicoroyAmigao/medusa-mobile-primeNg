@@ -2,11 +2,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
-import { LoginFormComponent } from 'src/app/components/login-form/login-form.component';
+import { LoginFormComponent } from 'src/app/form-components/login-form/login-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { AuthActions } from 'src/app/store/auth/auth.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { ILoginData } from 'src/app/store/state.interfaces';
+import { UserActions } from 'src/app/store/user/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +48,7 @@ export class LoginPage implements OnInit, OnDestroy {
       password: this.signupForm.value.login?.password
     }
     console.log(request);
-    this.store.dispatch(new AuthActions.MedusaLogin(request))
+    this.store.dispatch(new UserActions.MedusaLogin(request))
       .pipe(
         takeUntil(this.ngUnsubscribe),
       )

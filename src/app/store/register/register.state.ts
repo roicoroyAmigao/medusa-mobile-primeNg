@@ -3,10 +3,10 @@ import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import Medusa from "@medusajs/medusa-js";
 import { AddressesActions } from '../addresses/addresses.actions';
 import { environment } from 'src/environments/environment';
-import { AuthActions } from '../auth/auth.actions';
 import { RegisterActions } from './register.actions';
 import { MedusaActions } from '../medusa/medusa.actions';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
+import { UserActions } from '../user/user.actions';
 
 export interface RegisterStateModel {
 }
@@ -37,7 +37,7 @@ export class RegisterState {
             })
             console.log(billingAddress);
             console.log(address);
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
 
         }
         catch (err: any) {
@@ -67,7 +67,7 @@ export class RegisterState {
                     metadata: {}
                 }
             });
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -93,7 +93,7 @@ export class RegisterState {
                 }
             });
             console.log(customer);
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
         } catch (err: any) {
             if (err) {
                 this.store.dispatch(new LogErrorEntry(err));

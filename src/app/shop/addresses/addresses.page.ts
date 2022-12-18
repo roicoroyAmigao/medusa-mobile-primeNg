@@ -1,21 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
-import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { IRegisterAddress } from 'src/app/store/state.interfaces';
 import { AddressDetailsComponent } from './address-details/address-details.component';
-import { AddressesFacade } from './addresses.facade';
+import { AddressesFacade } from './shop.facade';
 
 @Component({
   selector: 'app-addresses',
-  templateUrl: './addresses.component.html',
-  styleUrls: ['./addresses.component.scss'],
+  templateUrl: './addresses.page.html',
+  styleUrls: ['./addresses.page.scss'],
 })
-export class AddressesComponent {
+export class AddressesPage implements OnInit {
 
   @Input() isEdit = false;
 
@@ -34,20 +33,21 @@ export class AddressesComponent {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
 
-    // this.viewState$.subscribe((vs) => {
-    //   console.log(vs.customer.billing_address_id);
-    //   console.log(vs.session.billing_address_id);
-    //   // const result = vs.customer.billing_address_id === vs.session.billing_address_id ? true : false;
-    //   // console.log(result);
-    //   // console.log(vs.session.shipping_addresses);
-    //   // vs.session.shipping_addresses.forEach((address: any, i: any) => {
-    //   //   // console.log(vs.session.billing_address_id === address[i].id ? true : false);
-    //   //   // console.log(vs.session.billing_address_id);
-    //   //   console.log(address.id);
-    //   //   // const result = vs.customer.billing_address_id === address?.id ? true : false;
-    //   //   // console.log(result);
-    //   // });
-    // });
+    this.viewState$.subscribe((vs) => {
+      console.log(vs);
+      // console.log(vs.customer.billing_address_id);
+      // console.log(vs.session.billing_address_id);
+      // const result = vs.customer.billing_address_id === vs.session.billing_address_id ? true : false;
+      // console.log(result);
+      // console.log(vs.session.shipping_addresses);
+      // vs.session.shipping_addresses.forEach((address: any, i: any) => {
+      //   // console.log(vs.session.billing_address_id === address[i].id ? true : false);
+      //   // console.log(vs.session.billing_address_id);
+      //   console.log(address.id);
+      //   // const result = vs.customer.billing_address_id === address?.id ? true : false;
+      //   // console.log(result);
+      // });
+    });
 
   }
 
@@ -105,4 +105,9 @@ export class AddressesComponent {
     this.store.dispatch(new AddressesActions.AddAddressToState(address));
     await modal.present();
   }
+
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngOnInit() {
+  }
+
 }

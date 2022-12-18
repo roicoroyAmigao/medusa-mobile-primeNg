@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { AuthActions } from './auth.actions';
 import Medusa from "@medusajs/medusa-js";
 import { Order, Customer } from "@medusajs/medusa"
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
+import { UserActions } from './user.actions';
 
-export class AuthStateModel {
+export class UserStateModel {
     customer: any | any;
     isLoggedIn: boolean | any;
     session: any | any;
 }
 
-@State<AuthStateModel>({
+@State<UserStateModel>({
     name: 'user',
     defaults: {
         customer: null,
@@ -23,31 +23,32 @@ export class AuthStateModel {
     }
 })
 @Injectable()
-export class AuthState {
+export class UserState {
     medusaClient: any;
 
     headers_json = new HttpHeaders().set('Content-Type', 'application/json');
 
     constructor(
         private store: Store,
+        private http: HttpClient
     ) {
         this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
     }
 
     @Selector()
-    static isLoggedIn(state: AuthStateModel) {
+    static isLoggedIn(state: UserStateModel) {
         return state.isLoggedIn;
     }
     @Selector()
-    static getCustomer(state: AuthStateModel) {
+    static getCustomer(state: UserStateModel) {
         return state.customer;
     }
     @Selector()
-    static getSession(state: AuthStateModel): Observable<any> {
+    static getSession(state: UserStateModel): Observable<any> {
         return state.session;
     }
-    @Action(AuthActions.MedusaLogin)
-    async medusaLogin(ctx: StateContext<AuthStateModel>, { payload }: AuthActions.MedusaLogin) {
+    @Action(UserActions.MedusaLogin)
+    async medusaLogin(ctx: StateContext<UserStateModel>, { payload }: UserActions.MedusaLogin) {
         try {
             let response = await this.medusaClient.auth?.authenticate(payload);
             console.log(response);
@@ -67,8 +68,8 @@ export class AuthState {
         }
     }
 
-    @Action(AuthActions.MedusaRegister)
-    async medusaRegister(ctx: StateContext<AuthStateModel>, { payload }: AuthActions.MedusaRegister): Promise<any> {
+    @Action(UserActions.MedusaRegister)
+    async medusaRegister(ctx: StateContext<UserStateModel>, { payload }: UserActions.MedusaRegister): Promise<any> {
         const loginReq = {
             email: payload.email,
             password: payload.password,
@@ -76,7 +77,7 @@ export class AuthState {
         try {
             let response = await this.medusaClient.customers?.create(payload);
             if (response?.customer != null && response?.status === 200) {
-                this.store.dispatch(new AuthActions.MedusaLogin(loginReq));
+                this.store.dispatch(new UserActions.MedusaLogin(loginReq));
                 ctx.patchState({
                     customer: response?.customer,
                     isLoggedIn: true,
@@ -93,8 +94,8 @@ export class AuthState {
         }
     }
 
-    @Action(AuthActions.GetSession)
-    async getSession(ctx: StateContext<AuthStateModel>) {
+    @Action(UserActions.GetSession)
+    async getSession(ctx: StateContext<UserStateModel>) {
 
         try {
             let sessionRes = await this.medusaClient.auth?.getSession();
@@ -123,11 +124,12 @@ export class AuthState {
         }
     }
 
-    @Action(AuthActions.LogOutMedusaUser)
-    LogOutMedusaUser(ctx: StateContext<AuthStateModel>) {
+    @Action(UserActions.LogOutMedusaUser)
+    LogOutMedusaUser(ctx: StateContext<UserStateModel>) {
         ctx.patchState({
             customer: null,
             isLoggedIn: false,
+            session: null
         });
     }
 }

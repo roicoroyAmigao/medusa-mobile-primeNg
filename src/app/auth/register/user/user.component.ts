@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { UserFormComponent } from 'src/app/components/user-form/user-form.component';
+import { UserFormComponent } from 'src/app/form-components/user-form/user-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { UtilityService } from 'src/app/shared/services/utility.service';
-import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { IRegisterData } from 'src/app/store/state.interfaces';
+import { UserActions } from 'src/app/store/user/user.actions';
 
 export interface Message {
   severity?: string;
@@ -69,7 +68,7 @@ export class UserComponent implements OnInit {
     // console.log(this.userForm.value.user?.email);
     this.submitted = true;
 
-    this.store.dispatch(new AuthActions.MedusaRegister(data))
+    this.store.dispatch(new UserActions.MedusaRegister(data))
       .subscribe(async (state) => {
         // this.navigation.navigateFlip('/auth/register/address');
         // if (state.authState.isLoggedIn && state.authState.customer != null) {

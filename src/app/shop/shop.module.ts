@@ -8,7 +8,8 @@ import { ShopPage } from './shop.page';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentsModule } from '../components/components.module';
+import { ComponentsModule } from '../form-components/components.module';
+import { FormComponentsModule } from '../form-components/form-components.module copy';
 
 @NgModule({
   imports: [
@@ -20,11 +21,12 @@ import { ComponentsModule } from '../components/components.module';
     TranslateModule,
     NgxsModule,
     NgxsFormPluginModule,
-    ComponentsModule
   ],
-  declarations: [ShopPage],
-  schemas:[
+  declarations: [
+    ShopPage
+  ],
+  schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class ShopPageModule {}
+export class ShopPageModule { }

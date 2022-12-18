@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddressesComponent } from './addresses/addresses.component';
 import { ShopPage } from './shop.page';
 
 const routes: Routes = [
@@ -14,11 +13,11 @@ const routes: Routes = [
       },
       {
         path: 'orders',
-        loadChildren: () => import('./orders/orders.module').then( m => m.OrdersPageModule)
+        loadChildren: () => import('./orders/orders.module').then(m => m.OrdersPageModule)
       },
       {
         path: 'addresses',
-        component: AddressesComponent,
+        loadChildren: () => import('./addresses/addresses.module').then(m => m.AddressesPageModule)
       },
       {
         path: '',
@@ -32,11 +31,14 @@ const routes: Routes = [
     redirectTo: '/products-list',
     pathMatch: 'full'
   },
-  {
-    path: 'details',
-    loadChildren: () => import('./addresses/details/details.module').then( m => m.DetailsPageModule)
-  },
-
+  // {
+  //   path: 'details',
+  //   loadChildren: () => import('./addresses-component/details/details.module').then( m => m.DetailsPageModule)
+  // },
+  // {
+  //   path: 'addresses',
+  //   loadChildren: () => import('./addresses/addresses.module').then( m => m.AddressesPageModule)
+  // },
 ];
 
 @NgModule({

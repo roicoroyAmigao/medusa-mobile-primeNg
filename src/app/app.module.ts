@@ -6,8 +6,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-// import { NZ_I18N } from 'ng-zorro-antd/i18n';
-// import { uk_UA } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -23,8 +21,8 @@ import { MedusaState } from './store/medusa/medusa.state';
 import localePT from '@angular/common/locales/pt';
 import localeEN from '@angular/common/locales/en';
 import localeUK from '@angular/common/locales/uk';
-import { AuthState } from './store/auth/auth.state';
-import { TruncatePipe } from './shared/pipes/truncate.pipe';
+import {  UserState } from './store/user/user.state';
+
 import { AddressesState } from './store/addresses/addresses.state';
 import { FormsState } from './store/forms/forms.state';
 import { RegisterState } from './store/register/register.state';
@@ -33,6 +31,8 @@ import { ErrorsLoggingStateModule } from './store/errors-logging/errors-logging.
 import { ErrorCatchingInterceptor } from './shared/errors/errors/error-catching.interceptor';
 import { ErrorService } from './shared/errors/errors/server-error.service';
 import { ProductState } from './store/products/products.state';
+import { ComponentsModule } from './form-components/components.module';
+import { FormComponentsModule } from './form-components/form-components.module copy';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -46,7 +46,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
 @NgModule({
   declarations: [
     AppComponent,
-    // AddressesComponent
+    // AddressesComponent,
+    // AddressDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,11 +66,11 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     }),
     NgxsModule.forRoot([
       MedusaState,
-      AuthState,
+      UserState,
       FormsState,
       AddressesState,
       RegisterState,
-      ErrorsLoggingStateModule,
+      // ErrorsLoggingStateModule,
       ProductState
     ]),
     NgxsFormPluginModule.forRoot(),
@@ -86,6 +87,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       ]
     }),
     ReactiveFormsModule,
+    FormComponentsModule,
+    ComponentsModule
     // ErrorsModule
   ],
   providers: [

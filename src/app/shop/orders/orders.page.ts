@@ -3,8 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { AuthActions } from 'src/app/store/auth/auth.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
+import { UserActions } from 'src/app/store/user/user.actions';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrdersFacade } from './orders.facade';
 
@@ -18,7 +17,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   viewState$: Observable<any>;
 
   presentingElement: any = HTMLElement;
-  
+
   private readonly ngUnsubscribe = new Subject();
 
   constructor(
@@ -32,7 +31,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.presentingElement = document.querySelector('#main-content');
-    this.store.dispatch(new AuthActions.GetSession());
+    this.store.dispatch(new UserActions.GetSession());
   }
 
   async viewAddresses() {

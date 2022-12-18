@@ -3,8 +3,8 @@ import Medusa from "@medusajs/medusa-js";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
-import { AuthActions } from "../auth/auth.actions";
 import { MedusaActions } from "../medusa/medusa.actions";
+import { UserActions } from "../user/user.actions";
 
 export interface MedusaStateModel {
     cartId: string | any;
@@ -55,7 +55,7 @@ export class MedusaState {
         if (cartId != null) {
             try {
                 let cart = await this.medusaClient.carts?.retrieve(cartId);
-                this.store.dispatch(new AuthActions.GetSession());
+                this.store.dispatch(new UserActions.GetSession());
                 return ctx.patchState({
                     cart: cart?.cart,
                     cartId: cart?.cart.id,
@@ -91,7 +91,7 @@ export class MedusaState {
                     metadata: {}
                 }
             });
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -109,7 +109,7 @@ export class MedusaState {
                 payload
             });
             // console.log(customer);
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
 
         }
         catch (err: any) {
@@ -132,7 +132,7 @@ export class MedusaState {
                 postal_code: payload.address?.postal_code,
                 phone: payload.address?.phone,
             });
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -219,7 +219,7 @@ export class MedusaState {
             let cart = await this.medusaClient.carts.create({
                 region_id: regionId
             });
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
             if (cart) {
                 ctx.patchState({
                     cart: cart?.cart,
@@ -267,25 +267,6 @@ export class MedusaState {
                 }
             });
     }
-    // @Action(MedusaActions.GetMedusaProductList)
-    // getMedusaProductList({ patchState }: StateContext<MedusaStateModel>) {
-    //     return this.medusaClient.products.list().then((result: any) => {
-    //         patchState({
-    //             productsList: result.products,
-    //         });
-    //     });
-    // }
-    @Action(MedusaActions.LogOut)
-    logOut(ctx: StateContext<MedusaStateModel>) {
-        ctx.patchState({
-            cartId: null,
-            cart: null,
-            productsList: null,
-            regionList: null,
-            countriesList: null,
-            secretKey: null,
-        });
-    }
     @Action(MedusaActions.UpdateCustomerBIllingAddress)
     async updateCustomer(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.UpdateCustomerBIllingAddress) {
         // console.log(payload);
@@ -303,7 +284,7 @@ export class MedusaState {
                 }
             });
             this.store.dispatch(new MedusaActions.RetriveCustomer());
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -312,7 +293,6 @@ export class MedusaState {
             }
         }
     }
-
     @Action(MedusaActions.AddBillingAddress)
     async addBillingAddress(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.AddBillingAddress) {
         try {
@@ -331,7 +311,7 @@ export class MedusaState {
                 }
             })
             this.store.dispatch(new MedusaActions.RetriveCustomer());
-            this.store.dispatch(new AuthActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
             console.log(customer);
         } catch (err: any) {
             if (err) {
@@ -339,5 +319,16 @@ export class MedusaState {
                 });
             }
         }
+    }
+    @Action(MedusaActions.LogOut)
+    logOut(ctx: StateContext<MedusaStateModel>) {
+        ctx.patchState({
+            cartId: null,
+            cart: null,
+            productsList: null,
+            regionList: null,
+            countriesList: null,
+            secretKey: null,
+        });
     }
 }
