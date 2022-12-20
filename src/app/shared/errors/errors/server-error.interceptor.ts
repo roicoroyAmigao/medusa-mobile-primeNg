@@ -6,16 +6,12 @@ import {
 import { BehaviorSubject, Observable, ObservableInput, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { ServerErrorInterceptorService } from './server-error.service';
-import { HandleErrorService } from 'src/app/shared/services/handle-error.service';
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
 
     constructor(
         private utility: UtilityService,
-        private handleErrorService: HandleErrorService,
-        private serverErrors: ServerErrorInterceptorService,
     ) {
         // this.handleErrorService.AppErrors.subscribe((errors) => {
         //     console.log(errors);
@@ -23,7 +19,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         // });
     }
 
-    
+
     intercept(request: HttpRequest<any>, next: HttpHandler): any {
         // console.log('clonedReq', request);
         return next.handle(request).pipe(

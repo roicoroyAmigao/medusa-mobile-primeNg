@@ -10,11 +10,11 @@ import { UserState } from '../store/user/user.state';
     providedIn: 'root'
 })
 export class ShopFacade {
-    @Select(MedusaState.getCart) cart$: Observable<any>;
-    @Select(ProductState.getProductList) productList$: Observable<any>;
+    // @Select(MedusaState.getCart) cart$: Observable<any>;
+    // @Select(ProductState.getProductList) productList$: Observable<any>;
 
-    @Select(UserState.getCustomer) customer$: Observable<any>;
-    @Select(UserState.getSession) session$: Observable<any>;
+    // @Select(UserState.getCustomer) customer$: Observable<any>;
+    // @Select(UserState.getSession) session$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 
@@ -23,22 +23,24 @@ export class ShopFacade {
     ) {
         this.viewState$ = combineLatest(
             [
-                this.cart$,
-                this.productList$,
-                this.customer$,
-                this.session$,
+                // this.cart$,
+                // this.productList$,
+                // this.customer$,
+                // this.session$,
             ]
         ).pipe(
-            map(([
-                cart,
-                productList,
-                customer,
-                session
-            ]) => ({
-                cart,
-                productList,
-                customer,
-                session
+            map((
+                // [
+                //     cart,
+                //     productList,
+                //     customer,
+                //     session
+                // ]
+            ) => ({
+                // cart,
+                // productList,
+                // customer,
+                // session
             }))
         );
     }

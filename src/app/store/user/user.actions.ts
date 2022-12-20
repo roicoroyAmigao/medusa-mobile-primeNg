@@ -2,11 +2,11 @@ import { ILoginData, IRegisterData } from "../state.interfaces";
 
 export namespace UserActions {
 
-    export class MedusaLogin {
+    export class Login {
         static readonly type = '[UserActions] Login Medusa user and set on state';
         constructor(public payload: ILoginData) { }
     }
-    export class MedusaRegister {
+    export class Register {
         static readonly type = '[UserActions] Register Medusa user and set on state';
         constructor(public payload: IRegisterData) { }
     }

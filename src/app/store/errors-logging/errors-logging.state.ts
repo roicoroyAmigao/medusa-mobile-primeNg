@@ -5,18 +5,17 @@ import { fade } from "src/app/shared/animations/animations";
 import { ClearErrorEntry, LogErrorEntry } from "./errors-logging.actions";
 
 export class ErrosStateModel {
-    errorEntry: Error;
+    errorEntry: Error[];
 }
 
 @State({
-    name: 'errosLogging',
+    name: 'errorsLogging',
     defaults: {
         errorEntry: null,
     }
 })
 @Injectable()
 export class ErrorsLoggingStateModule {
-
     constructor(
         public alertCtrl: AlertController,
         private store: Store,
@@ -32,25 +31,25 @@ export class ErrorsLoggingStateModule {
             errorEntry: error,
         });
     }
-
     @Action(ClearErrorEntry)
     clearErrprEntry(ctx: StateContext<unknown>): void {
+        // console.log('clear');
         ctx.patchState({
             errorEntry: null,
         });
     }
-
     async presentErrorAlert(error: any) {
         const alertOptions: AlertOptions = {
             header: 'Alert!',
             subHeader: '',
             message: error,
-            cssClass:'alert-error',
+            cssClass: 'alert-error',
             buttons: [
                 {
                     text: 'OK',
                     role: 'confirm',
                     handler: () => {
+                        // console.log('clear');
                         this.store.dispatch(new ClearErrorEntry());
                     },
                 },

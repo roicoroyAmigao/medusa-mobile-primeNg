@@ -7,7 +7,7 @@ import { UserState } from 'src/app/store/user/user.state';
 @Injectable({
     providedIn: 'root'
 })
-export class RegisterFacade {
+export class AddressFacade {
     @Select(UserState.getCustomer) customer$: Observable<any>;
     @Select(UserState.getSession) session$: Observable<any>;
 

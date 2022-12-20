@@ -13,7 +13,7 @@
 
       <div class="w-full">
         <form [formGroup]="adressForm">
-            <app-address-form #form formControlName="address"></app-address-form>
+            <app-address-form formControlName="address"></app-address-form>
         </form>
         <ion-button (click)="updateCustomerAddress()" expand="block" fill="solid">
           {{ 'Finish Registration' | translate }}

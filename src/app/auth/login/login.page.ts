@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { Subject, takeUntil } from 'rxjs';
+import { pipe, Subject, takeUntil, timeout } from 'rxjs';
 import { LoginFormComponent } from 'src/app/form-components/login-form/login-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { ILoginData } from 'src/app/store/state.interfaces';
@@ -47,20 +47,16 @@ export class LoginPage implements OnInit, OnDestroy {
       email: this.signupForm.value.login?.email,
       password: this.signupForm.value.login?.password
     }
-    console.log(request);
-    this.store.dispatch(new UserActions.MedusaLogin(request))
+    this.store.dispatch(new UserActions.Login(request))
       .pipe(
-        takeUntil(this.ngUnsubscribe),
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe((state) => {
-        if (state) {
-          this.navigation.navigateForward('/home', 'forward');
+        const errorEntry = state.errorsLogging.errorEntry;
+        if (errorEntry === null) {
+          this.navigation.navigateFlip('/home');
         }
       });
-  }
-
-  back(): void {
-    this.navigation.navControllerDefault('/home');
   }
   register(): void {
     this.navigation.navControllerDefault('/auth/register/user');

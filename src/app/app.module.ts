@@ -70,7 +70,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       FormsState,
       AddressesState,
       RegisterState,
-      // ErrorsLoggingStateModule,
+      ErrorsLoggingStateModule,
       ProductState
     ]),
     NgxsFormPluginModule.forRoot(),
@@ -82,8 +82,11 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       key: [
         'medusa',
         "addresses",
-        'auth',
-        'forms'
+        'user',
+        'product',
+        'forms',
+        'errosLogging',
+        'register'
       ]
     }),
     ReactiveFormsModule,
@@ -100,11 +103,11 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       useClass: ErrorService,
       multi: false
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorCatchingInterceptor,
-      multi: true
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ErrorCatchingInterceptor,
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent],
 })

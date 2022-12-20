@@ -1,28 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { UserFormComponent } from 'src/app/form-components/user-form/user-form.component';
+import { Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { IRegisterData } from 'src/app/store/state.interfaces';
+import { ILoginData, IRegisterData } from 'src/app/store/state.interfaces';
 import { UserActions } from 'src/app/store/user/user.actions';
-
-export interface Message {
-  severity?: string;
-  summary?: string;
-  detail?: string;
-  id?: any;
-  key?: string;
-  life?: number;
-  sticky?: boolean;
-  closable?: boolean;
-  data?: any;
-  icon?: string;
-  contentStyleClass?: string;
-  styleClass?: string;
-}
 
 @Component({
   selector: 'app-user',
@@ -32,16 +16,11 @@ export interface Message {
   encapsulation: ViewEncapsulation.None,
   providers: [],
 })
-export class UserComponent implements OnInit {
-  @ViewChild('form') form: UserFormComponent;
+export class UserComponent implements OnInit, OnDestroy {
 
-  // public registerReq: IRegisterData;
-
-  userForm: FormGroup | any
+  userForm: FormGroup | any;
 
   private readonly ngUnsubscribe = new Subject();
-
-  submitted = false;
 
   constructor(
     protected router: Router,
@@ -58,25 +37,44 @@ export class UserComponent implements OnInit {
   }
 
   register(): void {
-    const data: IRegisterData = {
+    const registerRequest: IRegisterData = {
       first_name: this.userForm.value.user?.first_name,
       last_name: this.userForm.value.user?.last_name,
       email: this.userForm.value.user?.email,
       password: this.userForm.value.user?.passwordConfirmation,
       phone: this.userForm.value.user?.phone,
     };
-    // console.log(this.userForm.value.user?.email);
-    this.submitted = true;
-
-    this.store.dispatch(new UserActions.MedusaRegister(data))
-      .subscribe(async (state) => {
-        // this.navigation.navigateFlip('/auth/register/address');
-        // if (state.authState.isLoggedIn && state.authState.customer != null) {
-        //   this.navigation.navigateFlip('/auth/register/address');
-        // }
-      });
+    const loginRequest: ILoginData = {
+      email: this.userForm.value.user?.email,
+      password: this.userForm.value.user?.passwordConfirmation,
+    }
+    if (this.userForm.valid) {
+      this.store.dispatch(new UserActions.Register(registerRequest))
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe((state) => {
+          const errorEntry = state.errorsLogging.errorEntry;
+          if (errorEntry === null) {
+            this.store.dispatch(new UserActions.Login(loginRequest))
+              .pipe(
+                takeUntil(this.ngUnsubscribe)
+              )
+              .subscribe((lstate) => {
+                const errorEntry = lstate.errorsLogging.errorEntry;
+                if (errorEntry === null) {
+                  this.navigation.navigateFlip('/auth/register/address');
+                }
+              });
+          }
+        });
+    }
   }
   back() {
     this.navigation.navControllerDefault('/auth/login');
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(null);
+    this.ngUnsubscribe.complete();
   }
 }

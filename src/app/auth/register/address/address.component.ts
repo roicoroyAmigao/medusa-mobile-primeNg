@@ -2,14 +2,15 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { Store } from "@ngxs/store";
 import { MessageService } from "primeng/api";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, takeUntil } from "rxjs";
 import { AddressFormComponent } from "src/app/form-components/address-form/address-form.component";
 import { fade } from "src/app/shared/animations/animations";
 import { NavigationService } from "src/app/shared/services/navigation.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
+import { MedusaActions } from "src/app/store/medusa/medusa.actions";
 import { RegisterActions } from "src/app/store/register/register.actions";
 import { IRegisterAddress } from "src/app/store/state.interfaces";
-import { RegisterFacade } from "../register.facade";
+import { AddressFacade } from "./address.facade";
 
 @Component({
   selector: 'app-address',
@@ -22,31 +23,31 @@ import { RegisterFacade } from "../register.facade";
   animations: [fade()],
 })
 export class AddressComponent implements OnDestroy {
-  @ViewChild('form') form: AddressFormComponent;
-
   adressForm: FormGroup | any;
 
   viewState$: Observable<any>;
+
   first_name: string;
   last_name: string;
+
   private readonly ngUnsubscribe = new Subject();
 
   constructor(
     private store: Store,
     private formBuilder: FormBuilder,
-    private readonly facade: RegisterFacade,
+    private readonly facade: AddressFacade,
     private navigation: NavigationService,
     private utility: UtilityService,
-    private fb: FormBuilder,
-    private messageService: MessageService
   ) {
     this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe((vs: any) => {
-    //   // console.log(vs.customer.first_name);
-    //   // console.log(vs.customer.last_name);
-    //   this.first_name = vs.customer?.first_name;
-    //   this.last_name = vs.customer?.last_name;
-    // });
+    this.viewState$
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe((vs: any) => {
+        this.first_name = vs.customer?.first_name;
+        this.last_name = vs.customer?.last_name;
+      });
 
     this.adressForm = this.formBuilder.group({
       address:
@@ -80,10 +81,13 @@ export class AddressComponent implements OnDestroy {
     // console.log(data);
     // console.log(this.adressForm.get('address').value.region_code);
     this.store.dispatch(new RegisterActions.UpdateCustomerRegisterAddress(data));
-    // this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
+    this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
     setTimeout(() => {
-      this.navigation.navControllerDefault('/home');
-      this.utility.dismissLoading();
+      const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
+      if (errorEntry === null) {
+        this.navigation.navControllerDefault('/home');
+        this.utility.dismissLoading();
+      }
     }, 200);
   }
 
@@ -92,12 +96,3 @@ export class AddressComponent implements OnDestroy {
     this.ngUnsubscribe.complete();
   }
 }
-    // const data: IRegisterAddress = {
-    //   address_1: this.adressForm.value.address?.address_1,
-    //   address_2: this.adressForm.value.address?.address_2,
-    //   region_code: this.adressForm.value.address?.region_code?.id,
-    //   country_code: this.adressForm.value.address?.country?.iso_2,
-    //   city: this.adressForm.value.address?.city,
-    //   postal_code: this.adressForm.value.address?.postal_code,
-    //   phone: this.adressForm.value.address?.phone,
-    // };

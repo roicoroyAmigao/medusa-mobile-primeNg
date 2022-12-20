@@ -14,7 +14,7 @@ export const initRegisterStateModel: RegisterStateModel = {
 };
 @State({
     name: 'register',
-    defaults: initRegisterStateModel,
+    // defaults: initRegisterStateModel,
 })
 @Injectable()
 export class RegisterState {
@@ -49,7 +49,7 @@ export class RegisterState {
 
     @Action(RegisterActions.AddaShippingAddress)
     async addaShippingAddress(ctx: StateContext<RegisterStateModel>, { payload }: RegisterActions.AddaShippingAddress) {
-        console.log(payload);
+        // console.log(payload);
 
         try {
             let customer = await this.medusaClient.customers.addresses.addAddress({
@@ -92,7 +92,7 @@ export class RegisterState {
                     company: 'Wyman LLC',
                 }
             });
-            console.log(customer);
+            // console.log(customer);
             this.store.dispatch(new UserActions.GetSession());
         } catch (err: any) {
             if (err) {
