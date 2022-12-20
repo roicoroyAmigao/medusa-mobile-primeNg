@@ -15,17 +15,19 @@
   <p-dataView #dv [value]="vs.productList" [paginator]="true" [rows]="9" filterBy="title" [sortField]="sortField"
     [sortOrder]="sortOrder" layout="list">
     <ng-template pTemplate="header">
+
       <!-- <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
         (onChange)="onSortChange($event)" styleClass="">
       </p-dropdown>
       <ion-searchbar pInputText type="search" [debounce]="250" (input)="dv.filter($event.target.value)"></ion-searchbar> -->
+
       <ion-toolbar class="ion-text-center">
         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
       </ion-toolbar>
     </ng-template>
     <ng-template let-product pTemplate="listItem">
       <ion-col size="6">
-        <ion-card (click)="selectProduct(product)">
+        <ion-card>
           <ion-img [src]="product.thumbnail" [alt]="product.title"></ion-img>
           <ion-card-header>
             <div class="product-name">{{product.title}}</div>
@@ -46,7 +48,7 @@
                 </ion-item>
               </ion-accordion>
             </ion-accordion-group>
-            <!-- <ion-row class="action-buttons">
+            <ion-row class="action-buttons">
               <ion-col size="8">
                 <ion-button expand="block" fill="solid" shape="round" (click)="selectProduct(product)">
                   Add to cart
@@ -59,7 +61,7 @@
                   </ion-button>
                 </ion-buttons>
               </ion-col>
-            </ion-row> -->
+            </ion-row>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -70,9 +72,7 @@
         <div class="product-grid-item-top">
           <div>
             <i class="pi pi-tag product-category-icon"></i>
-            <!-- <span class="product-category">{{product.category}}</span> -->
           </div>
-          <!-- <span [class]="''">{{product.inventoryStatus}}</span> -->
         </div>
 
         <div class="product-grid-item-content">

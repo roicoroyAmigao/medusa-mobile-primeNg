@@ -16,11 +16,6 @@ import { AddressFacade } from "./address.facade";
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
-  providers: [MessageService],
-  styles: [`
-
-  `],
-  animations: [fade()],
 })
 export class AddressComponent implements OnDestroy {
   adressForm: FormGroup | any;
@@ -78,15 +73,18 @@ export class AddressComponent implements OnDestroy {
       province: 'Georgia',
       metadata: {}
     };
-    // console.log(data);
-    // console.log(this.adressForm.get('address').value.region_code);
     this.store.dispatch(new RegisterActions.UpdateCustomerRegisterAddress(data));
-    this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
+
     setTimeout(() => {
       const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
       if (errorEntry === null) {
-        this.navigation.navControllerDefault('/home');
-        this.utility.dismissLoading();
+        this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
+        const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
+        if (errorEntry === null) {
+          this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
+          this.navigation.navControllerDefault('/home');
+          this.utility.dismissLoading();
+        }
       }
     }, 200);
   }

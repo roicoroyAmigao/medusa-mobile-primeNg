@@ -2,7 +2,7 @@
 // import { Order, Customer, Product } from "@medusajs/medusa"
 
 export class GetProductList {
-    public static readonly type = '[ProductsState] Get Product List';
+    public static readonly type = '[ProductsState] Get Product State product List';
 }
 
 export class addProduct {

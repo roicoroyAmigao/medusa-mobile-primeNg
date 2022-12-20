@@ -35,10 +35,12 @@ export class RegisterState {
             let address = await this.medusaClient.customers.addresses.addAddress({
                 address: payload
             })
-            console.log(billingAddress);
-            console.log(address);
-            this.store.dispatch(new UserActions.GetSession());
-
+            if (billingAddress?.customer != null &&
+                billingAddress.response?.status === 200 &&
+                address?.customer != null &&
+                address.response?.status === 200 ) {
+                this.store.dispatch(new UserActions.GetSession());
+            }
         }
         catch (err: any) {
             if (err) {

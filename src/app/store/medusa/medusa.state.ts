@@ -9,18 +9,12 @@ import { UserActions } from "../user/user.actions";
 export interface MedusaStateModel {
     cartId: string | any;
     cart: string | any;
-    productsList: any | any;
-    regionList: any | any;
-    countriesList: any | any;
     secretKey: any | null;
 }
 
 export const initMedusaStateModel: MedusaStateModel = {
     cartId: null,
     cart: null,
-    productsList: null,
-    regionList: null,
-    countriesList: null,
     secretKey: null,
 };
 @State({
@@ -325,9 +319,6 @@ export class MedusaState {
         ctx.patchState({
             cartId: null,
             cart: null,
-            productsList: null,
-            regionList: null,
-            countriesList: null,
             secretKey: null,
         });
     }

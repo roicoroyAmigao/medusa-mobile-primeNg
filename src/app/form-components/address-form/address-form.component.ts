@@ -7,11 +7,13 @@ import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { AddressFacade } from './address.facade';
 import Medusa from "@medusajs/medusa-js";
 import { environment } from 'src/environments/environment';
+import { fade } from 'src/app/shared/animations/animations';
 
 @Component({
   selector: 'app-address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
+  animations: [fade()],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

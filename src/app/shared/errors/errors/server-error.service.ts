@@ -29,6 +29,6 @@ export class ErrorService implements ErrorHandler {
       this.store = this.injector.get(Store);
     }
 
-    this.store.dispatch(new LogErrorEntry(error));
+    // this.store.dispatch(new LogErrorEntry(error));
   }
 }

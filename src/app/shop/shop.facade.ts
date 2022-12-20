@@ -11,7 +11,7 @@ import { UserState } from '../store/user/user.state';
 })
 export class ShopFacade {
     // @Select(MedusaState.getCart) cart$: Observable<any>;
-    // @Select(ProductState.getProductList) productList$: Observable<any>;
+    @Select(ProductState.getProductList) productList$: Observable<any>;
 
     // @Select(UserState.getCustomer) customer$: Observable<any>;
     // @Select(UserState.getSession) session$: Observable<any>;
@@ -24,7 +24,7 @@ export class ShopFacade {
         this.viewState$ = combineLatest(
             [
                 // this.cart$,
-                // this.productList$,
+                this.productList$,
                 // this.customer$,
                 // this.session$,
             ]
@@ -32,13 +32,13 @@ export class ShopFacade {
             map((
                 // [
                 //     cart,
-                //     productList,
+                productList,
                 //     customer,
                 //     session
                 // ]
             ) => ({
                 // cart,
-                // productList,
+                productList,
                 // customer,
                 // session
             }))

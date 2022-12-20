@@ -34,7 +34,7 @@
         Your Country according region
       </ion-label>
       <ion-radio-group formControlName="country" *ngIf="viewState$ | async as vs">
-        <ion-item *ngFor="let country of vs?.countryList">
+        <ion-item @fade *ngFor="let country of vs?.countryList">
           <ion-label>
             {{ country.display_name }}
           </ion-label>

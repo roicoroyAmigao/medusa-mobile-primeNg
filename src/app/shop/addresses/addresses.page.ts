@@ -7,7 +7,7 @@ import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { IRegisterAddress } from 'src/app/store/state.interfaces';
 import { AddressDetailsComponent } from './address-details/address-details.component';
-import { AddressesFacade } from './shop.facade';
+import { AddressesFacade } from './addresses.facade';
 
 @Component({
   selector: 'app-addresses',
@@ -32,23 +32,9 @@ export class AddressesPage implements OnInit {
   ) {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
-
-    this.viewState$.subscribe((vs) => {
-      console.log(vs);
-      // console.log(vs.customer.billing_address_id);
-      // console.log(vs.session.billing_address_id);
-      // const result = vs.customer.billing_address_id === vs.session.billing_address_id ? true : false;
-      // console.log(result);
-      // console.log(vs.session.shipping_addresses);
-      // vs.session.shipping_addresses.forEach((address: any, i: any) => {
-      //   // console.log(vs.session.billing_address_id === address[i].id ? true : false);
-      //   // console.log(vs.session.billing_address_id);
-      //   console.log(address.id);
-      //   // const result = vs.customer.billing_address_id === address?.id ? true : false;
-      //   // console.log(result);
-      // });
-    });
-
+    // this.viewState$.subscribe((vs) => {
+    //   console.log(vs);
+    // });
   }
 
   ionViewWillEnter() {

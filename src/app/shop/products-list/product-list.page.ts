@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { ShopFacade } from '../shop.facade';
 import { addProduct, addVariant, GetProductList } from 'src/app/store/products/products.actions';
+import { ProductsFacade } from './products.facade';
 
 @Component({
   selector: 'app-product-list',
@@ -25,10 +24,15 @@ export class ProductListPage implements OnInit {
 
   constructor(
     private store: Store,
-    private facade: ShopFacade,
+    private facade: ProductsFacade,
     private primengConfig: PrimeNGConfig
   ) {
     this.viewState$ = this.facade.viewState$;
+
+    // this.viewState$.subscribe((vs) => {
+    //   console.log(vs);
+    // });
+
     this.primengConfig.ripple = true;
   }
   onSortChange(event: any) {

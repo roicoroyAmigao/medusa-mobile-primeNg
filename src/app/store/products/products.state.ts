@@ -32,7 +32,7 @@ export class ProductState {
         this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
     }
     @Selector()
-    static getProductList(state: MedusaStateModel) {
+    static getProductList(state: ProductStateModel) {
         return state.productsList;
     }
     @Selector()
@@ -40,13 +40,12 @@ export class ProductState {
         return state.selectedProduct;
     }
     @Action(GetProductList)
-    async getProductList({ patchState }: StateContext<MedusaStateModel>) {
+    async getProductList({ patchState }: StateContext<ProductStateModel>) {
         try {
-            const response = await this.medusaClient.products.list();
-            console.log(response);
+            let response = await this.medusaClient.products.list();
             if (response?.products != null && response.response?.status === 200) {
                 patchState({
-                    productsList: response.products,
+                    productsList: response?.products,
                 });
             }
         }
@@ -58,13 +57,14 @@ export class ProductState {
     }
     @Action(addProduct)
     addProductToState(ctx: StateContext<ProductStateModel>, { payload }: addProduct) {
-        console.log(payload);
+        console.log('selectedProduct', payload);
         ctx.patchState({
             selectedProduct: payload,
         });
     }
     @Action(clearProduct)
     clearProductFromState(ctx: StateContext<ProductStateModel>): void {
+        console.log('clear selectedProduct');
         ctx.patchState({
             selectedProduct: null,
         });
@@ -78,6 +78,7 @@ export class ProductState {
     }
     @Action(clearVariant)
     clearVariantFromState(ctx: StateContext<ProductStateModel>): void {
+        console.log('selectedVariant: null');
         ctx.patchState({
             selectedVariant: null,
         });
