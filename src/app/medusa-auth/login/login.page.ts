@@ -54,7 +54,7 @@ export class LoginPage implements OnInit, OnDestroy {
       .subscribe((state) => {
         const errorEntry = state.errorsLogging.errorEntry;
         if (errorEntry === null) {
-          this.navigation.navigateFlip('/home');
+          this.navigation.navigateFlip('/shop/products-list');
         }
       });
   }

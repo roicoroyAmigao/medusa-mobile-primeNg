@@ -26,9 +26,7 @@ import {  UserState } from './store/user/user.state';
 import { AddressesState } from './store/addresses/addresses.state';
 import { FormsState } from './store/forms/forms.state';
 import { RegisterState } from './store/register/register.state';
-import { ErrorsModule } from './shared/errors/errors.module';
 import { ErrorsLoggingStateModule } from './store/errors-logging/errors-logging.state';
-import { ErrorCatchingInterceptor } from './shared/errors/errors/error-catching.interceptor';
 import { ErrorService } from './shared/errors/errors/server-error.service';
 import { ProductState } from './store/products/products.state';
 import { ComponentsModule } from './form-components/components.module';
@@ -46,8 +44,6 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
 @NgModule({
   declarations: [
     AppComponent,
-    // AddressesComponent,
-    // AddressDetailsComponent
   ],
   imports: [
     BrowserModule,

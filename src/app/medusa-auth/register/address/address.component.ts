@@ -82,7 +82,7 @@ export class AddressComponent implements OnDestroy {
         const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
         if (errorEntry === null) {
           this.store.dispatch(new MedusaActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
-          this.navigation.navControllerDefault('/home');
+          this.navigation.navigateFlip('/shop/products-list');
           this.utility.dismissLoading();
         }
       }
