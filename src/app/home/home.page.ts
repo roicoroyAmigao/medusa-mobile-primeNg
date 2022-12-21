@@ -32,7 +32,10 @@ export class HomePage implements OnInit, OnDestroy {
     logout() {
         this.store.dispatch(new UserActions.LogOutMedusaUser());
         this.store.dispatch(new MedusaActions.LogOut());
-        this.navigation.navControllerDefault('/auth/login');
+        this.navigation.navControllerDefault('/medusa-auth/login');
+    }
+    login() {
+        this.navigation.navControllerDefault('/medusa-auth/login');
     }
     ngOnDestroy() {
         if (this.subscription) {

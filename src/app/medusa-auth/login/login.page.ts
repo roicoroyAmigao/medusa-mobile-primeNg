@@ -38,10 +38,6 @@ export class LoginPage implements OnInit, OnDestroy {
     this.form?.loginForm.get('password').setValue('Rwbento123!');
   }
 
-  submitForm() {
-    console.log(this.signupForm.value.login);
-  }
-
   public login(): void {
     const request: ILoginData = {
       email: this.signupForm.value.login?.email,
@@ -57,6 +53,9 @@ export class LoginPage implements OnInit, OnDestroy {
           this.navigation.navigateFlip('/shop/products-list');
         }
       });
+  }
+  home(): void {
+    this.navigation.navControllerDefault('/home');
   }
   register(): void {
     this.navigation.navControllerDefault('/auth/register/user');

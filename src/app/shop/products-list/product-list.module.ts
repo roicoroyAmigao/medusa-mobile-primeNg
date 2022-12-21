@@ -10,9 +10,9 @@ import { ProductDetailsModal, ProductListPage } from './product-list.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ComponentsModule } from 'src/app/form-components/components.module';
+import { PrimeComponentsModule } from 'src/app/form-components/prime-components.module';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
-import { FormComponentsModule } from 'src/app/form-components/form-components.module copy';
+import { FormComponentsModule } from 'src/app/form-components/form-components.module';
 
 @NgModule({
   imports: [
@@ -25,7 +25,7 @@ import { FormComponentsModule } from 'src/app/form-components/form-components.mo
     NgxsModule,
     NgxsFormPluginModule,
     FormComponentsModule,
-    ComponentsModule
+    PrimeComponentsModule
   ],
   declarations: [
     ProductListPage,

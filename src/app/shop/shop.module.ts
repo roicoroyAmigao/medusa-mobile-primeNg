@@ -8,8 +8,6 @@ import { ShopPage } from './shop.page';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentsModule } from '../form-components/components.module';
-import { FormComponentsModule } from '../form-components/form-components.module copy';
 
 @NgModule({
   imports: [

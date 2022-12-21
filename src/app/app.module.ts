@@ -29,8 +29,9 @@ import { RegisterState } from './store/register/register.state';
 import { ErrorsLoggingStateModule } from './store/errors-logging/errors-logging.state';
 import { ErrorService } from './shared/errors/errors/server-error.service';
 import { ProductState } from './store/products/products.state';
-import { ComponentsModule } from './form-components/components.module';
-import { FormComponentsModule } from './form-components/form-components.module copy';
+import { PrimeComponentsModule } from './form-components/prime-components.module';
+import { FormComponentsModule } from './form-components/form-components.module';
+import { ComponentsModule } from './components/components.module';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -87,6 +88,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     NgxsLoggerPluginModule.forRoot({ disabled: true }),
     ReactiveFormsModule,
     FormComponentsModule,
+    PrimeComponentsModule,
     ComponentsModule
   ],
   providers: [

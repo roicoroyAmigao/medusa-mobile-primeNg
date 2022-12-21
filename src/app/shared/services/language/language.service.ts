@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Device, GetLanguageCodeResult } from '@capacitor/device';
+import { Device } from '@capacitor/device';
 import { LanguageModel } from './language.model';
 import { IonStorageService } from '../ionstorage.service';
 import { Store } from '@ngxs/store';
-import { LanguageActions } from 'src/app/store/language.actions';
+import { LanguageActions } from 'src/app/store/language/language.actions';
 export const SAVED_LANGUAGE = 'saved_language';
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,6 @@ export class IonLanguageService {
 
   constructor(
     public translate: TranslateService,
-    private storageService: IonStorageService,
     private store: Store,
   ) { }
 
@@ -47,7 +46,7 @@ export class IonLanguageService {
         await this.translate.use(useLang);
         await this.store.dispatch(new LanguageActions.SetLanguage(useLang));
       }
-      
+
     }
   }
   async shortLanguage(language: any) {

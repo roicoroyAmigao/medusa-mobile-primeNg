@@ -124,4 +124,4 @@ import { DataViewModule } from 'primeng/dataview';
         DataViewModule
     ]
 })
-export class ComponentsModule { }
+export class PrimeComponentsModule { }

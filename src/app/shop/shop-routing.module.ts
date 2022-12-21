@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'products-list',
-        loadChildren: () => import('./products-list/product-list.module').then(m => m.ProductListPageModule)
+        loadChildren: () => import('./products-list/product-list.module').then(m => m.ProductListPageModule),
       },
       {
         path: 'orders',
@@ -26,19 +26,6 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path: '',
-    redirectTo: '/products-list',
-    pathMatch: 'full'
-  },
-  // {
-  //   path: 'details',
-  //   loadChildren: () => import('./addresses-component/details/details.module').then( m => m.DetailsPageModule)
-  // },
-  // {
-  //   path: 'addresses',
-  //   loadChildren: () => import('./addresses/addresses.module').then( m => m.AddressesPageModule)
-  // },
 ];
 
 @NgModule({

@@ -1,18 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
-import { AuthPageRoutingModule } from "./auth-routing.module";
+import { MedusaAuthPageRoutingModule } from "./medusa-auth-routing.module";
 
 @NgModule({
   declarations: [
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     IonicModule,
-    AuthPageRoutingModule
+    MedusaAuthPageRoutingModule
   ],
   exports: [
   ],
@@ -20,6 +17,4 @@ import { AuthPageRoutingModule } from "./auth-routing.module";
     CUSTOM_ELEMENTS_SCHEMA,
   ]
 })
-export class AuthModule { }
-
-
+export class MedusaAuthModule { }

@@ -5,7 +5,7 @@ import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
 import { LogErrorEntry } from "../errors-logging/errors-logging.actions";
 import { MedusaStateModel } from "../medusa/medusa.state";
-import { addProduct, addVariant, clearProduct, clearVariant, GetProductList } from "./products.actions";
+import { addSelectedProduct, addSelectedVariant, clearSelectedProduct, clearSelectedVariant, GetProductList } from "./products.actions";
 
 export interface ProductStateModel {
     selectedProduct: any | null;
@@ -59,28 +59,28 @@ export class ProductState {
             }
         }
     }
-    @Action(addProduct)
-    addProductToState(ctx: StateContext<ProductStateModel>, { payload }: addProduct) {
+    @Action(addSelectedProduct)
+    addProductToState(ctx: StateContext<ProductStateModel>, { payload }: addSelectedProduct) {
         // console.log('selectedProduct', payload);
         ctx.patchState({
             selectedProduct: payload,
         });
     }
-    @Action(clearProduct)
+    @Action(clearSelectedProduct)
     clearProductFromState(ctx: StateContext<ProductStateModel>): void {
         // console.log('clear selectedProduct');
         ctx.patchState({
             selectedProduct: null,
         });
     }
-    @Action(addVariant)
-    addVariantToState(ctx: StateContext<ProductStateModel>, { payload }: addVariant) {
+    @Action(addSelectedVariant)
+    addVariantToState(ctx: StateContext<ProductStateModel>, { payload }: addSelectedVariant) {
         // console.log(payload);
         return ctx.patchState({
             selectedVariant: payload,
         });
     }
-    @Action(clearVariant)
+    @Action(clearSelectedVariant)
     clearVariantFromState(ctx: StateContext<ProductStateModel>) {
         // console.log('selectedVariant: null');
         return ctx.patchState({

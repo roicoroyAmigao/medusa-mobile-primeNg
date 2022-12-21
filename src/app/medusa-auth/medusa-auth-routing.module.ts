@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppGuard } from '../shared/app.guard';
 
 const routes: Routes = [
   {
@@ -32,4 +31,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AuthPageRoutingModule { }
+export class MedusaAuthPageRoutingModule { }

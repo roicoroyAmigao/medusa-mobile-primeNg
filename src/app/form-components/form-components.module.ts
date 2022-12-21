@@ -11,7 +11,7 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { UserFormComponent } from './user-form/user-form.component';
-import { ComponentsModule } from './components.module';
+import { PrimeComponentsModule } from './prime-components.module';
 
 @NgModule({
     imports: [
@@ -23,7 +23,7 @@ import { ComponentsModule } from './components.module';
         NgxsFormPluginModule,
         NgxsStoragePluginModule,
         ReactiveFormsModule,
-        ComponentsModule
+        PrimeComponentsModule
     ],
     providers: [
     ],
@@ -35,7 +35,7 @@ import { ComponentsModule } from './components.module';
         UserFormComponent,
     ],
     exports: [
-        ComponentsModule,
+        PrimeComponentsModule,
         PasswordFormComponent,
         ProfileFormComponent,
         AddressFormComponent,

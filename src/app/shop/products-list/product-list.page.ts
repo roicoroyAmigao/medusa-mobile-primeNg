@@ -1,14 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActionSheetController, AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { Observable, Subject } from 'rxjs';
-import { addProduct, addVariant, clearVariant, GetProductList } from 'src/app/store/products/products.actions';
-import { AddressDetailsComponent } from '../addresses/address-details/address-details.component';
-import { OrdersFacade } from '../orders/orders.facade';
+import { addSelectedProduct, addSelectedVariant, clearSelectedVariant, GetProductList } from 'src/app/store/products/products.actions';
 import { ProductsFacade } from './products.facade';
-import Medusa from "@medusajs/medusa-js";
-import { environment } from 'src/environments/environment';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
 
 @Component({
   selector: 'app-product-list',
@@ -34,6 +31,7 @@ export class ProductListPage implements OnInit {
     private facade: ProductsFacade,
     private primengConfig: PrimeNGConfig,
     private modalCtrl: ModalController,
+    private navigation: NavigationService,
   ) {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
@@ -52,12 +50,13 @@ export class ProductListPage implements OnInit {
   ngOnInit() {
     this.store.dispatch(new GetProductList());
   }
-  async selectProduct(product: any) {
-    this.store.dispatch(new addProduct(product));
-    // await this.navigation.navigateForward('/product-details');
+  selectProduct(product: any) {
+    this.store.dispatch(new addSelectedProduct(product));
+    // console.log(product);
+    this.navigation.navigateForward('/product-details');
   }
   async selectVariant(variant: any) {
-    this.store.dispatch(new addVariant(variant));
+    this.store.dispatch(new addSelectedVariant(variant));
     const modal = await this.modalCtrl.create({
       component: ProductDetailsModal,
       componentProps: {
@@ -122,7 +121,7 @@ export class ProductDetailsModal implements OnDestroy {
   }
   async dismiss() {
     this.modalCtrl.dismiss();
-    this.store.dispatch(new clearVariant());
+    this.store.dispatch(new clearSelectedVariant());
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);

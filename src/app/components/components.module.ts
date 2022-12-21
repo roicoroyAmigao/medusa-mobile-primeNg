@@ -1,34 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { DetailsPageRoutingModule } from './details-routing.module';
-
-import { DetailsPage } from './details.page';
-import { ComponentsModule } from 'src/app/form-components/prime-components.module';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { FormComponentsModule } from 'src/app/form-components/form-components.module';
+import { ProductDetailsComponent } from './product-details-component/product-details.component';
+import { CartMenuComponent } from './app-menu/cart-menu.component';
+import { MedusaCartComponent } from './medusa-cart/medusa-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DetailsPageRoutingModule,
+    TranslateModule,
     ReactiveFormsModule,
     TranslateModule,
     NgxsModule,
     NgxsFormPluginModule,
-    ReactiveFormsModule,
-    FormComponentsModule,
-    ComponentsModule
   ],
   declarations: [
-    DetailsPage
-  ]
+    ProductDetailsComponent,
+    CartMenuComponent,
+    MedusaCartComponent
+  ],
+  exports: [
+    ProductDetailsComponent,
+    CartMenuComponent,
+    MedusaCartComponent
+  ],
 })
-export class DetailsPageModule { }
+export class ComponentsModule { }

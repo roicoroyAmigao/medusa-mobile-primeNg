@@ -8,8 +8,8 @@ import { AddressDetailsComponent } from './address-details/address-details.compo
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ComponentsModule } from 'src/app/form-components/components.module';
-import { FormComponentsModule } from 'src/app/form-components/form-components.module copy';
+import { PrimeComponentsModule } from 'src/app/form-components/prime-components.module';
+import { FormComponentsModule } from 'src/app/form-components/form-components.module';
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import { FormComponentsModule } from 'src/app/form-components/form-components.mo
     NgxsModule,
     NgxsFormPluginModule,
     FormComponentsModule,
-    ComponentsModule
+    PrimeComponentsModule
   ],
   declarations: [
     AddressesPage,

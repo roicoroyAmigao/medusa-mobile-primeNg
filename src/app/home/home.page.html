@@ -2,9 +2,12 @@
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-button (click)="logout()">
-                logout
+                Login
             </ion-button>
         </ion-buttons>
+        <ion-buttons slot="end">
+            <cart-menu [menuId]="'end'"></cart-menu>
+          </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
@@ -12,14 +15,4 @@
     <ion-button (click)="enterShop()" expand="block" fill="clear" shape="round">
         Enter Shop
     </ion-button>
-    <ion-button (click)="enterShop()" expand="block" fill="clear" shape="round">
-    login
-    </ion-button>
 </ion-content>
-<!-- <ion-footer>
-    <ion-toolbar>
-        <ion-button (click)="testPage()" expand="block" fill="clear" shape="round">
-        Test Page
-        </ion-button>
-    </ion-toolbar>
-</ion-footer> -->
