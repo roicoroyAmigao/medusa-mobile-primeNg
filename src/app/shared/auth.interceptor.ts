@@ -1,14 +1,6 @@
-/* eslint-disable @typescript-eslint/member-ordering */
-/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { mergeMap } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
-import { IonStorageService } from './services/ionstorage.service';
+import { throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +17,9 @@ export class AuthInterceptor implements HttpInterceptor {
                 if (error.status === 401) {
                     // refresh token
                 } else {
-                    return throwError(error);
+                    return throwError(()=>{
+                        return new Error(error.message);
+                    });
                 }
             }
         );

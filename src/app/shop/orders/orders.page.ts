@@ -26,7 +26,6 @@ export class OrdersPage implements OnInit, OnDestroy {
     private navigation: NavigationService,
     private facade: OrdersFacade
   ) {
-
     this.viewState$ = this.facade.viewState$;
   }
   ngOnInit() {

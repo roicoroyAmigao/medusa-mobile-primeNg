@@ -20,13 +20,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    // redirectTo: 'auth/login',
-    redirectTo: 'home',
+    redirectTo: 'auth/login',
     pathMatch: 'full'
-  },
-  {
-    path: 'test',
-    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   },
 ];
 

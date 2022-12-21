@@ -39,6 +39,10 @@ export class ProductState {
     static getSelectedProduct(state: ProductStateModel) {
         return state.selectedProduct;
     }
+    @Selector()
+    static getSelectedVariant(state: ProductStateModel) {
+        return state.selectedVariant;
+    }
     @Action(GetProductList)
     async getProductList({ patchState }: StateContext<ProductStateModel>) {
         try {
@@ -57,29 +61,29 @@ export class ProductState {
     }
     @Action(addProduct)
     addProductToState(ctx: StateContext<ProductStateModel>, { payload }: addProduct) {
-        console.log('selectedProduct', payload);
+        // console.log('selectedProduct', payload);
         ctx.patchState({
             selectedProduct: payload,
         });
     }
     @Action(clearProduct)
     clearProductFromState(ctx: StateContext<ProductStateModel>): void {
-        console.log('clear selectedProduct');
+        // console.log('clear selectedProduct');
         ctx.patchState({
             selectedProduct: null,
         });
     }
     @Action(addVariant)
     addVariantToState(ctx: StateContext<ProductStateModel>, { payload }: addVariant) {
-        console.log(payload);
-        ctx.patchState({
+        // console.log(payload);
+        return ctx.patchState({
             selectedVariant: payload,
         });
     }
     @Action(clearVariant)
-    clearVariantFromState(ctx: StateContext<ProductStateModel>): void {
-        console.log('selectedVariant: null');
-        ctx.patchState({
+    clearVariantFromState(ctx: StateContext<ProductStateModel>) {
+        // console.log('selectedVariant: null');
+        return ctx.patchState({
             selectedVariant: null,
         });
     }

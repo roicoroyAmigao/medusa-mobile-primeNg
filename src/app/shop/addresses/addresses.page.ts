@@ -32,9 +32,9 @@ export class AddressesPage implements OnInit {
   ) {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe((vs) => {
-    //   console.log(vs);
-    // });
+    this.viewState$.subscribe((vs) => {
+      console.log(vs);
+    });
   }
 
   ionViewWillEnter() {

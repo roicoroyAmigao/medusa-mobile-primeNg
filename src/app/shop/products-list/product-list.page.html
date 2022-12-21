@@ -25,11 +25,12 @@
         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
       </ion-toolbar>
     </ng-template>
+
     <ng-template let-product pTemplate="listItem">
       <ion-col size="6">
         <ion-card>
-          <ion-img [src]="product.thumbnail" [alt]="product.title"></ion-img>
-          <ion-card-header>
+          <ion-img (click)="selectProduct(product)" [src]="product.thumbnail" [alt]="product.title"></ion-img>
+          <ion-card-header (click)="selectProduct(product)">
             <div class="product-name">{{product.title}}</div>
             <div class="product-description">{{product.description | truncate: 70 }}</div>
           </ion-card-header>
@@ -39,7 +40,8 @@
                 <ion-item slot="header" color="light">
                   <ion-label>Price list</ion-label>
                 </ion-item>
-                <ion-item (click)="selectVariant(variant)" class="ion-padding price-list-content" slot="content" *ngFor="let variant of product?.variants">
+                <ion-item (click)="selectVariant(variant)" class="ion-padding price-list-content" slot="content"
+                  *ngFor="let variant of product?.variants">
                   <ion-text>{{ variant?.title }}</ion-text>
                   <section *ngFor="let price of variant.prices">
                     <div class="amount">{{ price.amount }}</div>
@@ -49,14 +51,9 @@
               </ion-accordion>
             </ion-accordion-group>
             <ion-row class="action-buttons">
-              <ion-col size="8">
-                <ion-button expand="block" fill="solid" shape="round" (click)="selectProduct(product)">
-                  Add to cart
-                </ion-button>
-              </ion-col>
-              <ion-col size="4" class="search">
+              <ion-col>
                 <ion-buttons>
-                  <ion-button fill="clear" shape="round">
+                  <ion-button fill="clear" shape="round" (click)="selectProduct(product)">
                     View
                   </ion-button>
                 </ion-buttons>
@@ -66,28 +63,26 @@
         </ion-card>
       </ion-col>
     </ng-template>
+
     <ng-template let-product pTemplate="gridItem">
       <div class="product-grid-item card" (click)="selectProduct(product)">
-
         <div class="product-grid-item-top">
           <div>
             <i class="pi pi-tag product-category-icon"></i>
           </div>
         </div>
-
         <div class="product-grid-item-content">
           <img [src]="product.thumbnail" [alt]="product.title" />
           <div class="product-name">{{product.title}}</div>
           <div class="product-description">{{product.description}}</div>
           <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
         </div>
-
         <div class="product-grid-item-bottom">
           <span class="product-price">${{product.price}}</span>
           <p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>
         </div>
-
       </div>
     </ng-template>
+
   </p-dataView>
 </ion-content>

@@ -73,11 +73,6 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       ErrorsLoggingStateModule,
       ProductState
     ]),
-    NgxsFormPluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: false
-    }),
-    NgxsLoggerPluginModule.forRoot({ disabled: true }),
     NgxsStoragePluginModule.forRoot({
       key: [
         'medusa',
@@ -89,25 +84,23 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
         'register'
       ]
     }),
+    NgxsFormPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      disabled: false
+    }),
+    NgxsLoggerPluginModule.forRoot({ disabled: true }),
     ReactiveFormsModule,
     FormComponentsModule,
     ComponentsModule
-    // ErrorsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // { provide: NZ_I18N, useValue: uk_UA },
     { provide: LOCALE_ID, useValue: 'en' },
     {
       provide: ErrorHandler,
       useClass: ErrorService,
       multi: false
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: ErrorCatchingInterceptor,
-    //   multi: true
-    // }
   ],
   bootstrap: [AppComponent],
 })

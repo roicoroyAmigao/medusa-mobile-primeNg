@@ -1,13 +1,8 @@
 <ion-header [translucent]="true" collapse="condense">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="navigateBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="newAddress()">
-        Add new Shipping Address
+        <ion-icon name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -28,7 +23,7 @@
         View Billing Address
       </ion-button>
     </ion-col>
-    <!--
+
     <ion-card>
       <ion-item>
         <ion-buttons slot="start">
@@ -60,11 +55,11 @@
         {{ vs.customer.billing_address?.postal_code }}
         {{ vs.customer.billing_address?.phone }}
       </ion-card-content>
-    </ion-card> -->
+    </ion-card>
   </ion-row>
   <ion-row>
     <ion-col *ngIf="viewState$ | async as vs">
-      <!-- <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
+      <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
         <ion-item>
           <ion-buttons slot="start">
             <ion-button>
@@ -117,7 +112,7 @@
             (ionChange)="onCheckboxChange(address, $event)">
           </ion-button>
         </ion-item>
-      </ion-card> -->
+      </ion-card>
     </ion-col>
   </ion-row>
 

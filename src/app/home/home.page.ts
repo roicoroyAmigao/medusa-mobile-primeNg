@@ -30,12 +30,9 @@ export class HomePage implements OnInit, OnDestroy {
         this.navigation.navControllerDefault('/shop/products-list');
     }
     logout() {
-        // this.store.dispatch(new UserActions.LogOutMedusaUser());
-        // this.store.dispatch(new MedusaActions.LogOut());
+        this.store.dispatch(new UserActions.LogOutMedusaUser());
+        this.store.dispatch(new MedusaActions.LogOut());
         this.navigation.navControllerDefault('/auth/login');
-    }
-    testPage() {
-        this.navigation.navControllerDefault('/test');
     }
     ngOnDestroy() {
         if (this.subscription) {

@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProductListPageRoutingModule } from './products-list-routing.module';
 
-import { ProductListPage } from './product-list.page';
+import { ProductDetailsModal, ProductListPage } from './product-list.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
@@ -29,7 +29,8 @@ import { FormComponentsModule } from 'src/app/form-components/form-components.mo
   ],
   declarations: [
     ProductListPage,
-    TruncatePipe
+    TruncatePipe,
+    ProductDetailsModal
   ]
 })
 export class ProductListPageModule {}

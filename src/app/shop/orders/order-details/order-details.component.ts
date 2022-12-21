@@ -10,7 +10,9 @@ import Medusa from "@medusajs/medusa-js";
 })
 export class OrderDetailsComponent implements OnInit {
   @Input() orderId: any;
+
   orderDetails: any;
+
   medusaClient: any;
 
   constructor(
