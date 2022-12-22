@@ -55,6 +55,7 @@
     "localforage-cordovasqlitedriver": "^1.8.0",
     "moment": "^2.27.0",
     "ngx-stripe": "^13.2.1",
+    "ngxs-reset-plugin": "^3.0.0",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primeng": "^15.0.0-rc.1",

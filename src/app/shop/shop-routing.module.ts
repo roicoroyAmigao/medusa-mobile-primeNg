@@ -17,7 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'addresses',
-        loadChildren: () => import('./addresses/addresses.module').then(m => m.AddressesPageModule)
+        loadChildren: () => import('../checkout/user-addresses/addresses.module').then(m => m.AddressesPageModule)
       },
       {
         path: '',

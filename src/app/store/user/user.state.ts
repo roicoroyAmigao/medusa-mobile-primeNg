@@ -75,25 +75,6 @@ export class UserState {
                 });
             }
         }
-        // return this.http.post(environment.MEDUSA_API_BASE_PATH + '/store/auth', loginReq, { headers: this.headers_json })
-        //     .pipe(
-        //         tap(
-        //             (customer: any) => {
-        //                 // console.log(customer);
-        //                 ctx.patchState({
-        //                     customer: customer?.customer,
-        //                     isLoggedIn: true,
-        //                 });
-        //                 // this.store.dispatch(new UserActions.GetSession());
-        //             },
-        //         ),
-        //         catchError((err: any) => {
-        //             ctx.patchState({
-        //                 isLoggedIn: false,
-        //             });
-        //             return this.store.dispatch(new LogErrorEntry(err));
-        //         })
-        //     );
     }
 
     @Action(UserActions.Register)

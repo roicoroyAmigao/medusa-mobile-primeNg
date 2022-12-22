@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Shipping Method
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-label>
+          Shipping Methods
+        </ion-label>
+        <ion-radio-group [(ngModel)]="shippingMethod" (ionChange)="onAddShippingMethod($event)">
+          <ion-item *ngFor="let shippingMethod of shippingMethods">
+            <ion-label>
+              {{ shippingMethod.name }}
+            </ion-label>
+            <ion-text color="primary">
+              {{ shippingMethod.amount | currency:'GBP' }}
+            </ion-text>
+            <ion-radio color='primary' [value]="shippingMethod.id"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-label>
+          Payment Session
+        </ion-label>
+
+        <ion-radio-group [(ngModel)]="paymentSession" (ionChange)="onAddPymentSession($event)">
+          <ion-item *ngFor="let p of paymentSessions">
+            <ion-label>
+              {{ p.provider_id }}
+            </ion-label>
+            <ion-radio color='primary' [value]="p.provider_id"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button color="primary" expand="block" fill="outline" shape="round" routerLink="/checkout/flow/delivery"
+          routerDirection="back">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button color="primary" expand="block" fill="outline" shape="round" routerDirection="forward"
+          routerLink="/checkout/flow/payment">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

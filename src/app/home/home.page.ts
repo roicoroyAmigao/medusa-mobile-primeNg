@@ -1,11 +1,9 @@
 
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MedusaActions } from '../store/medusa/medusa.actions';
-
 import { Store } from '@ngxs/store';
 import { NavigationService } from '../shared/services/navigation.service';
-import { UserActions } from '../store/user/user.actions';
+import { StateClear } from 'ngxs-reset-plugin';
 
 @Component({
     selector: 'app-home',
@@ -30,11 +28,11 @@ export class HomePage implements OnInit, OnDestroy {
         this.navigation.navControllerDefault('/shop/products-list');
     }
     logout() {
-        this.store.dispatch(new UserActions.LogOutMedusaUser());
-        this.store.dispatch(new MedusaActions.LogOut());
-        this.navigation.navControllerDefault('/medusa-auth/login');
-    }
-    login() {
+        // this.store.dispatch(new UserActions.LogOutMedusaUser());
+        // this.store.dispatch(new MedusaActions.LogOut());
+        this.store.dispatch(
+            new StateClear()
+        );
         this.navigation.navControllerDefault('/medusa-auth/login');
     }
     ngOnDestroy() {

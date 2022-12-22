@@ -1,3 +1,8 @@
+
+export interface ISelectedCartProduct {
+    product: any,
+    quantity: unknown,
+  }
 export interface ICustomer {
     billing_address_id?: any;
     created_at?: any;

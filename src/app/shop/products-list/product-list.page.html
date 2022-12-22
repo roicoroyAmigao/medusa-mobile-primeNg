@@ -1,25 +1,67 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button [routerLink]="'/home'">
-        <ion-icon name="home"></ion-icon>
+      <ion-button (click)="logout()">
+          Logout
       </ion-button>
-    </ion-buttons>
+  </ion-buttons>
     <ion-title>
       {{ 'Products List' | translate }}
     </ion-title>
+    <ion-buttons slot="end">
+      <cart-menu [menuId]="'end'"></cart-menu>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="viewState$ | async as vs">
-  <p-dataView #dv [value]="vs.productList" [paginator]="true" [rows]="9" filterBy="title" [sortField]="sortField"
+
+  <ion-row>
+    <ion-col size="6" *ngFor="let product of vs.productList">
+      <ion-card>
+        <ion-img (click)="selectProduct(product)" [src]="product.thumbnail" [alt]="product.title"></ion-img>
+        <ion-card-header (click)="selectProduct(product)">
+          <div class="product-name">{{product.title}}</div>
+          <div class="product-description">{{product.description | truncate: 70 }}</div>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-accordion-group>
+            <ion-accordion value="first">
+              <ion-item slot="header" color="light">
+                <ion-label>Price list</ion-label>
+              </ion-item>
+              <ion-item (click)="selectVariant(variant)" class="ion-padding price-list-content" slot="content"
+                *ngFor="let variant of product?.variants">
+                <ion-text>{{ variant?.title }}</ion-text>
+                <section *ngFor="let price of variant.prices">
+                  <div class="amount">{{ price.amount }}</div>
+                  <div class="currency-code">{{ price.currency_code }}</div>
+                </section>
+              </ion-item>
+            </ion-accordion>
+          </ion-accordion-group>
+          <ion-row class="action-buttons">
+            <ion-col>
+              <ion-buttons>
+                <ion-button fill="clear" shape="round" (click)="selectProduct(product)">
+                  View
+                </ion-button>
+              </ion-buttons>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- <p-dataView #dv [value]="vs.productList" [paginator]="true" [rows]="9" filterBy="title" [sortField]="sortField"
     [sortOrder]="sortOrder" layout="list">
     <ng-template pTemplate="header">
 
-      <!-- <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
+      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
         (onChange)="onSortChange($event)" styleClass="">
       </p-dropdown>
-      <ion-searchbar pInputText type="search" [debounce]="250" (input)="dv.filter($event.target.value)"></ion-searchbar> -->
+      <ion-searchbar pInputText type="search" [debounce]="250" (input)="dv.filter($event.target.value)"></ion-searchbar>
 
       <ion-toolbar class="ion-text-center">
         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
@@ -84,5 +126,5 @@
       </div>
     </ng-template>
 
-  </p-dataView>
+  </p-dataView> -->
 </ion-content>

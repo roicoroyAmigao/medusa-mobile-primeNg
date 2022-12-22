@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ProductCartService } from '../product-details-component/product-cart.service';
+import { ShopFacade } from 'src/app/shop/shop.facade';
+import { CartActions } from 'src/app/store/cart/cart.actions';
+import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { MedusaCartFacade } from './medusa-cart.facade';
 
 export interface ICartProductItem {
@@ -20,79 +23,52 @@ export interface ICartProductItem {
 export class MedusaCartComponent implements OnInit, AfterViewInit {
   viewState$: Observable<any>;
 
-  cartForm: FormGroup;
+  cartForm: FormGroup | any;
 
   min = 1;
   max = 10;
   step = 1;
-  counterValue: number;
+  counterValue: number | any;
   get counter() {
     return this.counterValue;
   }
   totalCheckout: any;
   user: any | null;
   userId: string | null = null;
-  cartId: string;
+  cartId: string | any;
   newCart: any;
   medusaCart: any;
+
   constructor(
-    private productCartService: ProductCartService,
     public navCtrl: NavController,
+    private store: Store,
     private facade: MedusaCartFacade,
   ) {
     this.viewState$ = this.facade.viewState$;
+    // this.viewState$.subscribe((state) => {
+    //   console.log(state);
+    // });
   }
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
-    this.viewState$
-      .subscribe((state) => {
-        console.log(state);
-        // if (state.medusaFullCart != null) {
-        //   this.cartId = state.medusaFullCart.id;
-        //   this.medusaCart = state.medusaFullCart;
-        // }
-      });
   }
-
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngAfterViewInit(): void {
-    this.productCartService.addCartItem
-      .subscribe((productCartItem: any) => {
-        console.log(productCartItem);
-        // if (productCartItem == null) { return; }
-
-        // if (this.cartId != null) {
-        //   // console.log(productCartItem);
-        //   // console.log(productCartItem?.id, productCartItem.quantity, this.cartId);
-        //   // this.store.dispatch(new ShopActions.AddProductMedusaToCart(productCartItem?.id, productCartItem.quantity, this.cartId));
-        // }
-        // if (!this.cartId) {
-
-        //   const checkout = {
-        //     items: [
-        //       {
-        //         variant_id: productCartItem?.id,
-        //         quantity: productCartItem?.quantity,
-        //       }
-        //     ]
-        //   };
-          // console.log(checkout);
-          // this.store.dispatch(new ShopActions.CreateMedusaCartWithItems(checkout));
-        // }
-      });
   }
   incrementSelectItem(item: any) {
-    // this.store.dispatch(new ShopActions.AddProductMedusaToCart(item.variant.id, 1, item.cart_id));
+    this.store.dispatch(new CartActions.AddProductMedusaToCart(item.cart_id, 1, item.variant.id,));
   }
   decrementSelectItem(item: any) {
-    // return item?.quantity == 1 ?
-    //   this.delete(item) :
-    //   this.store.dispatch(new ShopActions.AddProductMedusaToCart(item.variant.id, -1, item.cart_id));
+    return item?.quantity == 1 ?
+      this.delete(item) :
+      this.store.dispatch(new CartActions.AddProductMedusaToCart(item.cart_id, -1, item.variant.id));
   }
   delete(item: any) {
-    // this.store.dispatch(new ShopActions.DeleteProductMedusaFromCart(this.cartId, item.id));
+    this.store.dispatch(new CartActions.DeleteProductMedusaFromCart(item.cart_id, item.id));
   }
   goToCheckout() {
-    // this.store.dispatch(new ShopActions.GetMedusaCart(this.cartId));
-    this.navCtrl.navigateForward('checkout/flow');
+    this.navCtrl.navigateForward('checkout/flow/start');
+    // console.log('goToCheckout');
   }
 }

@@ -3,8 +3,9 @@
 import { Component, Input } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { ShopFacade } from 'src/app/shop/shop.facade';
+import { AppMenuFacade } from './app-menu.facade';
 
 @Component({
   selector: 'cart-menu',
@@ -19,18 +20,19 @@ export class CartMenuComponent {
 
   @Input() icon = 'cart-outline';
 
-  @Input() cartItemCount: number | null = null;
-
-  count: Observable<number>;
+  cartItemsCount: number;
 
   constructor(
-    private store: Store,
     public menu: MenuController,
-    // private facade: ShopFacade,
+    private facade: AppMenuFacade,
   ) {
-    // this.viewState$ = this.facade.viewState$;
-  }
+    this.viewState$ = this.facade.viewState$;
+    this.viewState$.subscribe((state) => {
+      // console.log(state);
+      this.cartItemsCount = state.cart.items?.length
+    });
 
+  }
   closeCartMenu(menuId: any) {
     this.menu.toggle(menuId);
   }

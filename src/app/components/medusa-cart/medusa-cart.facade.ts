@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CartState } from 'src/app/store/cart/cart.state';
 import { MedusaState } from 'src/app/store/medusa/medusa.state';
 
 @Injectable({
@@ -9,8 +10,8 @@ import { MedusaState } from 'src/app/store/medusa/medusa.state';
 })
 export class MedusaCartFacade {
 
-    @Select(MedusaState.getCart) getCart$: Observable<any>;
-    @Select(MedusaState.getCartId) getCartId$: Observable<any>;
+    @Select(CartState.getCart) getCart$: Observable<any>;
+    @Select(CartState.getCartId) getCartId$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 
@@ -23,12 +24,12 @@ export class MedusaCartFacade {
         ).pipe(
             map((
                 [
-                    getCart,
-                    getCartId
+                    cart,
+                    cartId
                 ]
             ) => ({
-                getCart,
-                getCartId
+                cart,
+                cartId
             }))
         );
     }

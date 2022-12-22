@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { Store } from '@ngxs/store';
 import { PrimeNGConfig } from 'primeng/api';
 import { CartMenuComponent } from './components/app-menu/cart-menu.component';
 import { MedusaCartComponent } from './components/medusa-cart/medusa-cart.component';
 import { AppAuthService } from './shared/services/auth.service';
 import { IonLanguageService } from './shared/services/language/language.service';
+import { clearSelectedProduct } from './store/products/products.actions';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,7 @@ export class AppComponent implements OnInit {
     private authService: AppAuthService,
     private ionLanguageService: IonLanguageService,
     public menu: MenuController,
+    public store: Store,
   ) { }
 
   ngOnInit() {
@@ -36,6 +39,7 @@ export class AppComponent implements OnInit {
     // this.menuComponent.closeCartMenu('end');
     this.menu.toggle('end').then(() => {
       this.medusaCartComponent.goToCheckout();
+      this.store.dispatch(new clearSelectedProduct());
     });
   }
   logout(): void {

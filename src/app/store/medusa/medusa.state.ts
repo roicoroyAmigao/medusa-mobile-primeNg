@@ -7,14 +7,14 @@ import { MedusaActions } from "../medusa/medusa.actions";
 import { UserActions } from "../user/user.actions";
 
 export interface MedusaStateModel {
-    cartId: string | any;
-    cart: string | any;
+    // cartId: string | any;
+    // cart: string | any;
     secretKey: any | null;
 }
 
 export const initMedusaStateModel: MedusaStateModel = {
-    cartId: null,
-    cart: null,
+    // cartId: null,
+    // cart: null,
     secretKey: null,
 };
 @State({
@@ -30,42 +30,34 @@ export class MedusaState {
     ) {
         this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
     }
-    @Selector()
-    static getCart(state: MedusaStateModel) {
-        return state.cart;
-    }
-    @Selector()
-    static getCartId(state: MedusaStateModel) {
-        return state.cartId;
-    }
-
     // @Selector()
-    // static getRegionList(state: MedusaStateModel) {
-    //     return state.regionList;
+    // static getCart(state: MedusaStateModel) {
+    //     return state.cart;
     // }
-    @Action(MedusaActions.GetMedusaCart)
-    async getMedusaCart(ctx: StateContext<MedusaStateModel>, { cartId }: MedusaActions.GetMedusaCart) {
+    // @Selector()
+    // static getCartId(state: MedusaStateModel) {
+    //     return state.cartId;
+    // }
+    // @Action(MedusaActions.GetMedusaCart)
+    // async getMedusaCart(ctx: StateContext<MedusaStateModel>, { cartId }: MedusaActions.GetMedusaCart) {
 
-        if (cartId != null) {
-            try {
-                let cart = await this.medusaClient.carts?.retrieve(cartId);
-                this.store.dispatch(new UserActions.GetSession());
-                return ctx.patchState({
-                    cart: cart?.cart,
-                    cartId: cart?.cart.id,
-                });
+    //     if (cartId != null) {
+    //         try {
+    //             let cart = await this.medusaClient.carts?.retrieve(cartId);
+    //             this.store.dispatch(new UserActions.GetSession());
+    //             return ctx.patchState({
+    //                 cart: cart?.cart,
+    //                 cartId: cart?.cart.id,
+    //             });
 
-            }
-            catch (err: any) {
-                if (err) {
-                    ctx.patchState({
-                        cart: null,
-                        cartId: null
-                    });
-                }
-            }
-        }
-    }
+    //         }
+    //         catch (err: any) {
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //         }
+    //     }
+    // }
     @Action(MedusaActions.AddaShippingAddress)
     async addaShippingAddress(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.AddaShippingAddress) {
         // console.log(payload);
@@ -89,6 +81,7 @@ export class MedusaState {
         }
         catch (err: any) {
             if (err) {
+                console.log(err);
             }
         }
     }
@@ -135,21 +128,21 @@ export class MedusaState {
             }
         }
     }
-    @Action(MedusaActions.UpdateCart)
-    async updateCart(ctx: StateContext<MedusaStateModel>, { cartId, payload }: MedusaActions.UpdateCart) {
-        try {
-            let cart = await this.medusaClient.carts.update(cartId, {
-                billing_address: payload.billing_address != null ? payload.billing_address : null,
-                customer_id: payload.customer_id != null ? payload.customer_id : null,
-                shipping_address: payload.shipping_address != null ? payload.shipping_address : null,
-            });
-            await this.store.dispatch(new MedusaActions.GetMedusaCart(cart.cart.id));
-        }
-        catch (err: any) {
-            if (err) {
-            }
-        }
-    }
+    // @Action(MedusaActions.UpdateCart)
+    // async updateCart(ctx: StateContext<MedusaStateModel>, { cartId, payload }: MedusaActions.UpdateCart) {
+    //     try {
+    //         let cart = await this.medusaClient.carts.update(cartId, {
+    //             billing_address: payload.billing_address != null ? payload.billing_address : null,
+    //             customer_id: payload.customer_id != null ? payload.customer_id : null,
+    //             shipping_address: payload.shipping_address != null ? payload.shipping_address : null,
+    //         });
+    //         await this.store.dispatch(new MedusaActions.GetMedusaCart(cart.cart.id));
+    //     }
+    //     catch (err: any) {
+    //         if (err) {
+    //         }
+    //     }
+    // }
     @Action(MedusaActions.SecretKey)
     async secretKey(ctx: StateContext<MedusaStateModel>, { secretKey }: MedusaActions.SecretKey) {
         // console.log(secretKey);
@@ -180,87 +173,84 @@ export class MedusaState {
             }
         }
     }
-    @Action(MedusaActions.AddProductMedusaToCart)
-    async addProductMedusaToCart({ patchState }: StateContext<MedusaStateModel>, { cartId, quantity, variantId }: MedusaActions.AddProductMedusaToCart) {
-        // console.log(variantId, quantity, cartId);
-        let result = await this.medusaClient.carts.lineItems.create(cartId, {
-            variant_id: variantId,
-            quantity: quantity
-        });
-        if (result != null) {
-            patchState({
-                cart: result.cart
-            });
-        }
-    }
-    @Action(MedusaActions.DeleteProductMedusaFromCart)
-    async deleteProductMedusaFromCart(ctx: StateContext<MedusaStateModel>, { cart_id, line_id }: MedusaActions.DeleteProductMedusaFromCart) {
-        // console.log(cart_id, line_id);
-        return this.medusaClient.carts.lineItems.delete(cart_id, line_id)
-            .then((result: any) => {
-                // console.log(result);
-                ctx.patchState({
-                    cart: result?.cart
-                });
-            })
-            .catch((error: any) => {
-                console.log(error);
-            });
-    }
-    @Action(MedusaActions.CreateCartWithRegionId)
-    async createCartWithRegionId(ctx: StateContext<MedusaStateModel>, { regionId }: MedusaActions.CreateCartWithRegionId) {
-        try {
-            let cart = await this.medusaClient.carts.create({
-                region_id: regionId
-            });
-            this.store.dispatch(new UserActions.GetSession());
-            if (cart) {
-                ctx.patchState({
-                    cart: cart?.cart,
-                    cartId: cart?.cart.id,
-                });
-            }
-
-
-        }
-        catch (err: any) {
-            if (err) {
-                // console.log(err);
-            }
-        }
-    }
-    @Action(MedusaActions.CreateMedusaCart)
-    createMedusaCart(ctx: StateContext<MedusaStateModel>) {
-        return this.medusaClient.carts.create()
-            .then((result: any) => {
-                // console.log(result.cart?.id);
-                ctx.patchState({
-                    cartId: result.cart?.id,
-                    cart: result?.cart,
-                });
-            }).catch((error: any) => {
-                console.log(error);
-            });
-    }
-    @Action(MedusaActions.CreateMedusaCartWithItems)
-    createMedusaCartWithItems({ patchState }: StateContext<MedusaStateModel>, { selectedVariant }: MedusaActions.CreateMedusaCartWithItems) {
-        // console.log(selectedVariant);
-        return this.medusaClient.carts.create()
-            .then((result: any) => {
-                // console.log(result.cart.id);
-                if (result.cart?.id != null) {
-                    return this.medusaClient.carts.lineItems.create(result.cart.id, {
-                        variant_id: selectedVariant?.id,
-                        quantity: selectedVariant?.quantity,
-                    }).then((result: any) => {
-                        // console.log(result);
-                        patchState({
-                            cartId: result.cart?.id,
-                        });
-                    });
-                }
-            });
-    }
+    // @Action(MedusaActions.AddProductMedusaToCart)
+    // async addProductMedusaToCart({ patchState }: StateContext<MedusaStateModel>, { cartId, quantity, variantId }: MedusaActions.AddProductMedusaToCart) {
+    //     // console.log(variantId, quantity, cartId);
+    //     let result = await this.medusaClient.carts.lineItems.create(cartId, {
+    //         variant_id: variantId,
+    //         quantity: quantity
+    //     });
+    //     if (result != null) {
+    //         patchState({
+    //             cart: result.cart
+    //         });
+    //     }
+    // }
+    // @Action(MedusaActions.DeleteProductMedusaFromCart)
+    // async deleteProductMedusaFromCart(ctx: StateContext<MedusaStateModel>, { cart_id, line_id }: MedusaActions.DeleteProductMedusaFromCart) {
+    //     // console.log(cart_id, line_id);
+    //     return this.medusaClient.carts.lineItems.delete(cart_id, line_id)
+    //         .then((result: any) => {
+    //             // console.log(result);
+    //             ctx.patchState({
+    //                 cart: result?.cart
+    //             });
+    //         })
+    //         .catch((error: any) => {
+    //             console.log(error);
+    //         });
+    // }
+    // @Action(MedusaActions.CreateCartWithRegionId)
+    // async createCartWithRegionId(ctx: StateContext<MedusaStateModel>, { regionId }: MedusaActions.CreateCartWithRegionId) {
+    //     try {
+    //         let cart = await this.medusaClient.carts.create({
+    //             region_id: regionId
+    //         });
+    //         this.store.dispatch(new UserActions.GetSession());
+    //         if (cart) {
+    //             ctx.patchState({
+    //                 cart: cart?.cart,
+    //                 cartId: cart?.cart.id,
+    //             });
+    //         }
+    //     }
+    //     catch (err: any) {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //     }
+    // }
+    // @Action(MedusaActions.CreateMedusaCart)
+    // createMedusaCart(ctx: StateContext<MedusaStateModel>) {
+    //     return this.medusaClient.carts.create()
+    //         .then((result: any) => {
+    //             ctx.patchState({
+    //                 cartId: result.cart?.id,
+    //                 cart: result?.cart,
+    //             });
+    //         }).catch((error: any) => {
+    //             console.log(error);
+    //         });
+    // }
+    // @Action(MedusaActions.CreateMedusaCartWithItems)
+    // createMedusaCartWithItems({ patchState }: StateContext<MedusaStateModel>, { selectedVariant }: MedusaActions.CreateMedusaCartWithItems) {
+    //     // console.log(selectedVariant);
+    //     return this.medusaClient.carts.create()
+    //         .then((result: any) => {
+    //             // console.log(result.cart.id);
+    //             if (result.cart?.id != null) {
+    //                 return this.medusaClient.carts.lineItems.create(result.cart.id, {
+    //                     variant_id: selectedVariant?.id,
+    //                     quantity: selectedVariant?.quantity,
+    //                 }).then((result: any) => {
+    //                     // console.log(result);
+    //                     patchState({
+    //                         cartId: result.cart?.id,
+    //                     });
+    //                 });
+    //             }
+    //         });
+    // }
     @Action(MedusaActions.UpdateCustomerBIllingAddress)
     async updateCustomer(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.UpdateCustomerBIllingAddress) {
         // console.log(payload);
@@ -277,7 +267,6 @@ export class MedusaState {
                     phone: payload.address?.phone
                 }
             });
-            this.store.dispatch(new MedusaActions.RetriveCustomer());
             this.store.dispatch(new UserActions.GetSession());
         }
         catch (err: any) {
@@ -304,7 +293,6 @@ export class MedusaState {
                     company: 'Wyman LLC',
                 }
             })
-            this.store.dispatch(new MedusaActions.RetriveCustomer());
             this.store.dispatch(new UserActions.GetSession());
             console.log(customer);
         } catch (err: any) {
@@ -317,8 +305,8 @@ export class MedusaState {
     @Action(MedusaActions.LogOut)
     logOut(ctx: StateContext<MedusaStateModel>) {
         ctx.patchState({
-            cartId: null,
-            cart: null,
+            // cartId: null,
+            // cart: null,
             secretKey: null,
         });
     }

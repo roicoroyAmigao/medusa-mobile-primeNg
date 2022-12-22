@@ -1,8 +1,6 @@
-<!-- *ngIf="viewState$ | async as vs" -->
-<ion-button class="notification" (click)="closeCartMenu(menuId)" >
+<ion-button class="notification" (click)="closeCartMenu(menuId)">
   <ion-icon [name]="icon" color="dark"></ion-icon>
-  <!-- <ion-badge color="danger"
-    *ngIf="this.menuId === 'end' && vs.medusaFullCart !== null && vs.medusaFullCart.items.length > 0">
-    {{ vs.medusaFullCart.items.length }}
-  </ion-badge> -->
+  <ion-badge color="danger" *ngIf="cartItemsCount">
+    {{ cartItemsCount }}
+  </ion-badge>
 </ion-button>

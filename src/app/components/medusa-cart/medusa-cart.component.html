@@ -3,7 +3,7 @@
         <ion-row>
             <ion-col size="12">
                 <ion-card>
-                    <ion-card-content *ngFor="let item of vs?.medusaFullCart?.items">
+                    <ion-card-content *ngFor="let item of vs?.cart?.items">
                         <ion-item class="ion-text-center">
                             <ion-label>{{ item.title }}</ion-label>
                             <ion-icon size="small" color="danger" slot="end" name="close" (click)="delete(item)">

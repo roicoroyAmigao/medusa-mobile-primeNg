@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { ProductDetailsComponent } from './components/product-details-component/product-details.component';
 
 const routes: Routes = [
   {
@@ -8,20 +7,16 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
   },
   {
-    path: 'login',
-    loadChildren: () => import('./medusa-auth/login/login.module').then(m => m.LoginPageModule)
-  },
-  {
-    path: 'medusa-auth',
-    loadChildren: () => import('./medusa-auth/medusa-auth.module').then(m => m.MedusaAuthModule),
-  },
-  {
     path: 'shop',
     loadChildren: () => import('./shop/shop.module').then(m => m.ShopPageModule),
   },
   {
+    path: 'checkout',
+    loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutPageModule),
+  },
+  {
     path: 'product-details',
-    component: ProductDetailsComponent
+    loadChildren: () => import('./shop/product-details/product-details.module').then( m => m.ProductDetailsPageModule)
   },
   {
     path: '',

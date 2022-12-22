@@ -6,6 +6,8 @@ import { Observable, Subject } from 'rxjs';
 import { addSelectedProduct, addSelectedVariant, clearSelectedVariant, GetProductList } from 'src/app/store/products/products.actions';
 import { ProductsFacade } from './products.facade';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
+import { StateClear } from 'ngxs-reset-plugin';
+import { VariantModalComponent } from './variant-modal/variant-modal.component';
 
 @Component({
   selector: 'app-product-list',
@@ -36,6 +38,9 @@ export class ProductListPage implements OnInit {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
   }
+  ngOnInit() {
+    this.store.dispatch(new GetProductList());
+  }
   onSortChange(event: any) {
     let value = event.value;
     if (value.indexOf('!') === 0) {
@@ -47,9 +52,13 @@ export class ProductListPage implements OnInit {
       this.sortField = value;
     }
   }
-  ngOnInit() {
-    this.store.dispatch(new GetProductList());
+  logout() {
+    this.store.dispatch(
+      new StateClear()
+    );
+    this.navigation.navControllerDefault('/home');
   }
+
   selectProduct(product: any) {
     this.store.dispatch(new addSelectedProduct(product));
     // console.log(product);
@@ -58,73 +67,12 @@ export class ProductListPage implements OnInit {
   async selectVariant(variant: any) {
     this.store.dispatch(new addSelectedVariant(variant));
     const modal = await this.modalCtrl.create({
-      component: ProductDetailsModal,
+      component: VariantModalComponent,
       componentProps: {
         variant: variant
       },
       cssClass: 'dialog-modal'
     });
     await modal.present();
-  }
-}
-
-//
-@Component({
-  selector: 'app-product-details-modal',
-  template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="dismiss()">
-            <ion-icon name="close"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-        <ion-title>Variant Details</ion-title>
-      </ion-toolbar>
-    </ion-header>
-  <ion-content color='warning'>
-    <ion-row *ngIf="viewState$ | async as vs">
-      <ion-col size='12'>
-      {{ vs.selectedVariant.id }}
-      </ion-col>
-      <ion-col size='12'>
-      {{ vs.selectedVariant.title }}
-      </ion-col>
-    </ion-row>
-  </ion-content>
-  `,
-  styles: [''],
-})
-// eslint-disable-next-line @angular-eslint/component-class-suffix
-export class ProductDetailsModal implements OnDestroy {
-
-  @Input() variant: any;
-
-  viewState$: Observable<any>;
-
-  medusaClient: any;
-
-  private readonly ngUnsubscribe = new Subject();
-
-  constructor(
-    private modalCtrl: ModalController,
-    private facade: ProductsFacade,
-    private store: Store,
-  ) {
-    this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe((vs) => {
-    //   console.log(vs);
-    // });
-  }
-  ionViewDidEnter() {
-    // console.log(this.variant);
-  }
-  async dismiss() {
-    this.modalCtrl.dismiss();
-    this.store.dispatch(new clearSelectedVariant());
-  }
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next(null);
-    this.ngUnsubscribe.complete();
   }
 }

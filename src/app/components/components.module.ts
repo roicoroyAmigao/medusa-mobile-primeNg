@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ProductDetailsComponent } from './product-details-component/product-details.component';
 import { CartMenuComponent } from './app-menu/cart-menu.component';
 import { MedusaCartComponent } from './medusa-cart/medusa-cart.component';
 
@@ -22,12 +21,10 @@ import { MedusaCartComponent } from './medusa-cart/medusa-cart.component';
     NgxsFormPluginModule,
   ],
   declarations: [
-    ProductDetailsComponent,
     CartMenuComponent,
     MedusaCartComponent
   ],
   exports: [
-    ProductDetailsComponent,
     CartMenuComponent,
     MedusaCartComponent
   ],

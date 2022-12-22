@@ -1,0 +1,78 @@
+<ion-header [translucent]="true" collapse="none">
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button (click)="navigateToProductList()">
+              <ion-icon slot="start" name="arrow-back"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+          <cart-menu [menuId]="'end'"></cart-menu>
+      </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="viewState$ | async as vs">
+      <div *ngFor="let variant of vs.selectedProduct?.variants let i=index">
+          <ion-card (click)="onSelectVariant(variant)" [color]="activeFilter === variant?.id ? 'success' : 'primary'">
+              <ion-card-header>
+                  <ion-item>
+                      <ion-label>
+                          {{ variant?.title }}
+                      </ion-label>
+                      <div *ngFor="let price of variant.prices">
+                          <ion-text slot="start" color="dark" *ngIf="price.currency_code === 'gbp'">
+                              {{ price.amount | currency:'gbp' }}
+                          </ion-text>
+                          <ion-label slot="end" color="dark" *ngIf="price.currency_code === 'eur'">
+                              {{ price.amount | currency:'eur' }}
+                          </ion-label>
+                      </div>
+                  </ion-item>
+              </ion-card-header>
+              <ion-card-content>
+
+                  <ion-row>
+                      <ion-col size="12">
+                          <ion-slides pager="true" [options]="slideOpts">
+                              <ion-slide *ngFor="let image of productImages">
+                                  <img [src]="image.url" />
+                              </ion-slide>
+                          </ion-slides>
+                      </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                      <ion-col size="12">
+                          <div class="counter-wrapper">
+                              <ion-button class="counter-icon" color="warning" (click)="decrement(variant,i)"
+                                  [disabled]="counterValue <= min">
+                                  <ion-icon name="remove" slot="icon-only" role="img" aria-label="remove">
+                                  </ion-icon>
+                              </ion-button>
+                              <span class="counter-value ion-text-center">
+                                  {{ variant[i] | json }}
+                              </span>
+                              <ion-button class="counter-icon" color="warning" (click)="increment(variant, i)"
+                                  [disabled]="counterValue >= max">
+                                  <ion-icon name="add" slot="icon-only" role="img" aria-label="add"></ion-icon>
+                              </ion-button>
+                          </div>
+                      </ion-col>
+                  </ion-row>
+
+              </ion-card-content>
+          </ion-card>
+      </div>
+  </div>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="addToCart(selectedVariant)" [color]="'danger'"
+          [disabled]="activeFilter ? false : true ">
+          <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
+</ion-content>
