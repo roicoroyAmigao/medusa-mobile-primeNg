@@ -12,8 +12,6 @@ import { UserState } from 'src/app/store/user/user.state';
 })
 export class AddressesFacade {
     @Select(CartState.getCart) cart$: Observable<any>;
-    @Select(ProductState.getProductList) productList$: Observable<any>;
-
     @Select(UserState.getCustomer) customer$: Observable<any>;
     @Select(UserState.getSession) session$: Observable<any>;
 
@@ -25,19 +23,16 @@ export class AddressesFacade {
         this.viewState$ = combineLatest(
             [
                 this.cart$,
-                this.productList$,
                 this.customer$,
                 this.session$,
             ]
         ).pipe(
             map(([
                 cart,
-                productList,
                 customer,
                 session
             ]) => ({
                 cart,
-                productList,
                 customer,
                 session
             }))

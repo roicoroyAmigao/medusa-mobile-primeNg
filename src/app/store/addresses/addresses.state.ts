@@ -80,4 +80,13 @@ export class AddressesState {
             selectedAddress: null
         });
     }
+
+    @Action(AddressesActions.LogOut)
+    logout(ctx: StateContext<AddressesStateModel>) {
+        ctx.patchState({
+            selectedAddress: null,
+            regionList: null,
+            countriesList: null,
+        });
+    }
 }

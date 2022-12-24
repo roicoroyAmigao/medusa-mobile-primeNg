@@ -1,9 +1,11 @@
 
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { NavigationService } from '../shared/services/navigation.service';
 import { StateClear } from 'ngxs-reset-plugin';
+import { HomeFacade } from './home.facade';
+import { AppAuthService } from '../shared/services/auth.service';
 
 @Component({
     selector: 'app-home',
@@ -14,25 +16,31 @@ import { StateClear } from 'ngxs-reset-plugin';
 })
 export class HomePage implements OnInit, OnDestroy {
     products!: any[];
+
     subscription!: Subscription;
-    sales: any[];
+
+    viewState$: Observable<any>;
+
+    isLogged: boolean;
+
     constructor(
         private store: Store,
         private navigation: NavigationService,
+        private facade: HomeFacade,
+        private auth: AppAuthService,
     ) { }
 
-    // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
     ngOnInit() {
+        this.viewState$ = this.facade.viewState$;
     }
     enterShop() {
         this.navigation.navControllerDefault('/shop/products-list');
     }
+    enterBlog() {
+        this.navigation.navControllerDefault('/shop/products-list');
+    }
     logout() {
-        // this.store.dispatch(new UserActions.LogOutMedusaUser());
-        // this.store.dispatch(new MedusaActions.LogOut());
-        this.store.dispatch(
-            new StateClear()
-        );
+        this.auth.logout();
         this.navigation.navControllerDefault('/medusa-auth/login');
     }
     ngOnDestroy() {

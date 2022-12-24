@@ -9,10 +9,13 @@ export namespace AddressesActions {
         static readonly type = '[AddressesActions] Clear address from state';
     }
     export class GetRegionList {
-        static readonly type = '[FormsActions] Get Medusa Region List';
+        static readonly type = '[AddressesActions] Get Medusa Region List';
     }
     export class GetCountries {
-        static readonly type = '[FormsActions] Get Medusa Countries';
+        static readonly type = '[AddressesActions] Get Medusa Countries';
         constructor(public regionId: string | any) { }
+    }
+    export class LogOut {
+        static readonly type = '[AddressesActions] Logout';
     }
 }

@@ -1,18 +1,41 @@
-<ion-header>
+<ion-header [translucent]="true">
     <ion-toolbar>
-        <!-- <ion-buttons slot="start">
+        <ion-buttons slot="start">
             <ion-button (click)="logout()">
                 Logout
             </ion-button>
-        </ion-buttons> -->
-        <!-- <ion-buttons slot="end">
-            <cart-menu></cart-menu>
-        </ion-buttons> -->
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-button (click)="enterShop()" expand="block" fill="clear" shape="round">
-        Enter Shop
-    </ion-button>
+<ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-card-header *ngIf="viewState$ | async as vs">
+                <ion-card-title>Start</ion-card-title>
+                <ion-card-subtitle>
+                    is Logged in:
+                    <ion-note>
+                        {{ vs.isLoggedIn }}
+                    </ion-note>
+                </ion-card-subtitle>
+            </ion-card-header>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-button (click)="enterShop()" expand="block" fill="solid" shape="round">
+                    Enter Shop
+                </ion-button>
+            </ion-col>
+            <ion-col>
+                <ion-button (click)="enterBlog()" expand="block" fill="solid" shape="round">
+                    Enter Blog
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
 </ion-content>

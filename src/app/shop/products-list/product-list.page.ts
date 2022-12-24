@@ -8,6 +8,7 @@ import { ProductsFacade } from './products.facade';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { StateClear } from 'ngxs-reset-plugin';
 import { VariantModalComponent } from './variant-modal/variant-modal.component';
+import { AppAuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -34,6 +35,7 @@ export class ProductListPage implements OnInit {
     private primengConfig: PrimeNGConfig,
     private modalCtrl: ModalController,
     private navigation: NavigationService,
+    private auth: AppAuthService,
   ) {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
@@ -53,9 +55,7 @@ export class ProductListPage implements OnInit {
     }
   }
   logout() {
-    this.store.dispatch(
-      new StateClear()
-    );
+    this.auth.logout();
     this.navigation.navControllerDefault('/home');
   }
 
@@ -74,5 +74,8 @@ export class ProductListPage implements OnInit {
       cssClass: 'dialog-modal'
     });
     await modal.present();
+    await modal.onDidDismiss().then(() => {
+      // this.store.dispatch(new clearSelectedVariant());
+    });
   }
 }

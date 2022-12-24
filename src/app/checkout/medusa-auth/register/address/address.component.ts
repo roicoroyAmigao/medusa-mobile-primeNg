@@ -78,15 +78,11 @@ export class AddressComponent implements OnDestroy {
 
     setTimeout(() => {
       const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
-      if (errorEntry === null) {
-        this.store.dispatch(new CartActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
-        const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
         if (errorEntry === null) {
-          this.store.dispatch(new CartActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
+          // this.store.dispatch(new CartActions.CreateCartWithRegionId(this.adressForm.get('address').value.region_code));
           this.navigation.navigateFlip('/checkout/flow/cart-review');
           this.utility.dismissLoading();
         }
-      }
     }, 200);
   }
 

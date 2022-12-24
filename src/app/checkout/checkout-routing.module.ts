@@ -24,8 +24,8 @@ const routes: Routes = [
         loadChildren: () => import('./medusa-auth/medusa-auth.module').then(m => m.MedusaAuthModule),
       },
       {
-        path: 'user-addresses',
-        loadChildren: () => import('./user-addresses/addresses.module').then(m => m.AddressesPageModule)
+        path: 'cart-addresses',
+        loadChildren: () => import('./cart-addresses/addresses.module').then(m => m.AddressesPageModule)
       },
       {
         path: RoutePath.shipping,

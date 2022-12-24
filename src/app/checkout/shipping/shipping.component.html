@@ -15,12 +15,12 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <ion-col *ngIf="viewState$ | async as vs">
         <ion-label>
           Shipping Methods
         </ion-label>
         <ion-radio-group [(ngModel)]="shippingMethod" (ionChange)="onAddShippingMethod($event)">
-          <ion-item *ngFor="let shippingMethod of shippingMethods">
+          <ion-item *ngFor="let shippingMethod of vs.shippingOptions">
             <ion-label>
               {{ shippingMethod.name }}
             </ion-label>
@@ -32,13 +32,17 @@
         </ion-radio-group>
       </ion-col>
 
-      <ion-col size="12">
+      <ion-button (click)="initPaymentSession()" expand="block" fill="clear" shape="round">
+        Init Payment Session
+      </ion-button>
+
+      <ion-col size="12" *ngIf="viewState$ | async as vs">
         <ion-label>
           Payment Session
         </ion-label>
 
         <ion-radio-group [(ngModel)]="paymentSession" (ionChange)="onAddPymentSession($event)">
-          <ion-item *ngFor="let p of paymentSessions">
+          <ion-item *ngFor="let p of vs.paymentSessions">
             <ion-label>
               {{ p.provider_id }}
             </ion-label>
@@ -61,8 +65,7 @@
         </ion-button>
       </ion-col>
       <ion-col size="6">
-        <ion-button color="primary" expand="block" fill="outline" shape="round" routerDirection="forward"
-          routerLink="/checkout/flow/payment">
+        <ion-button color="primary" expand="block" fill="outline" shape="round" (click)="openPaymentPage()">
           <ion-icon name="arrow-forward"></ion-icon>
         </ion-button>
       </ion-col>

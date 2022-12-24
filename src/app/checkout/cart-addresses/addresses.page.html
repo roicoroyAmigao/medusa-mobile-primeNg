@@ -5,11 +5,10 @@
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="newAddress()">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+
+    <ion-title>
+      Manage Cart's Addresses
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,49 +21,83 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-row *ngIf="viewState$ | async as vs">
+  <ion-row>
     <ion-col size="12">
-
-      <ion-button (click)="viewBilingAddress(vs.customer.billing_address)" expand="block" fill="outline" shape="round">
-        View Billing Address
-      </ion-button>
-
-      <ion-card>
-        <!-- <ion-row>
+      <ion-toolbar>
+        <ion-title>Cart Billing Address:</ion-title>
+      </ion-toolbar>
+    </ion-col>
+    <ion-col size="12" *ngIf="viewState$ | async as vs">
+      <ion-card *ngIf="vs?.cart.billing_address !== null">
+        <ion-row>
           <ion-col size="12">
             <ion-item>
-              <ion-button>
-                <p> Use this address </p>
-                <p>add as billing and shippin</p>
+              <ion-button (click)="viewBilingAddress(vs.cart?.billing_address)" expand="block" fill="outline"
+                shape="round">
+                View/Edit Billing Address
               </ion-button>
             </ion-item>
           </ion-col>
-        </ion-row> -->
-
-        <ion-toolbar>
-          <ion-title>Billing Address:</ion-title>
-        </ion-toolbar>
-
+        </ion-row>
         <ion-card-header>
           <ion-card-subtitle>
-            {{ vs.customer.billing_address?.first_name }}
+            {{ vs.cart.billing_address?.first_name }}
           </ion-card-subtitle>
           <ion-card-title>
-            {{ vs.customer.billing_address?.last_name }}
+            {{ vs.cart.billing_address?.last_name }}
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          {{ vs.customer.billing_address?.address_1 }}
-          {{ vs.customer.billing_address?.address_2 }}
-          {{ vs.customer.billing_address?.country_code }}
-          {{ vs.customer.billing_address?.postal_code }}
-          {{ vs.customer.billing_address?.phone }}
+          {{ vs.cart.billing_address?.address_1 }}
+          {{ vs.cart.billing_address?.address_2 }}
+          {{ vs.cart.billing_address?.country_code }}
+          {{ vs.cart.billing_address?.postal_code }}
+          {{ vs.cart.billing_address?.phone }}
         </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>
 
   <ion-row>
+    <ion-col size="12">
+      <ion-toolbar>
+        <ion-title>Cart Shipping Address</ion-title>
+      </ion-toolbar>
+    </ion-col>
+    <ion-col size="12" *ngIf="viewState$ | async as vs">
+      <ion-card *ngIf="vs?.shipping_address !== null">
+        <ion-card-header>
+          <ion-card-subtitle>
+            {{ vs.cart.shipping_address?.first_name }}
+          </ion-card-subtitle>
+          <ion-card-title>
+            {{ vs.cart.shipping_address?.last_name }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ vs.cart.shipping_address?.address_1 }}
+          {{ vs.cart.shipping_address?.address_2 }}
+          {{ vs.cart.shipping_address?.country_code }}
+          {{ vs.cart.shipping_address?.postal_code }}
+          {{ vs.cart.shipping_address?.phone }}
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+  </ion-row>
+
+  <ion-row>
+    <ion-header>
+      <ion-toolbar>
+        <ion-card-header>
+          <ion-card-subtitle>Manage your addresses</ion-card-subtitle>
+          <ion-button (click)="newAddress()">
+            Add new Shipping Address
+            <ion-icon name="add"></ion-icon>
+          </ion-button>
+        </ion-card-header>
+      </ion-toolbar>
+    </ion-header>
     <ion-col *ngIf="viewState$ | async as vs">
       <ion-card *ngFor="let address of vs.session?.shipping_addresses,let i=index">
         <ion-item>
@@ -106,21 +139,21 @@
           </ion-row>
         </ion-card-content>
         <ion-item>
-          <ion-note slot="start">Delivery address</ion-note>
-          <ion-icon color="success" slot="end" name="checkmark-outline"></ion-icon>
-
-          <ion-buttons slot="end">
-            <ion-button (click)="onCheckboxChange(address, $event)">
-              <ion-icon slot="start" name="add"></ion-icon>
-              Add as billing address
+          <ion-buttons>
+            <ion-button (click)="updateBillingAddress(address)">
+              Billiing address
             </ion-button>
           </ion-buttons>
-          <ion-button slot="end" (ionChange)="onCheckboxChange(address, $event)">
-          </ion-button>
+          <ion-buttons>
+            <ion-button (click)="updateShippingAddress(address)">
+              Shipping address
+            </ion-button>
+          </ion-buttons>
         </ion-item>
       </ion-card>
     </ion-col>
   </ion-row>
+
 </ion-content>
 <ion-footer>
   <ion-toolbar>

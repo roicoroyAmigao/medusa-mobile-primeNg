@@ -45,12 +45,12 @@ export class CartReviewComponent {
     private navigation: NavigationService,
   ) {
     this.viewState$ = this.facade.viewState$;
-    this.viewState$.subscribe((state)=>{
-      console.log(state);
-    });
+    // this.viewState$.subscribe((state)=>{
+    //   console.log(state);
+    // });
 
-    const items = this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
-    console.log(items);
+    // const items = this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
+    // console.log(items);
   }
 
   incrementSelectItem(item: any) {
@@ -68,6 +68,6 @@ export class CartReviewComponent {
     this.navigation.navigateFlip('checkout/flow/start');
   }
   addresses() {
-    this.navigation.navigateFlip('checkout/flow/user-addresses');
+    this.navigation.navigateFlip('checkout/flow/cart-addresses');
   }
 }

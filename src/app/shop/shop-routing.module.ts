@@ -16,10 +16,6 @@ const routes: Routes = [
         loadChildren: () => import('./orders/orders.module').then(m => m.OrdersPageModule)
       },
       {
-        path: 'addresses',
-        loadChildren: () => import('../checkout/user-addresses/addresses.module').then(m => m.AddressesPageModule)
-      },
-      {
         path: '',
         redirectTo: '/products-list',
         pathMatch: 'full'

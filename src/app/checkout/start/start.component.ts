@@ -7,6 +7,7 @@ import { CartActions } from 'src/app/store/cart/cart.actions';
 import { CheckoutFacade } from '../checkout.facade';
 import { CartReviewComponent } from '../cart-review/cart-review.component';
 import { StateClear } from 'ngxs-reset-plugin';
+import { AppAuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-start',
@@ -25,19 +26,18 @@ export class StartComponent implements OnInit, OnDestroy {
     private navigation: NavigationService,
     private facade: CheckoutFacade,
     private store: Store,
-    // private modalCtrl: ModalController
+    private auth: AppAuthService
   ) {
     this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe((state) => {
+    // this.viewState$.subscribe(async (state) => {
     //   console.log(state);
+    //   this.isLogged = await this.store.selectSnapshot<any>((state: any) => state.user?.isLoggedIn);
+    //   // console.log(this.isLogged);
     // });
   }
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   async ngOnInit(): Promise<void> {
-
-    this.isLogged = await this.store.selectSnapshot<any>((state: any) => state.user?.isLoggedIn);
-    console.log(this.isLogged);
-
     // const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
 
     // this.store.dispatch(new CartActions.GetMedusaCart(cartId))
@@ -65,7 +65,7 @@ export class StartComponent implements OnInit, OnDestroy {
     this.navigation.navigateForward('/checkout/flow/cart-review', 'forward');
   }
   addressesMedusa() {
-    this.navigation.navigateForward('/checkout/flow/user-addresses', 'forward');
+    this.navigation.navigateForward('/checkout/flow/cart-addresses', 'forward');
   }
   loginMedusa() {
     this.navigation.navigateForward('/checkout/flow/medusa-auth/login', 'forward');
@@ -76,10 +76,8 @@ export class StartComponent implements OnInit, OnDestroy {
   checkoutMedusa() {
     this.navigation.navigateForward('/checkout/flow/shipping', 'forward');
   }
-  logout() {
-    this.store.dispatch(
-      new StateClear()
-    );
+  logoutUser() {
+    this.auth.logoutUser();
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);

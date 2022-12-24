@@ -3,9 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ShopFacade } from 'src/app/shop/shop.facade';
 import { CartActions } from 'src/app/store/cart/cart.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { MedusaCartFacade } from './medusa-cart.facade';
 
 export interface ICartProductItem {

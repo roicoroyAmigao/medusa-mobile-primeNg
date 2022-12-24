@@ -52,7 +52,7 @@ export class LoginPage implements OnInit, OnDestroy {
         setTimeout(() => {
           if (errorEntry === null) {
             this.navigation.navigateFlip('/checkout/flow/cart-review');
-            console.log('State: ', errorEntry);
+            // console.log('State: ', errorEntry);
           }
         }, 50);
       });

@@ -12,7 +12,7 @@ import { ProductDetailsFacade } from './product-details.facade';
   templateUrl: './product-details.page.html',
   styleUrls: ['./product-details.page.scss'],
 })
-export class ProductDetailsPage implements OnInit,OnDestroy {
+export class ProductDetailsPage implements OnInit, OnDestroy {
 
   activeFilter = null;
 
@@ -52,6 +52,9 @@ export class ProductDetailsPage implements OnInit,OnDestroy {
     private store: Store,
   ) {
     this.viewState$ = this.facade.viewState$;
+    // this.viewState$.subscribe((vs) => {
+    //   console.log(vs);
+    // });
   }
 
   ngOnInit(): void {
@@ -72,13 +75,14 @@ export class ProductDetailsPage implements OnInit,OnDestroy {
           console.log(state);
         });
     } else {
-      this.store.dispatch(new CartActions.CreateMedusaCart());
+      this.store.dispatch(new CartActions.CreateMedusaCart()).subscribe((state) => {
+        this.store.dispatch(new CartActions.AddProductMedusaToCart(state.cart?.cartId, 1, selectedVariant?.id));
+      });
 
-      const cartId2 = this.store.selectSnapshot<any>((state) => state.cart?.cartId);
-
-      setTimeout(() => {
-        this.store.dispatch(new CartActions.AddProductMedusaToCart(cartId2, 1, selectedVariant?.id));
-      }, 50);
+      // setTimeout(async () => {
+      //   const cartId2 = this.store.selectSnapshot<any>((state) => state.cart?.cartId);
+      //   await this.store.dispatch(new CartActions.AddProductMedusaToCart(cartId2, 1, selectedVariant?.id));
+      // }, 50);
     }
   }
   increment(variant?: any, index?: any) {

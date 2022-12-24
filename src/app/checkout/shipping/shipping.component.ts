@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
-import Medusa from "@medusajs/medusa-js";
-import { environment } from 'src/environments/environment';
+// import Medusa from "@medusajs/medusa-js";
+// import { environment } from 'src/environments/environment';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
+import { ShippingFacade } from './shippping.facade';
+import { ShippingActions } from 'src/app/store/shipping/shipping.actions';
+import { NavigationService } from 'src/app/shared/services/navigation.service';
 
 @Component({
   selector: 'app-shipping',
@@ -12,84 +15,67 @@ import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
   styleUrls: ['./shipping.component.scss'],
 })
 export class ShippingComponent {
-  // @Select(CheckoutState.getCheckoutFullCart) getCheckoutFullCart$: Observable<any>;
-  // @Select(CheckoutState.getCheckoutCartId) getCartId: Observable<string>;
-
   stateCartId: Observable<string>;
   cart: any;
 
   shippingMethods: any;
   shippingMethod: null;
 
-  // paymentSessionsList;
   paymentSessions: any;
   paymentSession: any;
 
-  orderStatus: string;
-  regionsList: any;
-  regions: any;
-  selectedRegion: any;
-  countries = [];
-  countriesList = [];
-  medusaCart: any;
   private subscription = new Subscription();
+
   viewState$: Observable<any>;
-  medusaClient: any;
-  presentingElement: any;
+
+  // medusaClient: any;
+
+
   constructor(
     private router: Router,
+    private navigation: NavigationService,
     private store: Store,
+    private facade: ShippingFacade,
   ) {
-    this.presentingElement = document.querySelector('#main-content') as HTMLElement
-    this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
+    this.viewState$ = this.facade.viewState$;
+    // this.viewState$.subscribe((vs) => {
+    //   console.log(vs.paymentSessions);
+    // });
+    // this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
   }
 
-  async ionViewWillEnter() {
-    this.cart = this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
-    // console.log(this.cart);
-    const shipping_options = await this.medusaClient.shippingOptions.listCartOptions(this.cart.id);
-    this.shippingMethods = shipping_options?.shipping_options;
+  ionViewWillEnter() {
+    this.store.dispatch(new ShippingActions.GetShippingOptions());
   }
-  back() {
-    this.router.navigateByUrl('checkout/flow/addresses');
-  }
+
   async onAddShippingMethod($event: any) {
-    // console.log('shippingMethod::', this.shippingMethod);
-    // console.log('shippingMethod::', $event.detail.value);
     if (this.shippingMethod != null && $event.detail.value != null) {
-      const cart = await this.medusaClient.carts.addShippingMethod(this.cart.id, {
-        option_id: $event.detail.value
-      });
-      if (cart?.cart) {
-        return this.initPaymentSession(cart.cart?.id);
-      }
+      this.store.dispatch(new ShippingActions.AddShippingMethod($event.detail.value));
+      this.initPaymentSession();
     }
   }
-  async initPaymentSession(cartId: string | any) {
-    // console.log(this.cart.id);
-    if (cartId) {
-      const cart = await this.medusaClient.carts.createPaymentSessions(cartId);
-      this.paymentSessions = cart.cart.payment_sessions;
-      this.cart = cart.cart;
-    }
+  async initPaymentSession() {
+    this.store.dispatch(new ShippingActions.CreatePaymentSessions());
   }
   async onAddPymentSession($event: any) {
-    const cart = await this.medusaClient.carts.
-      setPaymentSession(this.cart.id, {
-        provider_id: $event.detail.value
+    let scret_key: string;
+    this.store.dispatch(new ShippingActions.SetPaymentSession($event.detail.value))
+      .subscribe((state) => {
+        // console.log(state.cart.payment_session.data?.client_secret);
+        // scret_key = state.cart.payment_session.data?.client_secret;
       });
-    return this.openPaymentPage(cart.cart.payment_session.data?.client_secret);
+    // console.log(scret_key);
+    // this.store.dispatch(new MedusaActions.SecretKey(state.cart.payment_session.data?.client_secret));
   }
 
-  async openPaymentPage(client_secret: any) {
+  async openPaymentPage(client_secret?: any) {
     // console.log(client_secret);
-    this.store.dispatch(new MedusaActions.SecretKey(client_secret));
+    // this.store.dispatch(new MedusaActions.SecretKey(client_secret));
     this.router.navigateByUrl('checkout/flow/payment');
-    // this.store.dispatch(new MedusaActions.LogOut());
   }
-  // navigateToDelivery() {
-
-  // }
+  back() {
+    this.router.navigateByUrl('checkout/flow/cart-addresses');
+  }
   navigateToPayment() {
     this.router.navigateByUrl('checkout/flow/payment');
   }

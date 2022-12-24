@@ -6,23 +6,20 @@
             </ion-button>
         </ion-buttons>
         <ion-buttons slot="start">
-            <ion-button (click)="logout()">
-                logout
+            <ion-button (click)="logoutUser()" expand="block" fill="outline" shape="round">
+                Log user out
             </ion-button>
         </ion-buttons>
-        <ion-title>
-            Start Checkout
-        </ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
     <ion-header collapse="condense">
         <ion-toolbar>
-            <ion-card-header>
+            <ion-card-header *ngIf="viewState$ | async as vs">
                 <ion-card-title>Start</ion-card-title>
-                <ion-card-subtitle>
-                    {{ isLogged | json }}
+                <ion-card-subtitle *ngIf="vs?.isLoggedIn">
+                    {{ vs.isLoggedIn }}
                 </ion-card-subtitle>
             </ion-card-header>
         </ion-toolbar>
@@ -35,10 +32,13 @@
     <ion-button (click)="addressesMedusa()" expand="block" fill="clear" shape="round">
         Manage Addresses
     </ion-button> -->
-
-    <ion-button (click)="cartReviewMedusa()" expand="block" fill="clear" shape="round">
-        Cart Review
-    </ion-button>
+    <ion-row *ngIf="viewState$ | async as vs">
+        <ion-col size="12" *ngIf="vs?.isLoggedIn">
+            <ion-button (click)="cartReviewMedusa()" expand="block" fill="clear" shape="round">
+                Cart Review
+            </ion-button>
+        </ion-col>
+    </ion-row>
 
     <ion-button (click)="loginMedusa()" expand="block" fill="clear" shape="round">
         Login to Medusa (returning customer)

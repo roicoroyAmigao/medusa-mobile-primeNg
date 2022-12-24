@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
+import { CartActions } from 'src/app/store/cart/cart.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { IRegisterAddress } from 'src/app/store/state.interfaces';
 import { AddressDetailsComponent } from './address-details/address-details.component';
@@ -14,7 +15,7 @@ import { AddressesFacade } from './addresses.facade';
   templateUrl: './addresses.page.html',
   styleUrls: ['./addresses.page.scss'],
 })
-export class AddressesPage implements OnInit {
+export class AddressesPage {
 
   @Input() isEdit = false;
 
@@ -36,14 +37,13 @@ export class AddressesPage implements OnInit {
     //   console.log(vs);
     // });
   }
-
-  ionViewWillEnter() {
-    // this.store.dispatch(new AuthActions.GetSession());
+  async updateBillingAddress(address: IRegisterAddress) {
+    const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
+    this.store.dispatch(new CartActions.UpdateCartBillingAddress(cartId, address));
   }
-  onCheckboxChange(address: IRegisterAddress, $event: any) {
-    // console.log(address, $event.detail);
-    // console.log(address, $event.detail.checked);
-    this.store.dispatch(new MedusaActions.UpdateCustomerBIllingAddress(address));
+  async updateShippingAddress(address: IRegisterAddress) {
+    const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
+    this.store.dispatch(new CartActions.UpdateCartShippingAddress(cartId, address));
   }
   async navigateBack() {
     if (this.isEdit === false) {
@@ -97,9 +97,23 @@ export class AddressesPage implements OnInit {
     this.store.dispatch(new AddressesActions.AddAddressToState(address));
     await modal.present();
   }
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {
+  async useAddress(customer: any) {
+    const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
+    const cart = await this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
+    // const editedCustomer: IRegisterAddress = {
+    //   first_name:customer?.first_name,
+    //   last_name:customer?.last_name,
+    //   address_1: customer.billing_address?.address_1,
+    //   address_2: customer.billing_address?.address_2,
+    //   city: customer.billing_address?.city,
+    //   region_code: customer.billing_address?.region_code,
+    //   country: customer.billing_address?.country,
+    //   country_code: customer.billing_address?.country_code,
+    //   postal_code: customer.billing_address?.postal_code,
+    //   region_id: cart.region_id,
+    //   phone: customer.billing_address?.phone,
+    // };
+    console.log('ggg:: ', customer);
+    await this.store.dispatch(new CartActions.UpdateCart(cartId, customer));
   }
-
 }

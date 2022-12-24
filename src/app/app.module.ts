@@ -34,6 +34,10 @@ import { FormComponentsModule } from './form-components/form-components.module';
 import { ComponentsModule } from './components/components.module';
 import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 import { CartState } from './store/cart/cart.state';
+import { NgxStripeModule } from 'ngx-stripe';
+import { environment } from 'src/environments/environment';
+import { PaymentState } from './store/payment/payment.state';
+import { ShippingState } from './store/shipping/shipping.state';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -71,7 +75,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       RegisterState,
       ErrorsLoggingStateModule,
       ProductState,
-      CartState
+      CartState,
+      ShippingState,
+      PaymentState
     ]),
     NgxsStoragePluginModule.forRoot({
       key: [
@@ -82,7 +88,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
         'forms',
         'errosLogging',
         'register',
-        'cart'
+        'cart',
+        'shipping',
+        'payment'
       ]
     }),
     NgxsFormPluginModule.forRoot(),
@@ -91,6 +99,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     }),
     NgxsLoggerPluginModule.forRoot({ disabled: true }),
     NgxsResetPluginModule.forRoot(),
+    NgxStripeModule.forRoot(environment.STRIPE_KEY),
     ReactiveFormsModule,
     FormComponentsModule,
     PrimeComponentsModule,

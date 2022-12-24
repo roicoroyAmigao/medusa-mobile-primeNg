@@ -1,3 +1,5 @@
+import { IRegisterAddress } from "../state.interfaces";
+
 export namespace CartActions {
     export class GetMedusaCart {
         static readonly type = '[CartActions] Get Medsa Cart With ID';
@@ -10,9 +12,17 @@ export namespace CartActions {
         static readonly type = '[CartActions] Create Medusa Cart With Items';
         constructor(public selectedVariant: any) { }
     }
+    export class UpdateCartBillingAddress {
+        static readonly type = '[CartActions] Update Billing Address Cart';
+        constructor(public cartId: string | any, public address: IRegisterAddress | any) { }
+    }
+    export class UpdateCartShippingAddress {
+        static readonly type = '[CartActions] Update Shipping Address Cart';
+        constructor(public cartId: string | any, public address: IRegisterAddress | any) { }
+    }
     export class UpdateCart {
         static readonly type = '[CartActions] Update Cart';
-        constructor(public cartId: string | any, public payload: any | any) { }
+        constructor(public cartId: string | any, public customer: any | any) { }
     }
     export class AddProductMedusaToCart {
         static readonly type = '[CartActions] Add Products to Medusa Cart with Id, variantId and qty';
@@ -40,5 +50,12 @@ export namespace CartActions {
     export class UpdateSelectedCountry {
         static readonly type = '[CartActions] Update Selected Country';
         constructor(public selectedCountry: any | any) { }
+    }
+    export class CompleteCart {
+        static readonly type = '[CartActions] Complete Cart';
+        constructor(public cartId: string | any) { }
+    }
+    export class LogOut {
+        static readonly type = '[CartActions] Logout';
     }
 }

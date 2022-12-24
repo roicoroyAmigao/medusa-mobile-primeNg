@@ -19,3 +19,6 @@ export class addSelectedVariant {
 export class clearSelectedVariant {
     public static readonly type = '[ProductsState] Clear Selected Variant';
 }
+export class ProductsLogOut {
+    public static readonly type = '[ProductsState] Clear Selected Variant';
+}

@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
+import { CartActions } from 'src/app/store/cart/cart.actions';
 import { FormsActions } from 'src/app/store/forms/forms.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 
@@ -51,8 +52,9 @@ export class DetailsPage implements OnDestroy {
   ionViewWillEnter() {
     // this.populateEditForm();
   }
-  save() {
-    this.store.dispatch(new MedusaActions.UpdateCustomerBIllingAddress(this.addressForm.value));
+  async save() {
+    const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
+    this.store.dispatch(new CartActions.UpdateCartShippingAddress(cartId, this.addressForm.value));
     this.navigation.navigateFlip('/shop/addresses');
   }
   async populateEditForm() {

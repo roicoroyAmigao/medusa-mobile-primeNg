@@ -24,7 +24,8 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit() {
     this.medusaClient.orders.retrieve(this.orderId)
       .then((order: any) => {
-        this.orderDetails = order.order
+        this.orderDetails = order.order;
+        // console.log(this.orderDetails);
       });
   }
   dismissModal() {

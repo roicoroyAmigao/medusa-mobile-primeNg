@@ -26,9 +26,10 @@
   <ion-grid class="ion-margin">
     <ion-row>
       <ion-col>
-        <ng-container *ngIf="elementsOptions?.clientSecret as clientSecret">
-          <ngx-stripe-payment [clientSecret]="clientSecret">
-          </ngx-stripe-payment>
+        <ng-container *ngIf="viewState$ | async as vs">
+          <div *ngIf="vs?.secretKey as clientSecret">
+            <ngx-stripe-payment [clientSecret]="vs?.secretKey"></ngx-stripe-payment>
+          </div>
         </ng-container>
       </ion-col>
     </ion-row>

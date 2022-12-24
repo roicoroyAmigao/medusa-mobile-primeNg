@@ -3,7 +3,9 @@ import Medusa from "@medusajs/medusa-js";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
+import { AddressesActions } from "../addresses/addresses.actions";
 import { LogErrorEntry } from "../errors-logging/errors-logging.actions";
+import { IRegisterAddress } from "../state.interfaces";
 import { UserActions } from "../user/user.actions";
 import { CartActions } from "./cart.actions";
 
@@ -97,18 +99,31 @@ export class CartState {
         }
 
     }
-    @Action(CartActions.UpdateCart)
-    async updateCart(ctx: StateContext<CartStateModel>, { cartId, payload }: CartActions.UpdateCart) {
+    @Action(CartActions.UpdateCartBillingAddress)
+    async updateCartBillingAddress(ctx: StateContext<CartStateModel>, { cartId, address }: CartActions.UpdateCartBillingAddress) {
         try {
-            let cart = await this.medusaClient.carts.update(cartId, {
-                billing_address: payload.billing_address != null ? payload.billing_address : null,
-                customer_id: payload.customer_id != null ? payload.customer_id : null,
-                shipping_address: payload.shipping_address != null ? payload.shipping_address : null,
+            const cart = await this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
+            // console.log(cart);
+            const editedCustomer: IRegisterAddress = {
+                first_name: address?.first_name,
+                last_name: address?.last_name,
+                address_1: address?.address_1,
+                address_2: address?.address_2,
+                city: address?.city,
+                country_code: address?.country_code,
+                postal_code: address?.postal_code,
+                phone: address?.phone,
+            };
+            const regionCode = await this.buildRegionCode(editedCustomer.country_code);
+            let regionRes = await this.medusaClient.carts.update(cartId, {
+                region_id: regionCode,
+                country_code: editedCustomer?.country_code
             });
-            ctx.patchState({
-                cart: cart?.cart,
-                cartId: cart?.cart.id,
+            let cartRes = await this.medusaClient.carts.update(cartId, {
+                billing_address: editedCustomer,
+                customer_id: cart.customer_id,
             });
+            this.store.dispatch(new CartActions.GetMedusaCart(cartId));
             this.store.dispatch(new UserActions.GetSession());
         }
         catch (err: any) {
@@ -117,6 +132,97 @@ export class CartState {
             }
         }
     }
+    @Action(CartActions.UpdateCartShippingAddress)
+    async updateCartShippingAddress(ctx: StateContext<CartStateModel>, { cartId, address }: CartActions.UpdateCartShippingAddress) {
+        try {
+            const cart = await this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
+            const editedCustomer: IRegisterAddress = {
+                first_name: address?.first_name,
+                last_name: address?.last_name,
+                address_1: address?.address_1,
+                address_2: address?.address_2,
+                city: address?.city,
+                country_code: address?.country_code,
+                postal_code: address?.postal_code,
+                phone: address?.phone,
+            };
+            const regionCode = await this.buildRegionCode(editedCustomer.country_code);
+            let regionRes = await this.medusaClient.carts.update(cartId, {
+                region_id: regionCode,
+                country_code: editedCustomer?.country_code
+            });
+            let cartRes = await this.medusaClient.carts.update(cartId, {
+                shipping_address: editedCustomer,
+                customer_id: cart.customer_id,
+            });
+            this.store.dispatch(new CartActions.GetMedusaCart(cartId));
+            this.store.dispatch(new UserActions.GetSession());
+        }
+        catch (err: any) {
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
+            }
+        }
+    }
+    @Action(CartActions.UpdateCart)
+    async updateCart(ctx: StateContext<CartStateModel>, { cartId, customer }: CartActions.UpdateCart) {
+        try {
+            const cart = await this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
+            const editedCustomer: IRegisterAddress = {
+                first_name: customer?.first_name,
+                last_name: customer?.last_name,
+                address_1: customer?.address_1,
+                address_2: customer?.address_2,
+                city: customer?.city,
+                // region_code: customer.billing_address?.region_code,
+                country_code: customer?.country_code,
+                postal_code: customer?.postal_code,
+                // region_id: cart2.region_id,
+                phone: customer?.phone,
+            };
+            const address = {
+                first_name: editedCustomer?.first_name,
+                last_name: editedCustomer?.last_name,
+                address_1: editedCustomer?.address_1,
+                address_2: editedCustomer?.address_2,
+                city: editedCustomer?.city,
+                country_code: customer.billing_address?.country_code,
+                postal_code: editedCustomer?.postal_code,
+                phone: editedCustomer?.phone,
+                region_id: cart.region_id,
+            }
+            // console.log(editedCustomer);
+            // // console.log(cartRes.response.status);
+            const regionCode = await this.buildRegionCode(editedCustomer.country_code);
+            let regionRes = await this.medusaClient.carts.update(cartId, {
+                region_id: regionCode,
+            });
+            let cartRes = await this.medusaClient.carts.update(cartId, {
+                billing_address: editedCustomer,
+                shipping_address: editedCustomer,
+                customer_id: cart.customer_id,
+            });
+            this.store.dispatch(new CartActions.GetMedusaCart(cartId));
+            this.store.dispatch(new UserActions.GetSession());
+        }
+        catch (err: any) {
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
+            }
+        }
+    }
+    async buildRegionCode(country_code: string): Promise<string> {
+        this.store.dispatch(new AddressesActions.GetRegionList());
+
+        const regionList = await this.store.selectSnapshot<any>((state: any) => state.addresses?.regionList);
+        const countries = regionList.map((region: any, i: any) => region.countries);
+        const result = [].concat(...countries);
+        const filtered: any = result.filter((region: any) => {
+            return region.iso_2 === country_code;
+        });
+        return filtered[0]?.region_id;
+    }
+
     @Action(CartActions.AddProductMedusaToCart)
     async addProductMedusaToCart(ctx: StateContext<CartStateModel>, { cartId, quantity, variantId }: CartActions.AddProductMedusaToCart) {
         try {
@@ -215,5 +321,29 @@ export class CartState {
             if (err.response) {
             }
         }
+    }
+    @Action(CartActions.CompleteCart)
+    async completeCart(ctx: StateContext<CartStateModel>, { cartId }: CartActions.CompleteCart) {
+        try {
+            const cart = await this.medusaClient.carts.complete(cartId);
+            if (cart) {
+                console.log('complete cart', cart);
+                // this.store.dispatch(new UserActions.GetSession());
+            }
+        }
+        catch (err: any) {
+            if (err) {
+                this.store.dispatch(new LogErrorEntry(err));
+            }
+        }
+    }
+    @Action(CartActions.LogOut)
+    logout(ctx: StateContext<CartStateModel>) {
+        ctx.patchState({
+            cartId: null,
+            cart: null,
+            selectedRegion: null,
+            selectedCountry: null,
+        });
     }
 }
