@@ -6,7 +6,7 @@ import { Store } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { ILoginData, IRegisterData } from 'src/app/store/state.interfaces';
-import { UserActions } from 'src/app/store/user/user.actions';
+import { UserActions } from 'src/app/store/medusa-user/user.actions';
 
 @Component({
   selector: 'app-user',

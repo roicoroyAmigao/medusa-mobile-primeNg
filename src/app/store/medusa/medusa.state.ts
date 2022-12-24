@@ -4,7 +4,7 @@ import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
 import { MedusaActions } from "../medusa/medusa.actions";
-import { UserActions } from "../user/user.actions";
+import { UserActions } from "../medusa-user/user.actions";
 
 export interface MedusaStateModel {
     // cartId: string | any;

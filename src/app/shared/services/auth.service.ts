@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { UserActions } from 'src/app/store/user/user.actions';
+import { UserActions } from 'src/app/store/medusa-user/user.actions';
 import { ProductsLogOut } from 'src/app/store/products/products.actions';
 import { CartActions } from 'src/app/store/cart/cart.actions';
 

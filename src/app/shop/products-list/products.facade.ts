@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ProductState } from 'src/app/store/products/products.state';
-import { UserState } from 'src/app/store/user/user.state';
+import { UserState } from 'src/app/store/medusa-user/user.state';
 
 @Injectable({
     providedIn: 'root'

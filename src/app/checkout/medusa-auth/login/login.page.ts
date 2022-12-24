@@ -5,7 +5,7 @@ import { pipe, Subject, takeUntil, timeout } from 'rxjs';
 import { LoginFormComponent } from 'src/app/form-components/login-form/login-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { ILoginData } from 'src/app/store/state.interfaces';
-import { UserActions } from 'src/app/store/user/user.actions';
+import { UserActions } from 'src/app/store/medusa-user/user.actions';
 
 @Component({
   selector: 'app-login',

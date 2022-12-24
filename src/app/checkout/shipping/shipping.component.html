@@ -19,7 +19,7 @@
         <ion-label>
           Shipping Methods
         </ion-label>
-        <ion-radio-group [(ngModel)]="shippingMethod" (ionChange)="onAddShippingMethod($event)">
+        <ion-radio-group (ionChange)="onAddShippingMethod($event)">
           <ion-item *ngFor="let shippingMethod of vs.shippingOptions">
             <ion-label>
               {{ shippingMethod.name }}
@@ -41,7 +41,7 @@
           Payment Session
         </ion-label>
 
-        <ion-radio-group [(ngModel)]="paymentSession" (ionChange)="onAddPymentSession($event)">
+        <ion-radio-group (ionChange)="onAddPymentSession($event)">
           <ion-item *ngFor="let p of vs.paymentSessions">
             <ion-label>
               {{ p.provider_id }}

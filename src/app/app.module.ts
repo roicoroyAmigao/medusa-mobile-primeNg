@@ -21,7 +21,7 @@ import { MedusaState } from './store/medusa/medusa.state';
 import localePT from '@angular/common/locales/pt';
 import localeEN from '@angular/common/locales/en';
 import localeUK from '@angular/common/locales/uk';
-import {  UserState } from './store/user/user.state';
+import { UserState } from './store/medusa-user/user.state';
 
 import { AddressesState } from './store/addresses/addresses.state';
 import { FormsState } from './store/forms/forms.state';
@@ -38,6 +38,8 @@ import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from 'src/environments/environment';
 import { PaymentState } from './store/payment/payment.state';
 import { ShippingState } from './store/shipping/shipping.state';
+import { StrapiUserState } from './store/strapi-user/strapi-user.state';
+import { StrapiAuthInterceptor } from './shared/services/strapi.interceptor';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -77,7 +79,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       ProductState,
       CartState,
       ShippingState,
-      PaymentState
+      PaymentState,
+      StrapiUserState
     ]),
     NgxsStoragePluginModule.forRoot({
       key: [
@@ -90,7 +93,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
         'register',
         'cart',
         'shipping',
-        'payment'
+        'payment',
+        'strapiUser'
       ]
     }),
     NgxsFormPluginModule.forRoot(),
@@ -113,6 +117,11 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       useClass: ErrorService,
       multi: false
     },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: StrapiAuthInterceptor,
+    //   multi: true
+    // },
   ],
   bootstrap: [AppComponent],
 })

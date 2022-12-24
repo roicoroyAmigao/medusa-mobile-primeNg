@@ -6,14 +6,17 @@ import { NavigationService } from '../shared/services/navigation.service';
   templateUrl: './blog.page.html',
   styleUrls: ['./blog.page.scss'],
 })
-export class BlogPage implements OnInit {
+export class BlogPage {
 
   constructor(
     private navigation: NavigationService,
   ) { }
 
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {
+  loginBlog() {
+    this.navigation.navigateFlip('/strapi-auth/login')
+  }
+  logoutBlog() {
+
   }
   home() {
     this.navigation.navigateForward('/home', 'back');

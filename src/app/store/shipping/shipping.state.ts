@@ -4,7 +4,7 @@ import Medusa from "@medusajs/medusa-js";
 import { environment } from 'src/environments/environment';
 import { ShippingActions } from './shipping.actions';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
-import { UserActions } from '../user/user.actions';
+import { UserActions } from '../medusa-user/user.actions';
 import { MedusaActions } from '../medusa/medusa.actions';
 
 export interface ShippingStateModel {

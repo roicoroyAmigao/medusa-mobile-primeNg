@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { CartState } from 'src/app/store/cart/cart.state';
 import { MedusaState } from 'src/app/store/medusa/medusa.state';
 import { ProductState } from 'src/app/store/products/products.state';
-import { UserState } from 'src/app/store/user/user.state';
+import { UserState } from 'src/app/store/medusa-user/user.state';
 
 @Injectable({
     providedIn: 'root'

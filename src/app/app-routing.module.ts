@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'blog',
     loadChildren: () => import('./blog/blog.module').then( m => m.BlogPageModule)
   },
+  {
+    path: 'strapi-auth',
+    loadChildren: () => import('./blog/strapi-auth/strapi-auth.module').then(m => m.StrapiAuthModule)
+  },
 ];
 
 @NgModule({

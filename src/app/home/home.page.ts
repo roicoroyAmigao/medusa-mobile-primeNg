@@ -34,13 +34,13 @@ export class HomePage implements OnInit, OnDestroy {
         this.viewState$ = this.facade.viewState$;
     }
     enterShop() {
-        this.navigation.navControllerDefault('/shop/products-list');
+        this.navigation.navigateForward('/shop/products-list', 'forward');
     }
     enterBlog() {
-        this.navigation.navControllerDefault('/blog');
+        this.navigation.navigateForward('/blog/strapi/news', 'forward');
     }
     home() {
-        this.navigation.navControllerDefault('/home');
+        this.navigation.navigateForward('/home', 'forward');
     }
     logout() {
         this.auth.logout();

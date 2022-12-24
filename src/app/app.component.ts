@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(
-    private primengConfig: PrimeNGConfig,
     private authService: AppAuthService,
     private ionLanguageService: IonLanguageService,
     public menu: MenuController,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UserState } from '../store/user/user.state';
+import { UserState } from '../store/medusa-user/user.state';
 
 @Injectable({
     providedIn: 'root'

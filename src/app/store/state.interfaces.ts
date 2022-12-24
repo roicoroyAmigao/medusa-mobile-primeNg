@@ -2,7 +2,7 @@
 export interface ISelectedCartProduct {
     product: any,
     quantity: unknown,
-  }
+}
 export interface ICustomer {
     billing_address_id?: any;
     created_at?: any;
@@ -16,6 +16,15 @@ export interface ICustomer {
     orders?: any;
     phone?: any;
     updated_at?: any;
+}
+
+export interface IStrapiRegisterData {
+    username?: string;
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    password?: any;
+    phone?: number;
 }
 
 export interface IRegisterData {
@@ -61,6 +70,10 @@ export interface IRegisterAddress {
 export interface ILoginData {
     email: string | any;
     password: string | any;
+}
+export interface IStrapiLoginData {
+    identifier: string | any;
+    password: any | any;
 }
 export interface AppStateModel {
     authState?: any;

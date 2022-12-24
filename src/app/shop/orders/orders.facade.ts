@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { UserState } from 'src/app/store/user/user.state';
+import { UserState } from 'src/app/store/medusa-user/user.state';
 
 
 @Injectable({

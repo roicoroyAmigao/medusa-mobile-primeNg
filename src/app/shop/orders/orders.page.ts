@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { UserActions } from 'src/app/store/user/user.actions';
+import { UserActions } from 'src/app/store/medusa-user/user.actions';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrdersFacade } from './orders.facade';
 

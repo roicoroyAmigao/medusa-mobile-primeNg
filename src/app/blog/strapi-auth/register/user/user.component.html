@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="text-center mb-5">
+    <img src="assets/shapes.svg" alt="Image" height="50" class="mb-3">
+    <a (click)="address()">
+      {{ 'Address' }}
+    </a>
+  </div>
+
+  <form [formGroup]="strapiUserForm" ngxsForm="forms.userForm">
+
+    <label for="username">
+      {{ 'Username' | translate }}
+    </label>
+
+    <input formControlName="username" id="username" type="text" placeholder="{{ 'Username Placeholder' | translate }}">
+
+    <app-user-form formControlName="user"></app-user-form>
+
+  </form>
+
+  <ion-button (click)="register()" expand="block" fill="solid">
+    Register user
+  </ion-button>
+
+</ion-content>

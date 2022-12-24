@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 import { AddressesActions } from "../addresses/addresses.actions";
 import { LogErrorEntry } from "../errors-logging/errors-logging.actions";
 import { IRegisterAddress } from "../state.interfaces";
-import { UserActions } from "../user/user.actions";
+import { UserActions } from "../medusa-user/user.actions";
 import { CartActions } from "./cart.actions";
 
 export interface CartStateModel {
@@ -64,7 +64,7 @@ export class CartState {
     async createMedusaCart(ctx: StateContext<CartStateModel>) {
         try {
             let cart = await this.medusaClient.carts.create();
-            // this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new UserActions.GetSession());
             ctx.patchState({
                 cart: cart?.cart,
                 cartId: cart?.cart.id,
@@ -180,19 +180,6 @@ export class CartState {
                 // region_id: cart2.region_id,
                 phone: customer?.phone,
             };
-            const address = {
-                first_name: editedCustomer?.first_name,
-                last_name: editedCustomer?.last_name,
-                address_1: editedCustomer?.address_1,
-                address_2: editedCustomer?.address_2,
-                city: editedCustomer?.city,
-                country_code: customer.billing_address?.country_code,
-                postal_code: editedCustomer?.postal_code,
-                phone: editedCustomer?.phone,
-                region_id: cart.region_id,
-            }
-            // console.log(editedCustomer);
-            // // console.log(cartRes.response.status);
             const regionCode = await this.buildRegionCode(editedCustomer.country_code);
             let regionRes = await this.medusaClient.carts.update(cartId, {
                 region_id: regionCode,

@@ -5,10 +5,43 @@
         <ion-icon name="home-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>blog</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logoutBlog()" expand="block" fill="clear" shape="round">
+        logout
+      </ion-button>
+      <ion-button (click)="loginBlog()" expand="block" fill="clear" shape="round">
+        login
+      </ion-button>
+      <ion-item>
+        <ion-avatar>
+          <img [src]="'assets/shapes.svg'" />
+        </ion-avatar>
+      </ion-item>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
 </ion-content>
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="news">
+      <ion-icon name="triangle"></ion-icon>
+      <ion-label>News</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settings">
+      <ion-icon name="triangle"></ion-icon>
+      <ion-label>Settings</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile">
+      <ion-icon name="triangle"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>

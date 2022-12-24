@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { RegisterActions } from './register.actions';
 import { MedusaActions } from '../medusa/medusa.actions';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
-import { UserActions } from '../user/user.actions';
+import { UserActions } from '../medusa-user/user.actions';
 
 export interface RegisterStateModel {
 }
