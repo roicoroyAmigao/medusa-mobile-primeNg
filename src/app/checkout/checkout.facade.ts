@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable, combineLatest, map } from 'rxjs';
 import { CartState } from '../store/cart/cart.state';
 import { ProductState } from '../store/products/products.state';
@@ -16,18 +16,13 @@ export class CheckoutFacade {
 
     readonly viewState$: Observable<any>;
 
-    constructor(
-        private store: Store,
-    ) {
-        // this.store.dispatch(new MedusaState)
+    constructor() {
         this.viewState$ = combineLatest(
             [
-                // this.cart$,
                 this.isLoggedIn$,
                 this.cartId$,
                 this.cart$,
                 this.productList$,
-                // this.selectedProduct$,
             ]
         ).pipe(
             map(([
@@ -35,13 +30,11 @@ export class CheckoutFacade {
                 cartId,
                 cart,
                 productList,
-                // selectedProduct,
             ]) => ({
                 isLoggedIn,
                 cartId,
                 cart,
                 productList,
-                // selectedProduct,
             }))
         );
     }

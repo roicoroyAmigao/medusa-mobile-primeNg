@@ -54,9 +54,12 @@ export class ProductListPage implements OnInit {
       this.sortField = value;
     }
   }
+  home() {
+    this.navigation.navControllerDefault('/home');
+  }
   logout() {
     this.auth.logout();
-    this.navigation.navControllerDefault('/home');
+    // this.navigation.navControllerDefault('/home');
   }
 
   selectProduct(product: any) {

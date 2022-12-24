@@ -37,7 +37,10 @@ export class HomePage implements OnInit, OnDestroy {
         this.navigation.navControllerDefault('/shop/products-list');
     }
     enterBlog() {
-        this.navigation.navControllerDefault('/shop/products-list');
+        this.navigation.navControllerDefault('/blog');
+    }
+    home() {
+        this.navigation.navControllerDefault('/home');
     }
     logout() {
         this.auth.logout();

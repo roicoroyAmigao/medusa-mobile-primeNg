@@ -1,10 +1,11 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-        <ion-buttons slot="start">
+        <!-- <ion-buttons slot="start">
             <ion-button (click)="logout()">
                 Logout
             </ion-button>
-        </ion-buttons>
+        </ion-buttons> -->
+
     </ion-toolbar>
 </ion-header>
 
@@ -12,9 +13,9 @@
     <ion-header collapse="condense">
         <ion-toolbar>
             <ion-card-header *ngIf="viewState$ | async as vs">
-                <ion-card-title>Start</ion-card-title>
+                <ion-card-title>Home</ion-card-title>
                 <ion-card-subtitle>
-                    is Logged in:
+                    is Medusa Logged in:
                     <ion-note>
                         {{ vs.isLoggedIn }}
                     </ion-note>

@@ -18,8 +18,6 @@ export class CartReviewComponent {
 
   viewState$: Observable<any>;
 
-  cartForm: FormGroup | any;
-
   min = 1;
   max = 10;
   step = 1;
@@ -29,28 +27,14 @@ export class CartReviewComponent {
     return this.counterValue;
   }
 
-  totalCheckout: any;
-  user: any | null;
-  userId: string | null = null;
-  cartId: string | any;
-  newCart: any;
-
-  hasProducts: boolean;
 
   constructor(
-    private modalCtrl: ModalController,
     public navCtrl: NavController,
     private store: Store,
     private facade: CartReviewFacade,
     private navigation: NavigationService,
   ) {
     this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe((state)=>{
-    //   console.log(state);
-    // });
-
-    // const items = this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
-    // console.log(items);
   }
 
   incrementSelectItem(item: any) {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -13,14 +13,13 @@ import { AppAuthService } from 'src/app/shared/services/auth.service';
   selector: 'app-start',
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StartComponent implements OnInit, OnDestroy {
+export class StartComponent {
 
   viewState$: Observable<any>;
 
   isLogged: boolean;
-
-  private readonly ngUnsubscribe = new Subject();
 
   constructor(
     private navigation: NavigationService,
@@ -29,38 +28,10 @@ export class StartComponent implements OnInit, OnDestroy {
     private auth: AppAuthService
   ) {
     this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe(async (state) => {
-    //   console.log(state);
-    //   this.isLogged = await this.store.selectSnapshot<any>((state: any) => state.user?.isLoggedIn);
-    //   // console.log(this.isLogged);
-    // });
-  }
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  async ngOnInit(): Promise<void> {
-    // const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
-
-    // this.store.dispatch(new CartActions.GetMedusaCart(cartId))
-    //   .pipe(
-    //     takeUntil(this.ngUnsubscribe),
-    //   )
-    //   .subscribe((state) => {
-    //     // console.log(state.medusaState);
-    //   });
-
-    // this.store.dispatch(new CheckoutActions.GetMedusaCart(cartId)).subscribe((state) => {
-    //   console.log(state.checkoutState.cart);
-    // });
   }
   navigateBack() {
     this.navigation.navigateForward('/shop/products-list', 'back');
   }
-  // async openProductsReview() {
-  //   const modal = await this.modalCtrl.create({
-  //     component: CartReviewComponent,
-  //   });
-  //   modal.present();
-  // }
   cartReviewMedusa() {
     this.navigation.navigateForward('/checkout/flow/cart-review', 'forward');
   }
@@ -78,9 +49,5 @@ export class StartComponent implements OnInit, OnDestroy {
   }
   logoutUser() {
     this.auth.logoutUser();
-  }
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next(null);
-    this.ngUnsubscribe.complete();
   }
 }

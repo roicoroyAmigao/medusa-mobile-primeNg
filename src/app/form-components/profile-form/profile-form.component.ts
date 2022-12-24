@@ -32,7 +32,7 @@ export class ProfileFormComponent implements ControlValueAccessor, OnDestroy {
 
   onChange: any = () => { };
   onTouched: any = () => { };
-  
+
   get value(): ProfileFormValues {
     return this.form.value;
   }
@@ -68,8 +68,6 @@ export class ProfileFormComponent implements ControlValueAccessor, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
-
-  
 
   registerOnChange(fn: any) {
     this.onChange = fn;

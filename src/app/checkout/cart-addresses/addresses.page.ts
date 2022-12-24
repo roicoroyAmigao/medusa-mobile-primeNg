@@ -33,9 +33,6 @@ export class AddressesPage {
   ) {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
-    // this.viewState$.subscribe((vs) => {
-    //   console.log(vs);
-    // });
   }
   async updateBillingAddress(address: IRegisterAddress) {
     const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
@@ -99,20 +96,6 @@ export class AddressesPage {
   }
   async useAddress(customer: any) {
     const cartId = await this.store.selectSnapshot<any>((state: any) => state.cart?.cartId);
-    const cart = await this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
-    // const editedCustomer: IRegisterAddress = {
-    //   first_name:customer?.first_name,
-    //   last_name:customer?.last_name,
-    //   address_1: customer.billing_address?.address_1,
-    //   address_2: customer.billing_address?.address_2,
-    //   city: customer.billing_address?.city,
-    //   region_code: customer.billing_address?.region_code,
-    //   country: customer.billing_address?.country,
-    //   country_code: customer.billing_address?.country_code,
-    //   postal_code: customer.billing_address?.postal_code,
-    //   region_id: cart.region_id,
-    //   phone: customer.billing_address?.phone,
-    // };
     console.log('ggg:: ', customer);
     await this.store.dispatch(new CartActions.UpdateCart(cartId, customer));
   }

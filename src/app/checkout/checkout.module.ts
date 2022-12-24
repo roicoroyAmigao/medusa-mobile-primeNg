@@ -28,7 +28,6 @@ import { ShippingComponent } from './shipping/shipping.component';
     FormsModule,
     ReactiveFormsModule,
     NgxStripeModule,
-    // OrdersPageModule
   ],
   declarations: [
     StartComponent,

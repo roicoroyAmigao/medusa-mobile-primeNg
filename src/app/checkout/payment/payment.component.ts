@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
-import { UserActions } from 'src/app/store/user/user.actions';
 
 @Component({
   selector: 'app-payment',
@@ -25,7 +24,6 @@ export class PaymentComponent implements OnDestroy {
 
   elementsOptions: StripeElementsOptions;
 
-  // @Input() client_secret: string;
 
   medusaClient: any;
 

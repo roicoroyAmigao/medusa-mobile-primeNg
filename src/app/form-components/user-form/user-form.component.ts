@@ -21,7 +21,7 @@ import Validation from 'src/app/shared/validators/validation';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserFormComponent implements OnInit,ControlValueAccessor, OnDestroy  {
+export class UserFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
   userForm: FormGroup | any;
   subscriptions: Subscription[] = [];
@@ -45,7 +45,7 @@ export class UserFormComponent implements OnInit,ControlValueAccessor, OnDestroy
 
   constructor(
     private formBuilder: FormBuilder
-    ) {
+  ) {
     this.userForm = this.formBuilder.group({
       first_name: new FormControl('', [Validators.required]),
       last_name: new FormControl('', [Validators.required]),
@@ -56,7 +56,8 @@ export class UserFormComponent implements OnInit,ControlValueAccessor, OnDestroy
       phone: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       passwordConfirmation: new FormControl('', [Validators.required])
-    }, { validators: [Validation.match('password', 'passwordConfirmation')]
+    }, {
+      validators: [Validation.match('password', 'passwordConfirmation')]
     });
 
     this.subscriptions.push(
@@ -68,7 +69,7 @@ export class UserFormComponent implements OnInit,ControlValueAccessor, OnDestroy
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());

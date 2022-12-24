@@ -7,8 +7,6 @@ import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { CartActions } from 'src/app/store/cart/cart.actions';
 import { FormsActions } from 'src/app/store/forms/forms.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-
 
 @Component({
   selector: 'app-details',

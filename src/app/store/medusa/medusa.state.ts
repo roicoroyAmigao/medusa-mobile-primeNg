@@ -61,27 +61,6 @@ export class MedusaState {
             }
         }
     }
-    // // Update a Shipping Address
-    // @Action(MedusaActions.UpdateaShippingAddress)
-    // async updateaShippingAddress(ctx: StateContext<MedusaStateModel>, { addressId, payload }: MedusaActions.UpdateaShippingAddress) {
-    //     console.log(addressId, payload);
-
-
-    //     try {
-    //         let customer = await this.medusaClient.customers.addresses.updateAddress(addressId, {
-    //             payload
-    //         });
-    //         // console.log(customer);
-    //         this.store.dispatch(new UserActions.GetSession());
-
-    //     }
-    //     catch (err: any) {
-    //         if (err) {
-    //             ctx.patchState({
-    //             });
-    //         }
-    //     }
-    // }
     @Action(MedusaActions.UpdateCustomerAddress)
     async updateCustomerAddress(ctx: StateContext<MedusaStateModel>, { addressId, payload }: MedusaActions.UpdateCustomerAddress) {
         try {
@@ -104,57 +83,6 @@ export class MedusaState {
             }
         }
     }
-    // @Action(MedusaActions.UpdateCustomerBIllingAddress)
-    // async updateCustomer(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.UpdateCustomerBIllingAddress) {
-    //     // console.log(payload);
-    //     try {
-    //         let customer = this.medusaClient.customers.update({
-    //             billing_address: {
-    //                 first_name: payload?.first_name,
-    //                 last_name: payload?.last_name,
-    //                 address_1: payload.address?.address_1,
-    //                 address_2: payload.address?.address_2,
-    //                 city: payload.address?.city,
-    //                 country_code: payload.address?.country_code,
-    //                 postal_code: payload.address?.postal_code,
-    //                 phone: payload.address?.phone
-    //             }
-    //         });
-    //         this.store.dispatch(new UserActions.GetSession());
-    //     }
-    //     catch (err: any) {
-    //         if (err) {
-    //             ctx.patchState({
-    //             });
-    //         }
-    //     }
-    // }
-    // @Action(MedusaActions.AddBillingAddress)
-    // async addBillingAddress(ctx: StateContext<MedusaStateModel>, { payload }: MedusaActions.AddBillingAddress) {
-    //     try {
-    //         let customer = this.medusaClient.customers.update({
-    //             billing_address: {
-    //                 first_name: payload?.first_name,
-    //                 last_name: payload?.last_name,
-    //                 address_1: payload?.address_1,
-    //                 address_2: payload?.address_2,
-    //                 city: payload?.city,
-    //                 country_code: payload?.country_code,
-    //                 postal_code: payload?.postal_code,
-    //                 phone: payload?.phone,
-    //                 province: 'Georgia',
-    //                 company: 'Wyman LLC',
-    //             }
-    //         })
-    //         this.store.dispatch(new UserActions.GetSession());
-    //         console.log(customer);
-    //     } catch (err: any) {
-    //         if (err) {
-    //             ctx.patchState({
-    //             });
-    //         }
-    //     }
-    // }
     @Action(MedusaActions.SecretKey)
     async secretKey(ctx: StateContext<MedusaStateModel>, { secretKey }: MedusaActions.SecretKey) {
         // console.log(secretKey);

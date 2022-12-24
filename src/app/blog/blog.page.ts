@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationService } from '../shared/services/navigation.service';
 
 @Component({
   selector: 'app-blog',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlogPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private navigation: NavigationService,
+  ) { }
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
   }
-
+  home() {
+    this.navigation.navigateForward('/home', 'back');
+  }
 }
