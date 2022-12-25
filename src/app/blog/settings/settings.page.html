@@ -1,9 +1,29 @@
-<ion-header>
+<ion-header [translucent]="false" collapse="none">
   <ion-toolbar>
-    <ion-title>settings</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentPopover()">
+        <ion-icon name="language-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="false">
+  <ion-header collapse="none">
+    <ion-toolbar>
+      <ion-card-header>
+        <ion-card-title class="app-font">
+          {{ 'Settings' | translate }}
+        </ion-card-title>
+      </ion-card-header>
+    </ion-toolbar>
+  </ion-header>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -40,6 +40,7 @@ import { PaymentState } from './store/payment/payment.state';
 import { ShippingState } from './store/shipping/shipping.state';
 import { StrapiUserState } from './store/strapi-user/strapi-user.state';
 import { StrapiAuthInterceptor } from './shared/services/strapi.interceptor';
+import { LanguageModule } from './shared/services/language/language.module';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -107,7 +108,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     ReactiveFormsModule,
     FormComponentsModule,
     PrimeComponentsModule,
-    ComponentsModule
+    ComponentsModule,
+    LanguageModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -117,11 +119,11 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       useClass: ErrorService,
       multi: false
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: StrapiAuthInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: StrapiAuthInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent],
 })

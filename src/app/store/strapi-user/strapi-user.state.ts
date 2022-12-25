@@ -78,6 +78,15 @@ export class StrapiUserState {
         }
     }
 
+    @Action(StrapiUserActions.GetStrapiLoggedIn)
+    getStrapiUser(ctx: StateContext<UserStateModel>) {
+        const state = ctx.getState();
+        ctx.patchState({
+            ...state,
+            isLoggedIn: null,
+        });
+    }
+
     @Action(StrapiUserActions.LogOutStrapiUser)
     logOutStrapiUser(ctx: StateContext<UserStateModel>) {
         ctx.patchState({

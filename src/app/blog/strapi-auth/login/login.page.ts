@@ -57,9 +57,10 @@ export class LoginPage implements OnInit, OnDestroy {
     //       }
     //     }, 50);
     //   });
+    this.navigation.navControllerDefault('/blog/strapi/news');
   }
   back(): void {
-    this.navigation.navControllerDefault('/blog/news');
+    this.navigation.navControllerDefault('/blog/strapi/news');
   }
   register(): void {
     this.navigation.navControllerDefault('/strapi-auth/register/user');

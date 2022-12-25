@@ -9,7 +9,7 @@ import { IonStorageService } from '../../ionstorage.service';
 import { SAVED_LANGUAGE } from '../language.service';
 
 @Component({
-  selector: 'ng-ion-workspace-language',
+  selector: 'app-workspace-language',
   templateUrl: './language.component.html',
   styleUrls: ['./language.component.scss'],
 })

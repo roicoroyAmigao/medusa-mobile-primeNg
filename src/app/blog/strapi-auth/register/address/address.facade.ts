@@ -7,8 +7,8 @@ import { UserState } from 'src/app/store/medusa-user/user.state';
 @Injectable({
     providedIn: 'root'
 })
-export class AddressFacade {
-    @Select(UserState.getCustomer) customer$: Observable<any>;
+export class StrapiAddressFacade {
+    // @Select(UserState.getCustomer) customer$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 
@@ -17,13 +17,15 @@ export class AddressFacade {
     ) {
         this.viewState$ = combineLatest(
             [
-                this.customer$,
+                // this.customer$,
             ]
         ).pipe(
-            map(([
-                customer,
-            ]) => ({
-                customer,
+            map((
+                // [
+                //     customer,
+                // ]
+            ) => ({
+                // customer,
             }))
         );
     }

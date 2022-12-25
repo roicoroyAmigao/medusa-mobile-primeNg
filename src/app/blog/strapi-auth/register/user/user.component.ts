@@ -88,7 +88,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.navigation.navControllerDefault('/strapi-auth/register/address');
   }
   back() {
-    this.navigation.navControllerDefault('/checkout/flow/start');
+    this.navigation.navControllerDefault('/strapi-auth/login');
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);

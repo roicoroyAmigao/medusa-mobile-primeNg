@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { LanguageComponent } from './language-component/language.component';
 
 @NgModule({
   imports: [
@@ -8,7 +9,10 @@ import { IonicModule } from '@ionic/angular';
     IonicModule,
   ],
   declarations: [
-
+    LanguageComponent
   ],
+  exports:[
+    LanguageComponent
+  ]
 })
-export class LanguagePageModule {}
+export class LanguageModule {}

@@ -1,6 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>news</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logoutBlog()" expand="block" fill="clear" shape="round">
+        logout
+      </ion-button>
+      <ion-button (click)="authBlog()" expand="block" fill="clear" shape="round">
+        Auth
+      </ion-button>
+      <ion-item>
+        <ion-avatar>
+          <img [src]="'assets/shapes.svg'" />
+        </ion-avatar>
+      </ion-item>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

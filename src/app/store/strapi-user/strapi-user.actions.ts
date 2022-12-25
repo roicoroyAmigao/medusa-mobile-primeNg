@@ -10,6 +10,9 @@ export namespace StrapiUserActions {
         static readonly type = '[StrapiUserActions] Strapi Register Medusa user and set on state';
         constructor(public payload: IStrapiRegisterData) { }
     }
+    export class GetStrapiLoggedIn {
+        static readonly type = '[StrapiUserActions] Get Strapi Logged In';
+    }
     export class LogOutStrapiUser {
         static readonly type = '[StrapiUserActions] Logout Strapi clear state User';
     }
