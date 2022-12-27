@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
 import { AlertController, PopoverController } from '@ionic/angular';
-import { IonLanguageService } from '../language.service';
+import { IonLanguageService } from '../../shared/services/language/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { IonStorageService } from '../../ionstorage.service';
-import { SAVED_LANGUAGE } from '../language.service';
+import { IonStorageService } from '../../shared/services/ionstorage.service';
+import { SAVED_LANGUAGE } from '../../shared/services/language/language.service';
 
 @Component({
   selector: 'app-workspace-language',

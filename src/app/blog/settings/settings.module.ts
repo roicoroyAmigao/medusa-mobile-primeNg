@@ -11,8 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { LanguageModule } from 'src/app/shared/services/language/language.module';
-import { LanguageComponent } from 'src/app/shared/services/language/language-component/language.component';
+import { LanguageComponent } from 'src/app/components/language-component/language.component';
 
 @NgModule({
   imports: [
@@ -26,10 +25,12 @@ import { LanguageComponent } from 'src/app/shared/services/language/language-com
     TranslateModule,
     ComponentsModule,
     ReactiveFormsModule,
-    LanguageModule
+    ComponentsModule
   ],
   declarations: [
-    SettingsPage
+    SettingsPage,
+  ],
+  entryComponents:[
   ]
 })
 export class SettingsPageModule { }

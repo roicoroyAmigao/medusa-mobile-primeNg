@@ -5,6 +5,6 @@ export namespace ThemeActions {
     }
     export class SetTheme {
         static readonly type = '[ThemeActions] Set Theme on State';
-        constructor(public payload: any) { }
+        constructor(public theme: any) { }
     }
 }

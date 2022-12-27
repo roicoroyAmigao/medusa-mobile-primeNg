@@ -1,54 +1,58 @@
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
+import { StrapiService } from 'src/app/shared/services/strapi.service';
+import { ThemeService } from 'src/app/shared/services/theme-settings.service';
 import { ThemeActions } from './theme.actions';
 
 export class ThemeStateModel {
-    theme: any;
+    style: any;
 }
 @State<ThemeStateModel>({
     name: 'theme',
     defaults: {
-        theme: null,
+        style: null,
     }
 })
 @Injectable()
 export class ThemeState {
 
     constructor(
-        // private themeService: ThemeService,
+        private themeService: ThemeService,
         private store: Store,
+        private strapi: StrapiService,
     ) { }
 
     @Selector()
     static getTheme(state: ThemeStateModel) {
-        return state.theme;
+        return state.style;
     }
 
     @Action(ThemeActions.GetTheme)
-    getTheme({ patchState, getState, setState }: StateContext<ThemeStateModel>) {
-        const state = getState();
+    getTheme(ctx: StateContext<ThemeStateModel>) {
+        const state = ctx.getState();
         // console.log("payload", payload);
-        // this.strapi.getAppTheme()
-        //     .pipe(tap((theme: any) => {
-        //         console.log("result", theme);
-        //         patchState({
-        //             ...state,
-        //             theme: theme,
-        //         });
-        //     }
-        //     ));
+        this.strapi.getAppTheme()
+            .pipe(tap((theme: any) => {
+                // console.log("result", theme);
+                ctx.patchState({
+                    ...state,
+                    style: theme,
+                });
+            }
+            ));
     }
 
     @Action(ThemeActions.SetTheme)
-    setTheme({ patchState, getState, setState }: StateContext<ThemeStateModel>, { payload }: ThemeActions.SetTheme) {
-        const state = getState();
-        if (payload?.user) {
-            patchState({
-                ...state,
-                theme: payload,
-            });
-        };
+    setTheme(ctx: StateContext<ThemeStateModel>, { theme }: ThemeActions.SetTheme) {
+        const state = ctx.getState();
+
+        // console.log(theme);
+
+        ctx.patchState({
+            ...state,
+            style: theme,
+        });
     }
 
 }

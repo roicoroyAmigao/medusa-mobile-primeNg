@@ -27,7 +27,7 @@ export interface IStrapiRegisterData {
     phone?: number;
 }
 
-export interface IRegisterData {
+export interface ICustomerRegisterData {
     first_name?: string;
     last_name?: string;
     email?: string;
@@ -67,7 +67,7 @@ export interface IRegisterAddress {
     province?: any;
     metadata?: any;
 }
-export interface ILoginData {
+export interface ICustomerLoginData {
     email: string | any;
     password: string | any;
 }

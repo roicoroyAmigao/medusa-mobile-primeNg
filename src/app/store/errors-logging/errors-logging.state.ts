@@ -24,9 +24,10 @@ export class ErrorsLoggingStateModule {
     @Action(LogErrorEntry)
     logErrorEntry(ctx: StateContext<unknown>, action: LogErrorEntry): void {
         const error = action.payload;
-        if(error.message){
+        if (error.message) {
             this.presentErrorAlert(error.message);
         }
+        // console.log('error', error);
         ctx.patchState({
             errorEntry: error,
         });
@@ -50,7 +51,9 @@ export class ErrorsLoggingStateModule {
                     role: 'confirm',
                     handler: () => {
                         // console.log('clear');
-                        this.store.dispatch(new ClearErrorEntry());
+                        setTimeout(() => {
+                            this.store.dispatch(new ClearErrorEntry());
+                        }, 1000);
                     },
                 },
             ],

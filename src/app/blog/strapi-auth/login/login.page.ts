@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { pipe, Subject, takeUntil, timeout } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { LoginFormComponent } from 'src/app/form-components/login-form/login-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { ILoginData, IStrapiLoginData } from 'src/app/store/state.interfaces';
-import { UserActions } from 'src/app/store/medusa-user/user.actions';
+import { CustomerActions } from 'src/app/store/customer/customer.actions';
+import { ICustomerLoginData, IStrapiLoginData } from 'src/app/store/state.interfaces';
+import { StrapiUserActions } from 'src/app/store/strapi-user/strapi-user.actions';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   signupForm: FormGroup | any;
 
-  loginReq: ILoginData;
+  loginReq: IStrapiLoginData;
 
   private readonly ngUnsubscribe = new Subject();
 
@@ -34,30 +35,32 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter() {
-    this.form?.loginForm.get('email').setValue('roicoroy@yahoo.com.br');
+    this.form?.loginForm.get('email').setValue('test@test.com');
     this.form?.loginForm.get('password').setValue('Rwbento123!');
   }
 
-  public login(): void {
-    const request: IStrapiLoginData = {
+  public async login(): Promise<void> {
+    const strapiRequest: IStrapiLoginData = {
       identifier: this.signupForm.value.login?.email,
       password: this.signupForm.value.login?.password
     };
-    console.log('request: ', request);
-    // this.store.dispatch(new UserActions.Login(request))
-    //   .pipe(
-    //     takeUntil(this.ngUnsubscribe)
-    //   )
-    //   .subscribe((state) => {
-    //     const errorEntry = state.errorsLogging.errorEntry;
-    //     setTimeout(() => {
-    //       if (errorEntry === null) {
-    //         this.navigation.navigateFlip('/checkout/flow/cart-review');
-    //         // console.log('State: ', errorEntry);
-    //       }
-    //     }, 50);
-    //   });
-    this.navigation.navControllerDefault('/blog/strapi/news');
+    const medusaRequest: ICustomerLoginData = {
+      email: this.signupForm.value.login?.email,
+      password: this.signupForm.value.login?.password
+    }
+
+    // console.log('request: ', request);
+    this.store.dispatch(new StrapiUserActions.StrapiLogin(strapiRequest));
+    this.store.dispatch(new CustomerActions.Login(medusaRequest));
+
+
+    setTimeout(() => {
+      const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
+      console.log('errorEntry: ', errorEntry);
+      if (errorEntry === null) {
+        this.navigation.navigateFlip('/blog/strapi/news');
+      }
+    }, 100);
   }
   back(): void {
     this.navigation.navControllerDefault('/blog/strapi/news');

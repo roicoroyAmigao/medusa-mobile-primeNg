@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import Medusa from "@medusajs/medusa-js";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
-import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
+import { CustomerActions } from "../customer/customer.actions";
 import { MedusaActions } from "../medusa/medusa.actions";
-import { UserActions } from "../medusa-user/user.actions";
 
 export interface MedusaStateModel {
     // cartId: string | any;
@@ -53,7 +52,7 @@ export class MedusaState {
                     metadata: {}
                 }
             });
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -74,7 +73,7 @@ export class MedusaState {
                 postal_code: payload.address?.postal_code,
                 phone: payload.address?.phone,
             });
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {

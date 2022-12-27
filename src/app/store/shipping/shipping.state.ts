@@ -4,8 +4,8 @@ import Medusa from "@medusajs/medusa-js";
 import { environment } from 'src/environments/environment';
 import { ShippingActions } from './shipping.actions';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
-import { UserActions } from '../medusa-user/user.actions';
 import { MedusaActions } from '../medusa/medusa.actions';
+import { CustomerActions } from '../customer/customer.actions';
 
 export interface ShippingStateModel {
     shipping_options: any | null;
@@ -65,7 +65,7 @@ export class ShippingState {
                 option_id: option_id
             });
             //   console.log(cart);
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -82,7 +82,7 @@ export class ShippingState {
             ctx.patchState({
                 payment_sessions: cart.cart?.payment_sessions
             });
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -105,7 +105,7 @@ export class ShippingState {
                 provider_id: cart.cart?.provider_id
             });
 
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {

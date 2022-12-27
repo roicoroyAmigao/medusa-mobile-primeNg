@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UserState } from 'src/app/store/medusa-user/user.state';
+import { CustomerState } from 'src/app/store/customer/customer.state';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AddressFacade {
-    @Select(UserState.getCustomer) customer$: Observable<any>;
+    @Select(CustomerState.getCustomer) customer$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 

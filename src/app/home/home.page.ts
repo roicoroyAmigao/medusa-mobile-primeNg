@@ -6,6 +6,8 @@ import { NavigationService } from '../shared/services/navigation.service';
 import { StateClear } from 'ngxs-reset-plugin';
 import { HomeFacade } from './home.facade';
 import { AppAuthService } from '../shared/services/auth.service';
+import { Platform } from '@ionic/angular';
+import { ThemeService } from '../shared/services/theme-settings.service';
 
 @Component({
     selector: 'app-home',
@@ -14,7 +16,7 @@ import { AppAuthService } from '../shared/services/auth.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage implements OnDestroy {
     products!: any[];
 
     subscription!: Subscription;
@@ -28,11 +30,9 @@ export class HomePage implements OnInit, OnDestroy {
         private navigation: NavigationService,
         private facade: HomeFacade,
         private auth: AppAuthService,
+        private platform: Platform,
+        private theme: ThemeService,
     ) { }
-
-    ngOnInit() {
-        this.viewState$ = this.facade.viewState$;
-    }
     enterShop() {
         this.navigation.navigateForward('/shop/products-list', 'forward');
     }

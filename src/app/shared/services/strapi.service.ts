@@ -1,25 +1,26 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { IUser } from '../types/models/User';
-import { IReqAuthRegister } from '../types/requests/ReqAuthRegister';
-import { IReqPasswordReset } from '../types/requests/ReqPasswordReset';
-import { IReqUserUpdate } from '../types/requests/ReqUserUpdate';
-import { IResAuthLogin } from '../types/responses/ResAuthLogin';
-import { lastValueFrom, Observable, Subject, tap } from 'rxjs';
-import { IResAuthRegister } from '../types/responses/ResAuthRegister';
-import { AlertController } from '@ionic/angular';
-import { IResPasswordReset } from '../types/responses/ResPasswordReset';
-import { IResRequestPasswordReset } from '../types/responses/ResRequestPasswordReset';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { AlertController } from "@ionic/angular";
+import { lastValueFrom, Observable } from "rxjs";
+import { IStrapiLoginData, IStrapiRegisterData } from "src/app/store/state.interfaces";
+import { environment } from "src/environments/environment";
+import { IUser } from "../types/models/User";
+import { IReqAuthRegister } from "../types/requests/ReqAuthRegister";
+import { IReqPasswordReset } from "../types/requests/ReqPasswordReset";
+import { IReqUserUpdate } from "../types/requests/ReqUserUpdate";
+import { IResAuthLogin } from "../types/responses/ResAuthLogin";
+import { IResAuthRegister } from "../types/responses/ResAuthRegister";
+import { IResPasswordReset } from "../types/responses/ResPasswordReset";
+import { IResRequestPasswordReset } from "../types/responses/ResRequestPasswordReset";
 
 @Injectable({
     providedIn: 'root'
 })
 export class StrapiService {
-    private user: IUser;
+    private user: any;
     private token: string;
     headers = new HttpHeaders().set('Content-Type', 'application/json');
-    strapiUser;
+    strapiUser: any;
 
     constructor(
         private httpClient: HttpClient,
@@ -40,11 +41,20 @@ export class StrapiService {
         // console.log(data);
         return this.httpClient.post(environment.BASE_PATH + '/api/auth/local', data, { headers: this.headers });
     }
-
-    uploadData(formData) {
+    strapiLogin(user: IStrapiLoginData): Observable<any> {
+        console.log(user);
+        return this.httpClient.post(environment.BASE_PATH + '/api/auth/local', user, { headers: this.headers });
+    }
+    strapiRegister(registerReq: IStrapiRegisterData) {
+        console.log(registerReq);
+        return this.httpClient.post(environment.API_BASE_PATH + '/auth/local/register', registerReq)
+    }
+    public loadUser(userId: string) {
+        return this.httpClient.get(environment.BASE_PATH + '/api/users/' + userId + '?populate=*', { headers: this.headers })
+    }
+    uploadData(formData: any) {
         return this.httpClient.post(environment.API_BASE_PATH + '/upload', formData, {});
     }
-
     setProfileImage(userId: string, fileId: number): any {
         return this.httpClient.put(environment.BASE_PATH + '/api/users/' + userId, {
             data: {
@@ -55,48 +65,10 @@ export class StrapiService {
             { headers: this.headers }
         );
     }
-
-    register(registerReq) {
-        const data = {
-            first_name: registerReq.first_name,
-            last_name: registerReq.last_name,
-            username: registerReq.username,
-            email: registerReq.email,
-            password: registerReq.password,
-        }
-        return this.httpClient.post(environment.API_BASE_PATH + '/auth/local/register', data)
-    }
-
-    public async registerStrapi(req: IReqAuthRegister): Promise<void> {
-        const res: IResAuthRegister | HttpErrorResponse = await this.postRegister(
-            req
-        );
-    }
-
-    private async postRegister(
-        registerReq: any
-    ): Promise<IResAuthRegister | HttpErrorResponse> {
-        try {
-            const res: IResAuthRegister | HttpErrorResponse = (await lastValueFrom(
-                this.httpClient.post(environment.API_BASE_PATH + '/auth/local/register', {
-                    first_name: registerReq.first_name,
-                    last_name: registerReq.last_name,
-                    username: registerReq.username,
-                    email: registerReq.email,
-                    password: registerReq.password,
-
-                })
-            )) as IResAuthRegister | HttpErrorResponse;
-
-            return res;
-        } catch (error) {
-            throw new HttpErrorResponse(error);
-        }
-    }
-    public updateStrapiUserProfile(userId, profileForm): Observable<any> {
+    public updateStrapiUserProfile(userId: string, profileForm: any): Observable<any> {
         return this.httpClient.put(environment.BASE_PATH + '/api/users/' + userId, profileForm);
     }
-    public refreshUserState(user?) {
+    public refreshUserState(user?: { id: any; avatar: any; email: any; username: any; address_1: any; address_2: any; city: any; country_code: null; country: any; first_name: any; last_name: any; phone: any; postal_code: any; provider: any; confirmed: any; blocked: any; role: any; created_by: any; updated_by: any; }) {
         if (user) {
             const myUser: IUser = {
                 id: user?.id,
@@ -138,9 +110,7 @@ export class StrapiService {
         const res: IResPasswordReset | HttpErrorResponse =
             await this.postResetPassword(passwordResetReq);
     }
-    public loadUser(userId) {
-        return this.httpClient.get(environment.BASE_PATH + '/api/users/' + userId + '?populate=*', { headers: this.headers })
-    }
+
     private async updateUser(updateReq: any): Promise<IUser | HttpErrorResponse> {
         try {
             const data = {
@@ -154,7 +124,8 @@ export class StrapiService {
                 this.httpClient.put(environment.BASE_PATH + `/users/me`, data.data, { headers: this.headers })
             )) as IUser | HttpErrorResponse;
             return res;
-        } catch (error) {
+        }
+        catch (error: any) {
             throw new HttpErrorResponse(error);
         }
     }
@@ -170,7 +141,8 @@ export class StrapiService {
                 )) as IResRequestPasswordReset | HttpErrorResponse;
 
             return res;
-        } catch (error) {
+        }
+        catch (error: any) {
             throw new HttpErrorResponse(error);
         }
     }
@@ -186,13 +158,13 @@ export class StrapiService {
             )) as IResPasswordReset | HttpErrorResponse;
 
             return res;
-        } catch (error) {
+        } catch (error: any) {
             throw new HttpErrorResponse(error);
         }
     }
     public async callbackProviderLogin(
         params?: string,
-        provider?
+        provider?: string
     ): Promise<void> {
         try {
             const res: IResAuthLogin | void = (await lastValueFrom(
@@ -203,6 +175,32 @@ export class StrapiService {
         } catch (error) {
             console.error(error);
             return;
+        }
+    }
+    public async registerStrapi(req: IReqAuthRegister): Promise<void> {
+        const res: IResAuthRegister | HttpErrorResponse = await this.postRegister(
+            req
+        );
+    }
+
+    private async postRegister(
+        registerReq: any
+    ): Promise<IResAuthRegister | HttpErrorResponse> {
+        try {
+            const res: IResAuthRegister | HttpErrorResponse = (await lastValueFrom(
+                this.httpClient.post(environment.API_BASE_PATH + '/auth/local/register', {
+                    first_name: registerReq.first_name,
+                    last_name: registerReq.last_name,
+                    username: registerReq.username,
+                    email: registerReq.email,
+                    password: registerReq.password,
+
+                })
+            )) as IResAuthRegister | HttpErrorResponse;
+
+            return res;
+        } catch (error: any) {
+            throw new HttpErrorResponse(error);
         }
     }
 }

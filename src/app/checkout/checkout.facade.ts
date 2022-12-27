@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, combineLatest, map } from 'rxjs';
 import { CartState } from '../store/cart/cart.state';
+import { CustomerState } from '../store/customer/customer.state';
 import { ProductState } from '../store/products/products.state';
-import { UserState } from '../store/medusa-user/user.state';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CheckoutFacade {
-    @Select(UserState.isLoggedIn) isLoggedIn$: Observable<any>;
+    @Select(CustomerState.isLoggedIn) isLoggedIn$: Observable<any>;
     @Select(CartState.getCartId) cartId$: Observable<any>;
     @Select(CartState.getCart) cart$: Observable<any>;
     @Select(ProductState.getProductList) productList$: Observable<any>;

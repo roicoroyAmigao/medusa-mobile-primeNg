@@ -21,11 +21,10 @@ import { MedusaState } from './store/medusa/medusa.state';
 import localePT from '@angular/common/locales/pt';
 import localeEN from '@angular/common/locales/en';
 import localeUK from '@angular/common/locales/uk';
-import { UserState } from './store/medusa-user/user.state';
+import { CustomerState } from './store/customer/customer.state';
 
 import { AddressesState } from './store/addresses/addresses.state';
 import { FormsState } from './store/forms/forms.state';
-import { RegisterState } from './store/register/register.state';
 import { ErrorsLoggingStateModule } from './store/errors-logging/errors-logging.state';
 import { ErrorService } from './shared/errors/errors/server-error.service';
 import { ProductState } from './store/products/products.state';
@@ -40,7 +39,8 @@ import { PaymentState } from './store/payment/payment.state';
 import { ShippingState } from './store/shipping/shipping.state';
 import { StrapiUserState } from './store/strapi-user/strapi-user.state';
 import { StrapiAuthInterceptor } from './shared/services/strapi.interceptor';
-import { LanguageModule } from './shared/services/language/language.module';
+import { ThemeState } from './store/theme/theme.state';
+import { CustomerRegisterState } from './store/customer-register/customer-register.state';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -72,26 +72,27 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     }),
     NgxsModule.forRoot([
       MedusaState,
-      UserState,
+      CustomerState,
       FormsState,
       AddressesState,
-      RegisterState,
+      CustomerRegisterState,
       ErrorsLoggingStateModule,
       ProductState,
       CartState,
       ShippingState,
       PaymentState,
-      StrapiUserState
+      StrapiUserState,
+      ThemeState
     ]),
     NgxsStoragePluginModule.forRoot({
       key: [
         'medusa',
         "addresses",
-        'user',
+        'customer',
         'product',
         'forms',
         'errosLogging',
-        'register',
+        'customerRegister',
         'cart',
         'shipping',
         'payment',
@@ -108,8 +109,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     ReactiveFormsModule,
     FormComponentsModule,
     PrimeComponentsModule,
-    ComponentsModule,
-    LanguageModule
+    ComponentsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

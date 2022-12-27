@@ -15,9 +15,10 @@
     <a (click)="address()">
       {{ 'Address' }}
     </a>
+    {{ 'STRAPI Register/User' }}
   </div>
 
-  <form [formGroup]="strapiUserForm" ngxsForm="forms.userForm">
+  <form [formGroup]="strapiUserForm" ngxsForm="forms.strapiUserForm">
 
     <label for="username">
       {{ 'Username' | translate }}

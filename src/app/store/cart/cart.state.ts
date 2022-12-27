@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
 import Medusa from "@medusajs/medusa-js";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
-import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
 import { AddressesActions } from "../addresses/addresses.actions";
+import { CustomerActions } from "../customer/customer.actions";
 import { LogErrorEntry } from "../errors-logging/errors-logging.actions";
 import { IRegisterAddress } from "../state.interfaces";
-import { UserActions } from "../medusa-user/user.actions";
 import { CartActions } from "./cart.actions";
 
 export interface CartStateModel {
@@ -47,7 +46,7 @@ export class CartState {
     async getMedusaCart(ctx: StateContext<CartStateModel>, { cartId }: CartActions.GetMedusaCart) {
         try {
             let cart = await this.medusaClient.carts?.retrieve(cartId);
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
             ctx.patchState({
                 cart: cart?.cart,
                 cartId: cart?.cart.id,
@@ -64,7 +63,7 @@ export class CartState {
     async createMedusaCart(ctx: StateContext<CartStateModel>) {
         try {
             let cart = await this.medusaClient.carts.create();
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
             ctx.patchState({
                 cart: cart?.cart,
                 cartId: cart?.cart.id,
@@ -124,7 +123,7 @@ export class CartState {
                 customer_id: cart.customer_id,
             });
             this.store.dispatch(new CartActions.GetMedusaCart(cartId));
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -156,7 +155,7 @@ export class CartState {
                 customer_id: cart.customer_id,
             });
             this.store.dispatch(new CartActions.GetMedusaCart(cartId));
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -190,7 +189,7 @@ export class CartState {
                 customer_id: cart.customer_id,
             });
             this.store.dispatch(new CartActions.GetMedusaCart(cartId));
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -326,7 +325,7 @@ export class CartState {
     }
     @Action(CartActions.LogOut)
     logout(ctx: StateContext<CartStateModel>) {
-        ctx.patchState({
+        return ctx.setState({
             cartId: null,
             cart: null,
             selectedRegion: null,

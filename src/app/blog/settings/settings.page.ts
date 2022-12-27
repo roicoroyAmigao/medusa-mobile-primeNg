@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
+import { LanguageComponent } from 'src/app/components/language-component/language.component';
 import { IonLanguageService } from 'src/app/shared/services/language/language.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 
@@ -23,15 +24,12 @@ export class SettingsPage implements OnInit {
 
   async presentPopover() {
     console.log('presentPopover');
-    // const popover = await this.popoverController.create({
-    //   component: LanguageComponent,
-    // });
-
-    // await popover.present();
-
-    // const { role } = await popover.onDidDismiss();
-    // console.log('onDidDismiss resolved with role', role);
-    // this.roleMsg = `Popover dismissed with role: ${role}`;
+    const popover = await this.popoverController.create({
+      component: LanguageComponent,
+    });
+    await popover.present();
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
   homePage(){
     this.navigation.navigateForward('/home', 'back');

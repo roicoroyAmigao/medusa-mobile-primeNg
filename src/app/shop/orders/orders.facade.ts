@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/member-ordering */
-import { Injectable, OnDestroy } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable, combineLatest, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
-import { UserState } from 'src/app/store/medusa-user/user.state';
+import { Injectable } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CustomerState } from 'src/app/store/customer/customer.state';
 
 
 @Injectable({
@@ -11,8 +10,8 @@ import { UserState } from 'src/app/store/medusa-user/user.state';
 })
 export class OrdersFacade {
 
-    @Select(UserState.getCustomer) customer$: Observable<any>;
-    @Select(UserState.getSession) session$: Observable<any>;
+    @Select(CustomerState.getCustomer) customer$: Observable<any>;
+    @Select(CustomerState.getSession) session$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 

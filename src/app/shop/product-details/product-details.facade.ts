@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, } from 'rxjs/operators';
 import { ProductState } from 'src/app/store/products/products.state';
-import { UserState } from 'src/app/store/medusa-user/user.state';
 
 @Injectable({
     providedIn: 'root'

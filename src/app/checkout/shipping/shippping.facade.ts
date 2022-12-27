@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest, map } from 'rxjs';
 import { CartState } from 'src/app/store/cart/cart.state';
 import { ShippingState } from 'src/app/store/shipping/shipping.state';
-import { UserState } from 'src/app/store/medusa-user/user.state';
+import { CustomerState } from 'src/app/store/customer/customer.state';
 
 
 @Injectable({
@@ -12,15 +12,16 @@ import { UserState } from 'src/app/store/medusa-user/user.state';
 export class ShippingFacade {
 
     @Select(ShippingState.getShippingOptions) shippingOptions$: Observable<any>;
+
     @Select(ShippingState.getPaymentSessions) paymentSessions$: Observable<any>;
-    @Select(UserState.isLoggedIn) isLoggedIn$: Observable<any>;
+
+    @Select(CustomerState.isLoggedIn) isLoggedIn$: Observable<any>;
+
     @Select(CartState.getCart) cart$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 
-    constructor(
-        private store: Store,
-    ) {
+    constructor() {
 
         this.viewState$ = combineLatest(
             [

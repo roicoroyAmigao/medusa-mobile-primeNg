@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { UserState } from '../store/medusa-user/user.state';
+import { map } from 'rxjs/operators';
+import { CustomerState } from '../store/customer/customer.state';
 
 @Injectable({
     providedIn: 'root'
 })
 export class HomeFacade {
 
-    @Select(UserState.getCustomer) customer$: Observable<any>;
-    @Select(UserState.isLoggedIn) isLoggedIn$: Observable<any>;
+    @Select(CustomerState.getCustomer) customer$: Observable<any>;
+    @Select(CustomerState.isLoggedIn) isLoggedIn$: Observable<any>;
 
     readonly viewState$: Observable<any>;
 

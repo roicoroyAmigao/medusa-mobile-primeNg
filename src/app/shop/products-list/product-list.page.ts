@@ -39,8 +39,16 @@ export class ProductListPage implements OnInit {
   ) {
     this.presentingElement = document.querySelector('#main-content');
     this.viewState$ = this.facade.viewState$;
+    // this.viewState$.subscribe((state) => {
+    //   console.log(state.productList);
+    // });
   }
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
+
+  }
+  ionViewWillEnter() {
+    console.log('ionViewWillEntte:');
     this.store.dispatch(new GetProductList());
   }
   onSortChange(event: any) {

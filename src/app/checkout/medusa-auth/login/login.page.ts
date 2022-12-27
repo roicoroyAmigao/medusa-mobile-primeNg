@@ -4,8 +4,8 @@ import { Store } from '@ngxs/store';
 import { pipe, Subject, takeUntil, timeout } from 'rxjs';
 import { LoginFormComponent } from 'src/app/form-components/login-form/login-form.component';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { ILoginData } from 'src/app/store/state.interfaces';
-import { UserActions } from 'src/app/store/medusa-user/user.actions';
+import { CustomerActions } from 'src/app/store/customer/customer.actions';
+import { ICustomerLoginData } from 'src/app/store/state.interfaces';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   signupForm: FormGroup | any;
 
-  loginReq: ILoginData;
+  loginReq: ICustomerLoginData;
 
   private readonly ngUnsubscribe = new Subject();
 
@@ -39,11 +39,11 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   public login(): void {
-    const request: ILoginData = {
+    const request: ICustomerLoginData = {
       email: this.signupForm.value.login?.email,
       password: this.signupForm.value.login?.password
     }
-    this.store.dispatch(new UserActions.Login(request))
+    this.store.dispatch(new CustomerActions.Login(request))
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )

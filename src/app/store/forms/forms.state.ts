@@ -18,6 +18,12 @@ export interface FormsStateModel {
     shippingAddress: {
         model: any,
     },
+    strapiUserForm: {
+        model: any,
+    },
+    strapiProfileForm: {
+        model: any,
+    },
 }
 export const initFormsStateModel: FormsStateModel = {
     errors: null,
@@ -31,6 +37,12 @@ export const initFormsStateModel: FormsStateModel = {
         model: null,
     },
     shippingAddress: {
+        model: null,
+    },
+    strapiUserForm: {
+        model: null,
+    },
+    strapiProfileForm: {
         model: null,
     },
 };

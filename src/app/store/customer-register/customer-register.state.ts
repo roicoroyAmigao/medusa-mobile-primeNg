@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Action, State, StateContext, Store } from '@ngxs/store';
 import Medusa from "@medusajs/medusa-js";
-import { AddressesActions } from '../addresses/addresses.actions';
 import { environment } from 'src/environments/environment';
-import { RegisterActions } from './register.actions';
-import { MedusaActions } from '../medusa/medusa.actions';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
-import { UserActions } from '../medusa-user/user.actions';
+import { CustomerActions } from '../customer/customer.actions';
+import { CustomerRegisterActions } from './customer-register.actions';
 
-export interface RegisterStateModel {
+export interface CustomerRegisterStateModel {
 }
-export const initRegisterStateModel: RegisterStateModel = {
+export const initRegisterStateModel: CustomerRegisterStateModel = {
 };
 @State({
-    name: 'register',
+    name: 'customerRegister',
     // defaults: initRegisterStateModel,
 })
 @Injectable()
-export class RegisterState {
+export class CustomerRegisterState {
     medusaClient: any;
 
     constructor(
@@ -26,8 +24,8 @@ export class RegisterState {
         this.medusaClient = new Medusa({ baseUrl: environment.MEDUSA_API_BASE_PATH, maxRetries: 10 });
     }
 
-    @Action(RegisterActions.UpdateCustomerRegisterAddress)
-    async updateCustomerRegisterAddress(ctx: StateContext<RegisterStateModel>, { payload }: RegisterActions.UpdateCustomerRegisterAddress) {
+    @Action(CustomerRegisterActions.UpdateCustomerRegisterAddress)
+    async updateCustomerRegisterAddress(ctx: StateContext<CustomerRegisterStateModel>, { payload }: CustomerRegisterActions.UpdateCustomerRegisterAddress) {
         try {
             let billingAddress = await this.medusaClient.customers?.update({
                 billing_address: payload,
@@ -39,8 +37,8 @@ export class RegisterState {
                 billingAddress.response?.status === 200 &&
                 address?.customer != null &&
                 address.response?.status === 200 ) {
-                this.store.dispatch(new UserActions.GetSession());
             }
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -49,8 +47,8 @@ export class RegisterState {
         }
     }
 
-    @Action(RegisterActions.AddaShippingAddress)
-    async addaShippingAddress(ctx: StateContext<RegisterStateModel>, { payload }: RegisterActions.AddaShippingAddress) {
+    @Action(CustomerRegisterActions.AddaShippingAddress)
+    async addaShippingAddress(ctx: StateContext<CustomerRegisterStateModel>, { payload }: CustomerRegisterActions.AddaShippingAddress) {
         // console.log(payload);
 
         try {
@@ -69,7 +67,7 @@ export class RegisterState {
                     metadata: {}
                 }
             });
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         }
         catch (err: any) {
             if (err) {
@@ -77,8 +75,8 @@ export class RegisterState {
             }
         }
     }
-    @Action(RegisterActions.AddBillingAddress)
-    async addBillingAddress(ctx: StateContext<RegisterStateModel>, { payload }: RegisterActions.AddBillingAddress) {
+    @Action(CustomerRegisterActions.AddBillingAddress)
+    async addBillingAddress(ctx: StateContext<CustomerRegisterStateModel>, { payload }: CustomerRegisterActions.AddBillingAddress) {
         try {
             let customer = this.medusaClient.customers.update({
                 billing_address: {
@@ -95,7 +93,7 @@ export class RegisterState {
                 }
             });
             // console.log(customer);
-            this.store.dispatch(new UserActions.GetSession());
+            this.store.dispatch(new CustomerActions.GetSession());
         } catch (err: any) {
             if (err) {
                 this.store.dispatch(new LogErrorEntry(err));

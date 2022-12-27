@@ -5,8 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { ILoginData, IRegisterData } from 'src/app/store/state.interfaces';
-import { UserActions } from 'src/app/store/medusa-user/user.actions';
+import { CustomerActions } from 'src/app/store/customer/customer.actions';
+import { ICustomerLoginData, ICustomerRegisterData } from 'src/app/store/state.interfaces';
 
 @Component({
   selector: 'app-user',
@@ -37,26 +37,26 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   register(): void {
-    const registerRequest: IRegisterData = {
+    const registerRequest: ICustomerRegisterData = {
       first_name: this.userForm.value.user?.first_name,
       last_name: this.userForm.value.user?.last_name,
       email: this.userForm.value.user?.email,
       password: this.userForm.value.user?.passwordConfirmation,
       phone: this.userForm.value.user?.phone,
     };
-    const loginRequest: ILoginData = {
+    const loginRequest: ICustomerLoginData = {
       email: this.userForm.value.user?.email,
       password: this.userForm.value.user?.passwordConfirmation,
     }
     if (this.userForm.valid) {
-      this.store.dispatch(new UserActions.Register(registerRequest))
+      this.store.dispatch(new CustomerActions.Register(registerRequest))
         .pipe(
           takeUntil(this.ngUnsubscribe)
         )
         .subscribe((state) => {
           const errorEntry = state.errorsLogging.errorEntry;
           if (errorEntry === null) {
-            this.store.dispatch(new UserActions.Login(loginRequest))
+            this.store.dispatch(new CustomerActions.Login(loginRequest))
               .pipe(
                 takeUntil(this.ngUnsubscribe)
               )

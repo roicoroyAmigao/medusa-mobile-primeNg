@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="home()">
@@ -21,6 +21,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-card-header *ngIf="viewState$ | async as vs">
+        <ion-card-title>Home</ion-card-title>
+        <ion-card-subtitle>
+          is Medusa Customer Logged in:
+          <ion-note>
+            {{ vs.isCustomerLoggedIn }}
+          </ion-note>
+        </ion-card-subtitle>
+        <ion-card-subtitle>
+          is Strapi User Logged in:
+          <ion-note>
+            {{ vs.isUserLoggedIn }}
+          </ion-note>
+        </ion-card-subtitle>
+      </ion-card-header>
+    </ion-toolbar>
+  </ion-header>
 
 </ion-content>

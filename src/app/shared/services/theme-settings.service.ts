@@ -168,16 +168,19 @@ export class ThemeService implements OnDestroy {
         this.renderer = this.renderFactory.createRenderer(null, null);
     }
     initTheme() {
-        const theme = this.store.selectSnapshot<string>((state) => state.themeState.theme);
-        if (theme !== null) {
-            this.strapi.getAppTheme()
-                .pipe(
-                    takeUntil(this.ngUnsubscribe),
-                ).subscribe((theme: any) => {
-                    this.setTheme(theme.data.attributes);
-                    this.store.dispatch(new ThemeActions.SetTheme(theme.data.attributes));
-                });
-        }
+        // const theme = this.strapi.getAppTheme().toPromise();
+        // console.log(theme.data?.attributes);
+
+        // const cartObj = this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
+        this.strapi.getAppTheme()
+            .pipe(
+                takeUntil(this.ngUnsubscribe),
+            )
+            .subscribe((theme: any) => {
+                // console.log(theme);
+                this.setTheme(theme.data.attributes);
+                this.store.dispatch(new ThemeActions.SetTheme(theme.data.attributes));
+            });
     }
 
     setTheme(theme: { primary: any; secondary: any; tertiary: any; info: any; success: any; warning: any; danger: any; dark: any; medium: any; light: any; }) {

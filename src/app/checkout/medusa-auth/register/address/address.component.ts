@@ -8,8 +8,8 @@ import { fade } from "src/app/shared/animations/animations";
 import { NavigationService } from "src/app/shared/services/navigation.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { CartActions } from "src/app/store/cart/cart.actions";
+import { CustomerRegisterActions } from "src/app/store/customer-register/customer-register.actions";
 import { MedusaActions } from "src/app/store/medusa/medusa.actions";
-import { RegisterActions } from "src/app/store/register/register.actions";
 import { IRegisterAddress } from "src/app/store/state.interfaces";
 import { AddressFacade } from "./address.facade";
 
@@ -74,7 +74,7 @@ export class AddressComponent implements OnDestroy {
       province: 'Georgia',
       metadata: {}
     };
-    this.store.dispatch(new RegisterActions.UpdateCustomerRegisterAddress(data));
+    this.store.dispatch(new CustomerRegisterActions.UpdateCustomerRegisterAddress(data));
 
     setTimeout(() => {
       const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
