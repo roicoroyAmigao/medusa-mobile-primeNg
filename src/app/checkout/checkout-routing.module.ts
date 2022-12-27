@@ -20,10 +20,6 @@ const routes: Routes = [
         component: StartComponent,
       },
       {
-        path: 'medusa-auth',
-        loadChildren: () => import('./medusa-auth/medusa-auth.module').then(m => m.MedusaAuthModule),
-      },
-      {
         path: 'cart-addresses',
         loadChildren: () => import('./cart-addresses/addresses.module').then(m => m.AddressesPageModule)
       },

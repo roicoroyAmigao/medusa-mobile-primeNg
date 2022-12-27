@@ -15,7 +15,7 @@ import { AppAuthService } from 'src/app/shared/services/auth.service';
   templateUrl: './product-list.page.html',
   styleUrls: ['./product-list.page.scss'],
 })
-export class ProductListPage implements OnInit {
+export class ProductListPage {
   products: any;
 
   sortOptions: SelectItem[];
@@ -43,25 +43,10 @@ export class ProductListPage implements OnInit {
     //   console.log(state.productList);
     // });
   }
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {
-
-  }
   ionViewWillEnter() {
-    console.log('ionViewWillEntte:');
     this.store.dispatch(new GetProductList());
   }
-  onSortChange(event: any) {
-    let value = event.value;
-    if (value.indexOf('!') === 0) {
-      this.sortOrder = -1;
-      this.sortField = value.substring(1, value.length);
-    }
-    else {
-      this.sortOrder = 1;
-      this.sortField = value;
-    }
-  }
+
   home() {
     this.navigation.navControllerDefault('/home');
   }

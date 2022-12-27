@@ -8,6 +8,7 @@ import { HomeFacade } from './home.facade';
 import { AppAuthService } from '../shared/services/auth.service';
 import { Platform } from '@ionic/angular';
 import { ThemeService } from '../shared/services/theme-settings.service';
+import { AuthRoutePath } from '../auth/route-path.enum';
 
 @Component({
     selector: 'app-home',
@@ -30,9 +31,10 @@ export class HomePage implements OnDestroy {
         private navigation: NavigationService,
         private facade: HomeFacade,
         private auth: AppAuthService,
-        private platform: Platform,
-        private theme: ThemeService,
     ) { }
+    ionViewWillEnter() {
+        this.viewState$ = this.facade.viewState$;
+    }
     enterShop() {
         this.navigation.navigateForward('/shop/products-list', 'forward');
     }
@@ -42,9 +44,11 @@ export class HomePage implements OnDestroy {
     home() {
         this.navigation.navigateForward('/home', 'forward');
     }
+    login() {
+        this.navigation.navControllerDefault(AuthRoutePath.login);
+    }
     logout() {
         this.auth.logout();
-        this.navigation.navControllerDefault('/medusa-auth/login');
     }
     ngOnDestroy() {
         if (this.subscription) {

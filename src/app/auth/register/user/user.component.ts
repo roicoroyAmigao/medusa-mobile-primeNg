@@ -8,6 +8,7 @@ import { NavigationService } from "src/app/shared/services/navigation.service";
 import { CustomerActions } from "src/app/store/customer/customer.actions";
 import { IStrapiRegisterData, IStrapiLoginData, ICustomerLoginData, ICustomerRegisterData } from "src/app/store/state.interfaces";
 import { StrapiUserActions } from "src/app/store/strapi-user/strapi-user.actions";
+import { AuthRoutePath } from "../../route-path.enum";
 
 @Component({
   selector: 'app-user',
@@ -78,10 +79,10 @@ export class UserComponent implements OnInit, OnDestroy {
     }
   }
   address() {
-    this.navigation.navControllerDefault('/strapi-auth/register/address');
+    this.navigation.navControllerDefault(AuthRoutePath.address);
   }
   back() {
-    this.navigation.navControllerDefault('/strapi-auth/login');
+    this.navigation.navControllerDefault(AuthRoutePath.login);
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);

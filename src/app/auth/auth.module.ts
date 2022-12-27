@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
-import { StrapiAuthPageRoutingModule } from "./strapi-auth-routing.module";
+import { AuthPageRoutingModule } from "./auth-routing.module";
 
 @NgModule({
   declarations: [
@@ -9,7 +9,7 @@ import { StrapiAuthPageRoutingModule } from "./strapi-auth-routing.module";
   imports: [
     CommonModule,
     IonicModule,
-    StrapiAuthPageRoutingModule
+    AuthPageRoutingModule
   ],
   exports: [
   ],
@@ -17,4 +17,4 @@ import { StrapiAuthPageRoutingModule } from "./strapi-auth-routing.module";
     CUSTOM_ELEMENTS_SCHEMA,
   ]
 })
-export class StrapiAuthModule { }
+export class AuthModule { }

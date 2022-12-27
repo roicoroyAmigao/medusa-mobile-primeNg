@@ -21,7 +21,7 @@ import Validation from 'src/app/shared/validators/validation';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserFormComponent implements OnInit, ControlValueAccessor, OnDestroy {
+export class UserFormComponent implements ControlValueAccessor, OnDestroy {
 
   userForm: FormGroup | any;
   subscriptions: Subscription[] = [];
@@ -67,9 +67,6 @@ export class UserFormComponent implements OnInit, ControlValueAccessor, OnDestro
       })
     );
   }
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() { }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());

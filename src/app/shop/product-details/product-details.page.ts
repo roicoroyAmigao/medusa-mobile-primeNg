@@ -70,19 +70,11 @@ export class ProductDetailsPage implements OnInit, OnDestroy {
   addToCart(selectedVariant: any) {
     const cartId = this.store.selectSnapshot<any>((state) => state.cart?.cartId);
     if (cartId != null && selectedVariant != null) {
-      this.store.dispatch(new CartActions.AddProductMedusaToCart(cartId, 1, selectedVariant?.id))
-        .subscribe((state) => {
-          console.log(state);
-        });
+      this.store.dispatch(new CartActions.AddProductMedusaToCart(cartId, 1, selectedVariant?.id));
     } else {
       this.store.dispatch(new CartActions.CreateMedusaCart()).subscribe((state) => {
         this.store.dispatch(new CartActions.AddProductMedusaToCart(state.cart?.cartId, 1, selectedVariant?.id));
       });
-
-      // setTimeout(async () => {
-      //   const cartId2 = this.store.selectSnapshot<any>((state) => state.cart?.cartId);
-      //   await this.store.dispatch(new CartActions.AddProductMedusaToCart(cartId2, 1, selectedVariant?.id));
-      // }, 50);
     }
   }
   increment(variant?: any, index?: any) {

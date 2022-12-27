@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="home()">
@@ -12,34 +12,39 @@
       <ion-button (click)="authBlog()" expand="block" fill="clear" shape="round">
         Auth
       </ion-button>
-      <ion-item>
+      <ion-item *ngIf="viewState$ | async as vs">
         <ion-avatar>
-          <img [src]="'assets/shapes.svg'" />
+          <img [src]="vs.avatar ? vs.avatar : 'assets/shapes.svg'" />
         </ion-avatar>
       </ion-item>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-card-header *ngIf="viewState$ | async as vs">
-        <ion-card-title>Home</ion-card-title>
-        <ion-card-subtitle>
-          is Medusa Customer Logged in:
-          <ion-note>
-            {{ vs.isCustomerLoggedIn }}
-          </ion-note>
-        </ion-card-subtitle>
-        <ion-card-subtitle>
-          is Strapi User Logged in:
-          <ion-note>
-            {{ vs.isUserLoggedIn }}
-          </ion-note>
-        </ion-card-subtitle>
-      </ion-card-header>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+
+  <ion-button (click)="getStrapiUser()" expand="block" fill="solid" shape="round">
+    getStrapiUser
+  </ion-button>
+
+
+  <ion-card>
+    <ion-card-header *ngIf="viewState$ | async as vs">
+      <ion-card-title>Home</ion-card-title>
+      <ion-card-subtitle>
+        is Medusa Customer Logged in:
+        <ion-note>
+          {{ vs?.isCustomerLoggedIn | json }}
+        </ion-note>
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        is Strapi User Logged in:
+        <ion-note>
+          {{ vs?.isUserLoggedIn | json }}
+        </ion-note>
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
 
 </ion-content>

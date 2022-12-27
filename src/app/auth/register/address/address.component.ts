@@ -6,6 +6,7 @@ import { NavigationService } from "src/app/shared/services/navigation.service";
 import { UtilityService } from "src/app/shared/services/utility.service";
 import { CustomerRegisterActions } from "src/app/store/customer-register/customer-register.actions";
 import { IRegisterAddress } from "src/app/store/state.interfaces";
+import { AuthRoutePath } from "../../route-path.enum";
 import { StrapiAddressFacade } from "./strapi-address.facade";
 
 @Component({
@@ -78,7 +79,7 @@ export class AddressComponent implements OnDestroy {
     setTimeout(() => {
       const errorEntry = this.store.selectSnapshot<any>((state) => state.errorsLogging.errorEntry);
       if (errorEntry === null) {
-        this.navigation.navigateFlip('/blog/strapi/news');
+        this.navigation.navigateFlip(AuthRoutePath.blog);
         this.utility.dismissLoading();
       } else {
         this.utility.dismissLoading();
@@ -87,7 +88,7 @@ export class AddressComponent implements OnDestroy {
   }
 
   back(): void {
-    this.navigation.navigateFlip('/strapi-auth/register/user');
+    this.navigation.navigateFlip(AuthRoutePath.user);
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);

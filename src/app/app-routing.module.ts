@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'product-details',
-    loadChildren: () => import('./shop/product-details/product-details.module').then( m => m.ProductDetailsPageModule)
+    loadChildren: () => import('./shop/product-details/product-details.module').then(m => m.ProductDetailsPageModule)
   },
   {
     path: '',
@@ -25,11 +25,11 @@ const routes: Routes = [
   },
   {
     path: 'blog',
-    loadChildren: () => import('./blog/blog.module').then( m => m.BlogPageModule)
+    loadChildren: () => import('./blog/blog.module').then(m => m.BlogPageModule)
   },
   {
-    path: 'strapi-auth',
-    loadChildren: () => import('./blog/strapi-auth/strapi-auth.module').then(m => m.StrapiAuthModule)
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
 ];
 

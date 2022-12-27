@@ -65,7 +65,7 @@ export class StrapiService {
             { headers: this.headers }
         );
     }
-    public updateStrapiUserProfile(userId: string, profileForm: any): Observable<any> {
+    public updateStrapiUserProfile(userId: string | any, profileForm: any): Observable<any> {
         return this.httpClient.put(environment.BASE_PATH + '/api/users/' + userId, profileForm);
     }
     public refreshUserState(user?: { id: any; avatar: any; email: any; username: any; address_1: any; address_2: any; city: any; country_code: null; country: any; first_name: any; last_name: any; phone: any; postal_code: any; provider: any; confirmed: any; blocked: any; role: any; created_by: any; updated_by: any; }) {

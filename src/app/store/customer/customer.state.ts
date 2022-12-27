@@ -126,7 +126,7 @@ export class CustomerState {
 
     @Action(CustomerActions.LogOutMedusaUser)
     LogOutMedusaUser(ctx: StateContext<CustomerStateModel>) {
-        ctx.patchState({
+        return ctx.patchState({
             customer: null,
             isLoggedIn: false,
             session: null

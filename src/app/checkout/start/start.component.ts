@@ -8,6 +8,7 @@ import { CheckoutFacade } from '../checkout.facade';
 import { CartReviewComponent } from '../cart-review/cart-review.component';
 import { StateClear } from 'ngxs-reset-plugin';
 import { AppAuthService } from 'src/app/shared/services/auth.service';
+import { AuthRoutePath } from 'src/app/auth/route-path.enum';
 
 @Component({
   selector: 'app-start',
@@ -39,10 +40,10 @@ export class StartComponent {
     this.navigation.navigateForward('/checkout/flow/cart-addresses', 'forward');
   }
   loginMedusa() {
-    this.navigation.navigateForward('/checkout/flow/medusa-auth/login', 'forward');
+    this.navigation.navigateForward(AuthRoutePath.login, 'forward');
   }
   registerMedusa() {
-    this.navigation.navigateForward('/checkout/flow/medusa-auth/register/user', 'forward');
+    this.navigation.navigateForward(AuthRoutePath.user, 'forward');
   }
   checkoutMedusa() {
     this.navigation.navigateForward('/checkout/flow/shipping', 'forward');

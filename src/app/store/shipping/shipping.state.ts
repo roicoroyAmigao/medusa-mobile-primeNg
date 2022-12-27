@@ -45,7 +45,8 @@ export class ShippingState {
         try {
             const cart = this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
             const shipping_options = await this.medusaClient.shippingOptions.listCartOptions(cart.id);
-            ctx.patchState({
+            console.log(shipping_options);
+            return ctx.patchState({
                 shipping_options: shipping_options?.shipping_options
             });
             // this.store.dispatch(new UserActions.GetSession());
