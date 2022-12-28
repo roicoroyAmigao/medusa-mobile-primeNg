@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import Validation from 'src/app/shared/validators/validation';
-import { UserFormComponent } from '../../../form-components/user-form/user-form.component';
 
 @Component({
   selector: 'app-theme-picker-form',
@@ -11,12 +9,12 @@ import { UserFormComponent } from '../../../form-components/user-form/user-form.
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => UserFormComponent),
+      useExisting: forwardRef(() => ThemePickerFormComponent),
       multi: true
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => UserFormComponent),
+      useExisting: forwardRef(() => ThemePickerFormComponent),
       multi: true,
     }
   ],

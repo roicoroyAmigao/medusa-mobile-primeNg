@@ -4,11 +4,11 @@ import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { Store } from "@ngxs/store";
 import { Subject } from "rxjs";
-import { NavigationService } from "src/app/shared/services/navigation.service";
 import { CustomerActions } from "src/app/store/customer/customer.actions";
-import { IStrapiRegisterData, IStrapiLoginData, ICustomerLoginData, ICustomerRegisterData } from "src/app/store/state.interfaces";
+import { IStrapiRegisterData, IStrapiLoginData, ICustomerLoginData, ICustomerRegisterData } from "projects/types/types.interfaces";
 import { StrapiUserActions } from "src/app/store/strapi-user/strapi-user.actions";
 import { AuthRoutePath } from "../../route-path.enum";
+import { NavigationService } from "projects/services/src/lib/services/navigation.service";
 
 @Component({
   selector: 'app-user',

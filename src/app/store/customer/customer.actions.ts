@@ -1,4 +1,4 @@
-import { ICustomerLoginData, ICustomerRegisterData } from "../state.interfaces";
+import { ICustomerLoginData, ICustomerRegisterData } from "../../../../projects/types/types.interfaces";
 
 export namespace CustomerActions {
 

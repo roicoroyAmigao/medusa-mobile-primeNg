@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { MenuController, Platform } from '@ionic/angular';
 import { Store } from '@ngxs/store';
-import { CartMenuComponent } from './components/app-menu/cart-menu.component';
-import { MedusaCartComponent } from './components/medusa-cart/medusa-cart.component';
-import { AppAuthService } from './shared/services/auth.service';
-import { IonLanguageService } from './shared/services/language/language.service';
-import { ThemeService } from './shared/services/theme-settings.service';
+import { CartMenuComponent } from 'projects/components/src/lib/components/app-menu/cart-menu.component';
+import { MedusaCartComponent } from 'projects/components/src/lib/components/medusa-cart/medusa-cart.component';
+import { AppAuthService } from 'projects/services/src/lib/services/auth.service';
+import { IonLanguageService } from 'projects/services/src/lib/services/language/language.service';
 import { clearSelectedProduct } from './store/products/products.actions';
 
 @Component({

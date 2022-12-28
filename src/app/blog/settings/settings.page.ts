@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ModalController, PopoverController } from '@ionic/angular';
-import { LanguageComponent } from 'src/app/components/language-component/language.component';
-import { IonLanguageService } from 'src/app/shared/services/language/language.service';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { ThemeService } from 'src/app/shared/services/theme-settings.service';
+import { PopoverController } from '@ionic/angular';
+import { IonLanguageService } from 'projects/services/src/lib/services/language/language.service';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
+import { ThemeService } from 'projects/services/src/lib/services/theme-settings.service';
 
 @Component({
   selector: 'app-settings',

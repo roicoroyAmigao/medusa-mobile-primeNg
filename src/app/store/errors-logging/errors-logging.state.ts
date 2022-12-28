@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AlertController, AlertOptions } from "@ionic/angular";
 import { State, Store, Action, StateContext } from "@ngxs/store";
-import { fade } from "src/app/shared/animations/animations";
 import { ClearErrorEntry, LogErrorEntry } from "./errors-logging.actions";
 
 export class ErrosStateModel {

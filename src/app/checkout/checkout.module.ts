@@ -11,9 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxStripeModule } from 'ngx-stripe';
 import { StartComponent } from './start/start.component';
 import { PaymentComponent } from './payment/payment.component';
-import { ComponentsModule } from '../components/components.module';
-import { CartReviewComponent } from './cart-review/cart-review.component';
 import { ShippingComponent } from './shipping/shipping.component';
+import { ComponentsModule } from 'projects/components/src/public-api';
+import { FormComponentsModule } from 'projects/form-components/src/public-api';
+import { CartReviewComponent } from './cart-review/cart-review.component';
 
 @NgModule({
   imports: [
@@ -24,10 +25,11 @@ import { ShippingComponent } from './shipping/shipping.component';
     NgxsModule,
     NgxsFormPluginModule,
     TranslateModule,
-    ComponentsModule,
     FormsModule,
     ReactiveFormsModule,
     NgxStripeModule,
+    ComponentsModule,
+    FormComponentsModule
   ],
   declarations: [
     StartComponent,
@@ -35,5 +37,13 @@ import { ShippingComponent } from './shipping/shipping.component';
     PaymentComponent,
     CartReviewComponent
   ],
+  exports: [
+    StartComponent,
+    ShippingComponent,
+    PaymentComponent,
+    ComponentsModule,
+    FormComponentsModule,
+    CartReviewComponent
+  ]
 })
-export class CheckoutPageModule {}
+export class CheckoutPageModule { }

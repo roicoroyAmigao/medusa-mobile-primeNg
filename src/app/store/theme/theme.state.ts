@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
+import { StrapiService } from 'projects/services/src/lib/services/strapi.service';
+import { ThemeService } from 'projects/services/src/lib/services/theme-settings.service';
 import { throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { StrapiService } from 'src/app/shared/services/strapi.service';
-import { ThemeService } from 'src/app/shared/services/theme-settings.service';
+import { catchError } from 'rxjs/operators';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
 import { ThemeActions } from './theme.actions';
 

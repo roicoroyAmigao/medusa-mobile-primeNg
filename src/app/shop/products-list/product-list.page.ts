@@ -1,14 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { Store } from '@ngxs/store';
-import { PrimeNGConfig, SelectItem } from 'primeng/api';
-import { Observable, Subject } from 'rxjs';
-import { addSelectedProduct, addSelectedVariant, clearSelectedVariant, GetProductList } from 'src/app/store/products/products.actions';
-import { ProductsFacade } from './products.facade';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { StateClear } from 'ngxs-reset-plugin';
-import { VariantModalComponent } from './variant-modal/variant-modal.component';
-import { AppAuthService } from 'src/app/shared/services/auth.service';
+import { Component } from "@angular/core";
+import { ModalController } from "@ionic/angular";
+import { Store } from "@ngxs/store";
+import { AppAuthService } from "projects/services/src/lib/services/auth.service";
+import { NavigationService } from "projects/services/src/lib/services/navigation.service";
+import { Observable } from "rxjs";
+import { GetProductList, addSelectedProduct, addSelectedVariant } from "src/app/store/products/products.actions";
+import { ProductsFacade } from "./products.facade";
+import { VariantModalComponent } from "./variant-modal/variant-modal.component";
 
 @Component({
   selector: 'app-product-list',
@@ -18,7 +16,7 @@ import { AppAuthService } from 'src/app/shared/services/auth.service';
 export class ProductListPage {
   products: any;
 
-  sortOptions: SelectItem[];
+  sortOptions: any[];
 
   sortOrder: number;
 
@@ -32,7 +30,6 @@ export class ProductListPage {
   constructor(
     private store: Store,
     private facade: ProductsFacade,
-    private primengConfig: PrimeNGConfig,
     private modalCtrl: ModalController,
     private navigation: NavigationService,
     private auth: AppAuthService,

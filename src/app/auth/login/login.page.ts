@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { Subject, takeUntil } from 'rxjs';
-import { LoginFormComponent } from 'src/app/form-components/login-form/login-form.component';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { CustomerActions } from 'src/app/store/customer/customer.actions';
-import { ICustomerLoginData, IStrapiLoginData } from 'src/app/store/state.interfaces';
+import { ICustomerLoginData, IStrapiLoginData } from 'projects/types/types.interfaces';
 import { StrapiUserActions } from 'src/app/store/strapi-user/strapi-user.actions';
 import { AuthRoutePath } from '../route-path.enum';
+import { LoginFormComponent } from 'projects/form-components/src/lib/components/login-form/login-form.component';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login',

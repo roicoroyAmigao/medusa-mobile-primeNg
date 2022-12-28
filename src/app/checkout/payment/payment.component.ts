@@ -2,14 +2,14 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { StripeElementsOptions } from '@stripe/stripe-js';
 import { StripePaymentElementComponent, StripeService } from 'ngx-stripe';
-import { UtilityService } from 'src/app/shared/services/utility.service';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { CartActions } from 'src/app/store/cart/cart.actions';
 import { PaymentFacade } from './payment.facade';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
+import { UtilityService } from 'projects/services/src/lib/services/utility.service';
 
 @Component({
   selector: 'app-payment',

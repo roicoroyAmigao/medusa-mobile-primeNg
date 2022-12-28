@@ -1,12 +1,12 @@
-    import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import Medusa from "@medusajs/medusa-js";
 import { environment } from 'src/environments/environment';
-import { catchError, map, Observable, pipe, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
 import { CustomerActions } from './customer.actions';
-import { ICustomerRegisterData } from '../state.interfaces';
+import { ICustomerRegisterData } from 'projects/types/types.interfaces';
+import { Observable } from 'rxjs';
 
 export class CustomerStateModel {
     customer: any | any;

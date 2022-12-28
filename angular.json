@@ -140,6 +140,99 @@
           }
         }
       }
+    },
+    "components": {
+      "projectType": "library",
+      "root": "projects/components",
+      "sourceRoot": "projects/components/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/components/src/test.ts",
+            "tsConfig": "projects/components/tsconfig.spec.json",
+            "karmaConfig": "projects/components/karma.conf.js"
+          }
+        }
+      }
+    },
+    "form-components": {
+      "projectType": "library",
+      "root": "projects/form-components",
+      "sourceRoot": "projects/form-components/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/form-components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/form-components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/form-components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/form-components/src/test.ts",
+            "tsConfig": "projects/form-components/tsconfig.spec.json",
+            "karmaConfig": "projects/form-components/karma.conf.js"
+          }
+        }
+      }
+    },
+    "services": {
+      "projectType": "library",
+      "root": "projects/services",
+      "sourceRoot": "projects/services/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/services/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/services/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/services/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/services/src/test.ts",
+            "tsConfig": "projects/services/tsconfig.spec.json",
+            "karmaConfig": "projects/services/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { AddressesActions } from '../addresses/addresses.actions';
-import { AddressesStateModel } from '../addresses/addresses.state';
 import { FormsActions } from './forms.actions';
 
 export interface FormsStateModel {

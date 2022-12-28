@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { AppAuthService } from 'projects/services/src/lib/services/auth.service';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
 import { Observable } from 'rxjs';
-import { AppAuthService } from 'src/app/shared/services/auth.service';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { StrapiUserActions } from 'src/app/store/strapi-user/strapi-user.actions';
 import { NewsFacade } from './news.facade';
 

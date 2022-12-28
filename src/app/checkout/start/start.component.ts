@@ -1,14 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { Store } from '@ngxs/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { CartActions } from 'src/app/store/cart/cart.actions';
-import { CheckoutFacade } from '../checkout.facade';
-import { CartReviewComponent } from '../cart-review/cart-review.component';
-import { StateClear } from 'ngxs-reset-plugin';
-import { AppAuthService } from 'src/app/shared/services/auth.service';
-import { AuthRoutePath } from 'src/app/auth/route-path.enum';
+import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { AppAuthService } from "projects/services/src/lib/services/auth.service";
+import { NavigationService } from "projects/services/src/lib/services/navigation.service";
+import { Observable } from "rxjs";
+import { AuthRoutePath } from "src/app/auth/route-path.enum";
+import { CheckoutFacade } from "../checkout.facade";
 
 @Component({
   selector: 'app-start',

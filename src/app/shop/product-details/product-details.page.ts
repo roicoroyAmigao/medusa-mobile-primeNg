@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { CartActions } from 'src/app/store/cart/cart.actions';
 import { clearSelectedProduct } from 'src/app/store/products/products.actions';
-import { ISelectedCartProduct } from 'src/app/store/state.interfaces';
+import { ISelectedCartProduct } from 'projects/types/types.interfaces';
 import { ProductDetailsFacade } from './product-details.facade';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
 
 @Component({
   selector: 'app-product-details',

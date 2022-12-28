@@ -1,4 +1,4 @@
-import { IStrapiLoginData, IStrapiRegisterData } from "../state.interfaces";
+import { IStrapiLoginData, IStrapiRegisterData } from "../../../../projects/types/types.interfaces";
 
 export namespace StrapiUserActions {
 

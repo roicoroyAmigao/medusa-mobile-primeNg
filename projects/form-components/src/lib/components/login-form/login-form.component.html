@@ -1,0 +1,28 @@
+<form [formGroup]="loginForm">
+
+  <ion-label for="email">
+    Email
+  </ion-label>
+  <input formControlName="email" id="email" type="text" placeholder="Email address" pInputText class="w-full mb-2"
+    pattern=".+@.+\..+">
+  <!-- <p-message severity="error" text="Eail is required"
+    *ngIf="!loginForm?.get('email').valid && loginForm?.get('email').dirty"></p-message> -->
+
+
+  <ion-label for="password">
+    Password
+  </ion-label>
+  <!-- <p-password id="password" formControlName="password" placeholder="Password" [toggleMask]="true" styleClass="mb-2"
+    inputStyleClass="w-full p-3"></p-password> -->
+  <!-- <p-message severity="error"
+    [text]="loginForm.get('password').errors['required'] ? 'Password is required' : loginForm.get('password').errors['minlength'] ? 'Must be longer than 6 characters' : ''"
+    *ngIf="!loginForm.get('password').valid && loginForm.get('password').dirty"></p-message> -->
+
+  <div class="flex align-items-center justify-content-between mb-5 gap-5">
+    <div class="flex align-items-center">
+      <!-- <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox> -->
+      <ion-label for="rememberme1">Remember me</ion-label>
+    </div>
+  </div>
+
+</form>

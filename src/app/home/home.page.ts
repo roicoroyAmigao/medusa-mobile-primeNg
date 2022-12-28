@@ -2,13 +2,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngxs/store';
-import { NavigationService } from '../shared/services/navigation.service';
-import { StateClear } from 'ngxs-reset-plugin';
-import { HomeFacade } from './home.facade';
-import { AppAuthService } from '../shared/services/auth.service';
-import { Platform } from '@ionic/angular';
-import { ThemeService } from '../shared/services/theme-settings.service';
 import { AuthRoutePath } from '../auth/route-path.enum';
+import { AppAuthService } from 'projects/services/src/lib/services/auth.service';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
+import { HomeFacade } from './home.facade';
 
 @Component({
     selector: 'app-home',

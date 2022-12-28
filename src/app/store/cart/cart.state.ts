@@ -5,7 +5,7 @@ import { environment } from "src/environments/environment";
 import { AddressesActions } from "../addresses/addresses.actions";
 import { CustomerActions } from "../customer/customer.actions";
 import { LogErrorEntry } from "../errors-logging/errors-logging.actions";
-import { IRegisterAddress } from "../state.interfaces";
+import { IRegisterAddress } from "../../../../projects/types/types.interfaces";
 import { CartActions } from "./cart.actions";
 
 export interface CartStateModel {

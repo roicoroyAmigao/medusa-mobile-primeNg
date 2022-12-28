@@ -2,13 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { CartActions } from 'src/app/store/cart/cart.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { IRegisterAddress } from 'src/app/store/state.interfaces';
+import { IRegisterAddress } from 'projects/types/types.interfaces';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { AddressesFacade } from './addresses.facade';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
 
 @Component({
   selector: 'app-addresses',

@@ -30,16 +30,16 @@
     </label>
     <input formControlName="first_name" id="first_name" type="text" placeholder="First Name" pInputText
       class="w-full mb-2">
-    <p-message severity="error" [text]="'First name is required' | translate"
-      *ngIf="!addressDetailsForm.get('first_name')?.valid && addressDetailsForm.get('first_name')?.dirty"></p-message>
+    <!-- <p-message severity="error" [text]="'First name is required' | translate"
+      *ngIf="!addressDetailsForm.get('first_name')?.valid && addressDetailsForm.get('first_name')?.dirty"></p-message> -->
 
     <label for="last_name">
       {{ 'Last Name' | translate }}
     </label>
     <input formControlName="last_name" id="last_name" type="text"
       placeholder="{{ 'Last Name Placeholder' | translate }}" pInputText class="w-full mb-2">
-    <p-message severity="error" [text]="'Last name is required'"
-      *ngIf="!addressDetailsForm.get('last_name')?.valid && addressDetailsForm.get('last_name')?.dirty"></p-message>
+    <!-- <p-message severity="error" [text]="'Last name is required'"
+      *ngIf="!addressDetailsForm.get('last_name')?.valid && addressDetailsForm.get('last_name')?.dirty"></p-message> -->
 
     <app-address-form #form formControlName="address"></app-address-form>
 

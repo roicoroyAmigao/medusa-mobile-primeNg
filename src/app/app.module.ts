@@ -26,11 +26,6 @@ import { CustomerState } from './store/customer/customer.state';
 import { AddressesState } from './store/addresses/addresses.state';
 import { FormsState } from './store/forms/forms.state';
 import { ErrorsLoggingStateModule } from './store/errors-logging/errors-logging.state';
-import { ErrorService } from './shared/errors/errors/server-error.service';
-import { ProductState } from './store/products/products.state';
-import { PrimeComponentsModule } from './form-components/prime-components.module';
-import { FormComponentsModule } from './form-components/form-components.module';
-import { ComponentsModule } from './components/components.module';
 import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 import { CartState } from './store/cart/cart.state';
 import { NgxStripeModule } from 'ngx-stripe';
@@ -38,11 +33,15 @@ import { environment } from 'src/environments/environment';
 import { PaymentState } from './store/payment/payment.state';
 import { ShippingState } from './store/shipping/shipping.state';
 import { StrapiUserState } from './store/strapi-user/strapi-user.state';
-import { StrapiAuthInterceptor } from './shared/services/strapi.interceptor';
 import { ThemeState } from './store/theme/theme.state';
 import { CustomerRegisterState } from './store/customer-register/customer-register.state';
 import { LanguageState } from './store/language/language.state';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { FormComponentsModule } from 'projects/form-components/src/public-api';
+import { ErrorService } from 'projects/services/src/lib/errors/errors/server-error.service';
+import { StrapiAuthInterceptor } from 'projects/services/src/lib/services/strapi.interceptor';
+import { ProductState } from './store/products/products.state';
+import { ComponentsModule } from 'projects/components/src/public-api';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -114,7 +113,6 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     NgxStripeModule.forRoot(environment.STRIPE_KEY),
     ReactiveFormsModule,
     FormComponentsModule,
-    PrimeComponentsModule,
     ComponentsModule
   ],
   providers: [

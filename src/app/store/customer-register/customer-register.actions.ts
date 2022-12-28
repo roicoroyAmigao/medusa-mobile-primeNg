@@ -1,4 +1,4 @@
-import { IRegisterAddress } from "../state.interfaces";
+import { IRegisterAddress } from "../../../../projects/types/types.interfaces";
 
 export namespace CustomerRegisterActions {
 

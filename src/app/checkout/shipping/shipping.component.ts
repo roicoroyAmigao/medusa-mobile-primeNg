@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
-// import Medusa from "@medusajs/medusa-js";
-// import { environment } from 'src/environments/environment';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { ShippingFacade } from './shippping.facade';
-import { ShippingActions } from 'src/app/store/shipping/shipping.actions';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngxs/store";
+import { NavigationService } from "projects/services/src/lib/services/navigation.service";
+import { Observable } from "rxjs";
+import { ShippingActions } from "src/app/store/shipping/shipping.actions";
+import { ShippingFacade } from "./shippping.facade";
 
 @Component({
   selector: 'app-shipping',

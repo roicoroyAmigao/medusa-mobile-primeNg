@@ -2,12 +2,12 @@ import { Component, OnDestroy } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { Store } from "@ngxs/store";
 import { Observable, Subject, takeUntil } from "rxjs";
-import { NavigationService } from "src/app/shared/services/navigation.service";
-import { UtilityService } from "src/app/shared/services/utility.service";
 import { CustomerRegisterActions } from "src/app/store/customer-register/customer-register.actions";
-import { IRegisterAddress } from "src/app/store/state.interfaces";
+import { IRegisterAddress } from "projects/types/types.interfaces";
 import { AuthRoutePath } from "../../route-path.enum";
 import { StrapiAddressFacade } from "./strapi-address.facade";
+import { NavigationService } from "projects/services/src/lib/services/navigation.service";
+import { UtilityService } from "projects/services/src/lib/services/utility.service";
 
 @Component({
   selector: 'app-address',

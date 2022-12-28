@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
 import Medusa from "@medusajs/medusa-js";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
-import { UtilityService } from "src/app/shared/services/utility.service";
 import { environment } from "src/environments/environment";
 import { LogErrorEntry } from "../errors-logging/errors-logging.actions";
-import { MedusaStateModel } from "../medusa/medusa.state";
 import { addSelectedProduct, addSelectedVariant, clearSelectedProduct, clearSelectedVariant, GetProductList, ProductsLogOut } from "./products.actions";
 
 export interface ProductStateModel {

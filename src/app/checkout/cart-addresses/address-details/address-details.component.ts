@@ -3,12 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-
-import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
 import { FormsActions } from 'src/app/store/forms/forms.actions';
 import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { IRegisterAddress } from 'src/app/store/state.interfaces';
+import { IRegisterAddress } from 'projects/types/types.interfaces';
+import { UtilityService } from 'projects/services/src/lib/services/utility.service';
 
 @Component({
   selector: 'app-address-details',

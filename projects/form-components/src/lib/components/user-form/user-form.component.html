@@ -1,0 +1,39 @@
+<div [formGroup]="userForm">
+  <label for="first_name">
+    {{ 'First Name' | translate }}
+  </label>
+  <input formControlName="first_name" id="first_name" type="text" placeholder="First Name">
+
+
+  <label for="last_name">
+    {{ 'Last Name' | translate }}
+  </label>
+  <input formControlName="last_name" id="last_name" type="text" placeholder="{{ 'Last Name Placeholder' | translate }}"
+    >
+  <label for="input-email">
+    {{ 'email' | translate }}
+  </label>
+  <input formControlName="email" id="input-email" type="text" placeholder="{{ 'Last Name Placeholder' | translate }}"
+      pattern=".+@.+\..+">
+
+  <label for="input-phone">
+    {{ 'Telephone Number' | translate }}
+  </label>
+  <input formControlName="phone" id="input-phone" type="phone" placeholder="{{ 'Phone Placeholder' | translate }}"
+    pInputText class="w-full mb-2">
+
+  <label for="password">
+    {{ 'auth.register.form.input.password.label' | translate }}
+  </label>
+  <!-- <p-password id="password" formControlName="password"
+    placeholder="{{ 'auth.register.form.input.password.placeholder' | translate }}" [toggleMask]="false"
+    styleClass="mb-2" inputStyleClass="w-full p-3"></p-password> -->
+
+  <label for="input-password-confirmation">
+    {{ 'auth.register.form.input.repeat_password.label' | translate }}
+  </label>
+  <!-- <p-password id="input-password-confirmation" formControlName="passwordConfirmation"
+    placeholder="{{ 'auth.register.form.input.repeat_password.placeholder' | translate }}" [toggleMask]="false"
+    styleClass="mb-2" inputStyleClass="w-full p-3"></p-password> -->
+
+</div>

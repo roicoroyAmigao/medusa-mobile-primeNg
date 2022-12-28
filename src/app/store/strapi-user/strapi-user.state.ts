@@ -3,9 +3,9 @@ import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { StrapiUserActions } from './strapi-user.actions';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
-import { IStrapiLoginData, IStrapiRegisterData } from '../state.interfaces';
-import { StrapiService } from 'src/app/shared/services/strapi.service';
 import { catchError, firstValueFrom, mergeMap, tap, throwError } from 'rxjs';
+import { StrapiService } from 'projects/services/src/lib/services/strapi.service';
+import { IStrapiLoginData } from 'projects/types/types.interfaces';
 
 export class UserStateModel {
     user: any | any;
@@ -67,7 +67,7 @@ export class StrapiUserState {
             )
             .subscribe(
                 {
-                    next: (v) => {
+                    next: (v: { user: { id: any; }; jwt: any; }) => {
                         console.log('v', v);
                         ctx.patchState({
                             user: v.user,
@@ -76,7 +76,7 @@ export class StrapiUserState {
                             strapiUserId: v.user.id,
                         });
                     },
-                    error: (err) => {
+                    error: (err: Error) => {
                         this.store.dispatch(new LogErrorEntry(err));
                         ctx.patchState({
                             isLoggedIn: false,
@@ -110,7 +110,7 @@ export class StrapiUserState {
                             strapiUserId: v.user.id,
                         });
                     },
-                    error: (err) => {
+                    error: (err: Error) => {
                         this.store.dispatch(new LogErrorEntry(err));
                         ctx.patchState({
                             isLoggedIn: false,
@@ -129,7 +129,7 @@ export class StrapiUserState {
         // const state = ctx.getState();
         const user = this.store.selectSnapshot<any>((state) => state.strapiUser?.user);
 
-        return this.strapi.updateStrapiUserProfile(user?.id, profileForm).subscribe((res) => {
+        return this.strapi.updateStrapiUserProfile(user?.id, profileForm).subscribe((res: any) => {
             this.store.dispatch(new StrapiUserActions.GetStrapiUser()).subscribe((state) => { });
         });
     }
@@ -151,14 +151,14 @@ export class StrapiUserState {
             this.strapi.loadUser(user?.id)
                 .subscribe(
                     {
-                        next: (loadedUser) => {
+                        next: (loadedUser: any) => {
                             console.log(loadedUser);
                             ctx.patchState({
                                 ...state,
                                 user: loadedUser,
                             });
                         },
-                        error: (e) => console.error(e),
+                        error: (e: any) => console.error(e),
                         complete: () => console.info('complete')
                     }
                 );

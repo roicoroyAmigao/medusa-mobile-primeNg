@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ModalController, NavController } from '@ionic/angular';
-import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { CheckoutFacade } from 'src/app/checkout/checkout.facade';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { CartActions } from 'src/app/store/cart/cart.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
-import { CartReviewFacade } from './cart-review.facade';
+import { Component } from "@angular/core";
+import { NavController } from "@ionic/angular";
+import { Store } from "@ngxs/store";
+import { NavigationService } from "projects/services/src/lib/services/navigation.service";
+import { Observable } from "rxjs";
+import { CartActions } from "src/app/store/cart/cart.actions";
+import { CartReviewFacade } from "./cart-review.facade";
 
 @Component({
   selector: 'app-cart-review',

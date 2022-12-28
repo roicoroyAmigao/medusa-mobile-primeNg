@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
+import { AppAuthService } from 'projects/services/src/lib/services/auth.service';
+import { NavigationService } from 'projects/services/src/lib/services/navigation.service';
+import { StrapiService } from 'projects/services/src/lib/services/strapi.service';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
-import { AppAuthService } from 'src/app/shared/services/auth.service';
-import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { StrapiService } from 'src/app/shared/services/strapi.service';
 import { StrapiUserActions } from 'src/app/store/strapi-user/strapi-user.actions';
 import { ProfileFacade } from './profile.facade';
 

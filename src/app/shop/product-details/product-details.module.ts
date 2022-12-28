@@ -10,7 +10,7 @@ import { ProductDetailsPage } from './product-details.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ComponentsModule } from 'src/app/components/components.module';
+import { ComponentsModule } from 'projects/components/src/public-api';
 
 @NgModule({
   imports: [
