@@ -16,6 +16,8 @@ export class ProfileFacade {
 
     @Select(CustomerState.isLoggedIn) isCustomerLoggedIn$: Observable<any>;
 
+    @Select(StrapiUserState.getAvatar) avatar$: Observable<any>;
+
     readonly viewState$: Observable<any>;
 
     constructor() {
@@ -24,18 +26,21 @@ export class ProfileFacade {
                 this.customer$,
                 this.user$,
                 this.isCustomerLoggedIn$,
+                this.avatar$,
             ]
         ).pipe(
             map((
                 [
                     customer,
                     user,
-                    isCustomerLoggedIn
+                    isCustomerLoggedIn,
+                    avatar
                 ]
             ) => ({
                 customer,
                 user,
-                isCustomerLoggedIn
+                isCustomerLoggedIn,
+                avatar
             }))
         );
     }

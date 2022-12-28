@@ -3,9 +3,22 @@ import { DOCUMENT } from '@angular/common';
 import * as Color from 'color';
 import { Storage } from '@ionic/storage';
 import { StrapiService } from './strapi.service';
-import { Subject, takeUntil } from 'rxjs';
+import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { ThemeActions } from 'src/app/store/theme/theme.actions';
+
+export interface AppTheme {
+    primary: string,
+    secondary: string,
+    tertiary: string,
+    info: string,
+    success: string,
+    warning: string,
+    danger: string,
+    dark: string,
+    medium: string,
+    light: string,
+}
 
 const defaults = {
     primary: '#3880ff',
@@ -153,37 +166,27 @@ function contrast(color: { isDark: () => any; lighten: (arg0: number) => any; da
 @Injectable({
     providedIn: 'root'
 })
-export class ThemeService implements OnDestroy {
-
-    private readonly ngUnsubscribe = new Subject();
+export class ThemeService {
 
     renderer: Renderer2;
 
     constructor(
         private renderFactory: RendererFactory2,
         @Inject(DOCUMENT) private document: Document,
-        private strapi: StrapiService,
         private store: Store
     ) {
         this.renderer = this.renderFactory.createRenderer(null, null);
     }
     initTheme() {
-        // const theme = this.strapi.getAppTheme().toPromise();
-        // console.log(theme.data?.attributes);
-
-        // const cartObj = this.store.selectSnapshot<any>((state: any) => state.cart?.cart);
-        this.strapi.getAppTheme()
-            .pipe(
-                takeUntil(this.ngUnsubscribe),
-            )
-            .subscribe((theme: any) => {
-                // console.log(theme);
-                this.setTheme(theme.data.attributes);
-                this.store.dispatch(new ThemeActions.SetTheme(theme.data.attributes));
-            });
+        // const theme: any = firstValueFrom(this.store.dispatch(new ThemeActions.GetTheme()));
+        // console.log(theme.theme?.styles);
+        this.store.dispatch(new ThemeActions.GetTheme());
+        const styles = this.store.selectSnapshot<any>((state) => state.theme?.styles);
+        console.log('styles', styles);
+        this.setTheme(styles);
     }
 
-    setTheme(theme: { primary: any; secondary: any; tertiary: any; info: any; success: any; warning: any; danger: any; dark: any; medium: any; light: any; }) {
+    setTheme(theme?: AppTheme) {
         const customColors = {
             primary: `#${theme?.primary}`,
             secondary: `#${theme?.secondary}`,
@@ -207,7 +210,6 @@ export class ThemeService implements OnDestroy {
             // light: '#f4f5f8'
         };
         const cssText = CSSTextGenerator(customColors);
-        // console.log(cssText)
         this.setGlobalCSS(cssText);
     }
 
@@ -218,12 +220,7 @@ export class ThemeService implements OnDestroy {
     enableDark() {
         this.renderer.addClass(this.document.body, 'dark-theme');
     }
-    enableLight() {
-        this.renderer.removeClass(this.document.body, 'dark -theme');
-    }
-
-    ngOnDestroy(): void {
-        this.ngUnsubscribe.next(null);
-        this.ngUnsubscribe.complete();
+    removeDark() {
+        this.renderer.removeClass(this.document.body, 'dark-theme');
     }
 }

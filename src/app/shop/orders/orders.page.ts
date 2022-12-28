@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { CustomerActions } from 'src/app/store/customer/customer.actions';
 import { OrderDetailsComponent } from './order-details/order-details.component';
@@ -12,13 +12,11 @@ import { OrdersFacade } from './orders.facade';
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
 })
-export class OrdersPage implements OnInit, OnDestroy {
+export class OrdersPage implements OnInit {
 
   viewState$: Observable<any>;
 
   presentingElement: any = HTMLElement;
-
-  private readonly ngUnsubscribe = new Subject();
 
   constructor(
     private store: Store,
@@ -46,9 +44,4 @@ export class OrdersPage implements OnInit, OnDestroy {
     });
     modal.present();
   }
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next(null);
-    this.ngUnsubscribe.complete();
-  }
-
 }

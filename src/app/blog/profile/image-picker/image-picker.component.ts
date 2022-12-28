@@ -28,7 +28,6 @@ export class ImagePickerComponent implements OnInit {
 
   constructor(
     private platform: Platform,
-    private http: HttpClient,
   ) { }
 
   ngOnInit() {
@@ -38,18 +37,14 @@ export class ImagePickerComponent implements OnInit {
   }
 
   async onPickImage() {
-    // console.log('this.selectedImage');
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Prompt,
       quality: 50,
     });
     const savedPhoto = await this.savePicture(capturedPhoto);
-    // console.log(savedPhoto);
     this.imagePick.emit(savedPhoto.webviewPath);
-    // this.selectedImage = await onLoadImage(savedPhoto);
     this.selectedImage = savedPhoto.webviewPath;
-    // console.log(savedPhoto);
   }
   private async savePicture(cameraPhoto: Photo) {
     const base64Data = await this.readAsBase64(cameraPhoto);

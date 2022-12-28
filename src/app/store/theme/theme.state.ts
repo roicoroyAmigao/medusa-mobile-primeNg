@@ -1,17 +1,20 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
-import { tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { StrapiService } from 'src/app/shared/services/strapi.service';
 import { ThemeService } from 'src/app/shared/services/theme-settings.service';
+import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
 import { ThemeActions } from './theme.actions';
 
 export class ThemeStateModel {
-    style: any;
+    styles: any;
 }
 @State<ThemeStateModel>({
     name: 'theme',
     defaults: {
-        style: null,
+        styles: null,
     }
 })
 @Injectable()
@@ -25,7 +28,7 @@ export class ThemeState {
 
     @Selector()
     static getTheme(state: ThemeStateModel) {
-        return state.style;
+        return state.styles;
     }
 
     @Action(ThemeActions.GetTheme)
@@ -33,25 +36,32 @@ export class ThemeState {
         const state = ctx.getState();
         // console.log("payload", payload);
         this.strapi.getAppTheme()
-            .pipe(tap((theme: any) => {
-                // console.log("result", theme);
-                ctx.patchState({
-                    ...state,
-                    style: theme,
-                });
-            }
-            ));
+            .pipe(
+                catchError((err: HttpErrorResponse) => throwError(() => {
+                    this.store.dispatch(new LogErrorEntry(err));
+                    return new Error(err.message)
+                })),
+            )
+            .subscribe({
+                next: (v: any) => {
+                    return ctx.patchState({
+                        ...state,
+                        styles: v.data?.attributes,
+                    });
+                },
+                error: (e: any) => {
+                    console.error(e);
+                },
+                // complete: () => console.info('complete')
+            });
     }
 
     @Action(ThemeActions.SetTheme)
     setTheme(ctx: StateContext<ThemeStateModel>, { theme }: ThemeActions.SetTheme) {
         const state = ctx.getState();
-
-        // console.log(theme);
-
         ctx.patchState({
             ...state,
-            style: theme,
+            styles: theme,
         });
     }
 

@@ -41,6 +41,8 @@ import { StrapiUserState } from './store/strapi-user/strapi-user.state';
 import { StrapiAuthInterceptor } from './shared/services/strapi.interceptor';
 import { ThemeState } from './store/theme/theme.state';
 import { CustomerRegisterState } from './store/customer-register/customer-register.state';
+import { LanguageState } from './store/language/language.state';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 registerLocaleData(localePT, 'pt');
 registerLocaleData(localeEN, 'en');
@@ -70,6 +72,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       },
       defaultLanguage: 'en'
     }),
+    IonicStorageModule.forRoot(),
     NgxsModule.forRoot([
       MedusaState,
       CustomerState,
@@ -82,7 +85,8 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
       ShippingState,
       PaymentState,
       StrapiUserState,
-      ThemeState
+      ThemeState,
+      LanguageState
     ]),
     NgxsStoragePluginModule.forRoot({
       key: [
@@ -96,7 +100,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
         'cart',
         'shipping',
         'payment',
-        'strapiUser'
+        'strapiUser',
+        'language',
+        'theme'
       ]
     }),
     NgxsFormPluginModule.forRoot(),

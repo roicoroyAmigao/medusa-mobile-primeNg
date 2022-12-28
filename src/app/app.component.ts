@@ -30,7 +30,6 @@ export class AppComponent {
     public menu: MenuController,
     public store: Store,
     private platform: Platform,
-    private theme: ThemeService,
   ) {
     this.initApp();
   }

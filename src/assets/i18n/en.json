@@ -1,8 +1,9 @@
 {
+  "Settings": "Settings",
+  "ENGLISH": "English",
+  "PORTUGUESE": "Portuguese",
   "EDIT_WAITER": "Edit Waiter",
   "GET_IMAGE": "Take a picture",
-  "ENGLISH": "English",
-  "POURTUGUESE": "Portuguese",
   "VALUE": "Value",
   "LABEL": "Label",
   "NAME": "Name",

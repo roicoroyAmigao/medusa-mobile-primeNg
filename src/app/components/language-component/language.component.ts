@@ -30,15 +30,12 @@ export class LanguageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.availableLanguages = this.languageService.getLanguages();
-    // throw new Error('Method not implemented.');
   }
 
   ionViewWillEnter() {
     this.storageService.storageGet(SAVED_LANGUAGE).then((language) => {
-      // console.log(language);
       this.selectedLanguage = language;
     });
-    // console.log(this.availableLanguages);
   }
 
   selectLanguage(item: any) {
@@ -58,39 +55,4 @@ export class LanguageComponent implements OnInit {
         this.translations = translations;
       });
   }
-
-  // async openLanguageChooser() {
-  //   this.availableLanguages = this.languageService.getLanguages()
-  //     .map((item: any) => ({
-  //       name: item.name,
-  //       type: 'radio',
-  //       label: item.name,
-  //       value: item.code,
-  //       checked: item.code === this.translate.currentLang
-  //     }));
-
-  //   const alert = await this.alertController.create({
-  //     header: this.translations.SELECT_LANGUAGE,
-  //     inputs: this.availableLanguages,
-  //     cssClass: 'language-alert',
-  //     buttons: [
-  //       {
-  //         text: this.translations.CANCEL,
-  //         role: 'cancel',
-  //         cssClass: 'translate-alert',
-  //         handler: () => { }
-  //       }, {
-  //         text: this.translations.OK,
-  //         handler: (data) => {
-  //           console.log(data);
-  //           if (data) {
-  //             this.translate.use(data);
-  //             this.storageService.storageSet(SAVED_LANGUAGE, data);
-  //           }
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   await alert.present();
-  // }
 }

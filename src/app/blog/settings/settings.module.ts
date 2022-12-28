@@ -10,8 +10,16 @@ import { SettingsPage } from './settings.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ComponentsModule } from 'src/app/components/components.module';
 import { LanguageComponent } from 'src/app/components/language-component/language.component';
+import { FormComponentsModule } from 'src/app/form-components/form-components.module';
+import { PrimeComponentsModule } from 'src/app/form-components/prime-components.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { ThemePickerFormComponent } from './theme-picker-form/theme-picker-form.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   imports: [
@@ -23,12 +31,17 @@ import { LanguageComponent } from 'src/app/components/language-component/languag
     NgxsModule,
     NgxsFormPluginModule,
     TranslateModule,
-    ComponentsModule,
     ReactiveFormsModule,
-    ComponentsModule
+    FormComponentsModule,
+    PrimeComponentsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ColorPickerModule
   ],
   declarations: [
     SettingsPage,
+    LanguageComponent,
+    ThemePickerFormComponent
   ],
   entryComponents:[
   ]

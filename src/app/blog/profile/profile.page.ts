@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { Observable, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { AppAuthService } from 'src/app/shared/services/auth.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { StrapiService } from 'src/app/shared/services/strapi.service';
@@ -13,7 +13,7 @@ import { ProfileFacade } from './profile.facade';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, OnDestroy {
   strapiProfileForm: FormGroup;
 
   avatar: string;
@@ -21,6 +21,10 @@ export class ProfilePage implements OnInit {
   strapiUser: any;
 
   viewState$: Observable<any>;
+
+  private readonly ngUnsubscribe = new Subject();
+
+  formData: FormData;
 
   constructor(
     private strapi: StrapiService,
@@ -41,12 +45,18 @@ export class ProfilePage implements OnInit {
     });
 
     this.viewState$ = this.facade.viewState$;
+  }
+  ngOnInit() {
     this.viewState$
-      .subscribe((vs) => {
-        // console.log(vs.user);
-        // console.log(vs.customer);
-        this.avatar = !vs.user.avatar?.url ? 'assets/shapes.svg' : vs.user.avatar?.url;
-
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        tap(() => {
+          this.avatar = '';
+        })
+      ).subscribe((vs) => {
+        // console.log(vs.avatar);
+        this.avatar = !vs?.user ? 'assets/shapes.svg' : vs.user.avatar?.url;
+        // console.log(this.avatar);
         const username = vs.user.username;
         this.strapiProfileForm.get('username')?.setValue(username);
         const email = vs.customer.email !== null ? vs.customer.email : vs.user.email;
@@ -59,25 +69,24 @@ export class ProfilePage implements OnInit {
         this.strapiProfileForm.get('phone')?.setValue(phone);
       });
   }
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit() {
-  }
-  getStrapiLoggedInAction() {
-    this.store.dispatch(new StrapiUserActions.GetStrapiUser());
-  }
   submitForm() {
-    console.log(this.strapiProfileForm.value);
     this.store.dispatch(new StrapiUserActions.UpdateStrapiUser(this.strapiProfileForm.value));
   }
   async onImagePicked(file: any) {
-    // this.upload.onImagePicked(file, this.strapiUser);
     const response = await fetch(file);
     const blob = await response.blob();
     const formData = new FormData();
     formData.append('files', blob, file.name);
-    this.uploadData(formData);
+    this.formData = formData;
+    return this.formData;
+    // this.uploadData(formData);
   }
-  async uploadData(formData: any) {
-    this.store.dispatch(new StrapiUserActions.UploadProfileImage(formData));
+  async uploadData() {
+    this.store.dispatch(new StrapiUserActions.UploadProfileImage(this.formData));
+  }
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngOnDestroy(): void {
+    // this.ngUnsubscribe.next(null);
+    // this.ngUnsubscribe.complete();
   }
 }

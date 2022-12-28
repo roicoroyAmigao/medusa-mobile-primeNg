@@ -5,8 +5,7 @@ import { StrapiUserActions } from './strapi-user.actions';
 import { LogErrorEntry } from '../errors-logging/errors-logging.actions';
 import { IStrapiLoginData, IStrapiRegisterData } from '../state.interfaces';
 import { StrapiService } from 'src/app/shared/services/strapi.service';
-import { catchError, mergeMap, tap, throwError } from 'rxjs';
-import request from '@medusajs/medusa-js/dist/request';
+import { catchError, firstValueFrom, mergeMap, tap, throwError } from 'rxjs';
 
 export class UserStateModel {
     user: any | any;
@@ -47,10 +46,9 @@ export class StrapiUserState {
     }
 
     @Selector()
-    static getAvatar(state: UserStateModel) {
-        // console.log(state.user.avatar.url);
-
-        return state.user.avatar?.url;
+    static getAvatar(state: UserStateModel): string {
+        const avatar = state.user.avatar?.url ? state.user.avatar?.url : 'assets/shapes.svg';
+        return avatar;
     }
 
     @Action(StrapiUserActions.StrapiLogin)
@@ -61,70 +59,70 @@ export class StrapiUserState {
         };
         this.strapi.strapiLogin(loginReq)
             .pipe(
-                // catchError((err: HttpErrorResponse) => throwError(() => {
-                //     console.log('err0', err);
-                //     this.store.dispatch(new LogErrorEntry(err));
-                //     return new Error(err.message)
-                // })),
-                tap((response) => {
-                    // return this.strapi.loadUser(response.user.id)
-                    //     .subscribe((loadedUser) => {
-                    //         // console.log('loadedUser', loadedUser);
-                    //         return ctx.patchState({
-                    //             user: loadedUser,
-                    //             isLoggedIn: true,
-                    //             token: response.jwt,
-                    //             strapiUserId: response.user.id,
-                    //         });
-                    //     });
-                })
-            ).subscribe(
-                (response) => {
-                    console.log('loadedUser', response.user);
-                    return this.strapi.loadUser(response.user.id)
-                        .subscribe((loadedUser) => {
-                            console.log('loadedUser', loadedUser);
-                            return ctx.patchState({
-                                user: loadedUser,
-                                isLoggedIn: true,
-                                token: response.jwt,
-                                strapiUserId: response.user.id,
-                            });
+                catchError((err: HttpErrorResponse) => throwError(() => {
+                    // console.log('err0', err);
+                    this.store.dispatch(new LogErrorEntry(err));
+                    return new Error(err.message)
+                })),
+            )
+            .subscribe(
+                {
+                    next: (v) => {
+                        console.log('v', v);
+                        ctx.patchState({
+                            user: v.user,
+                            isLoggedIn: true,
+                            token: v.jwt,
+                            strapiUserId: v.user.id,
                         });
-                },
-                (err) => {
-                    // console.log('err1', err);
-                    // this.store.dispatch(new LogErrorEntry(err));
-                    // ctx.patchState({
-                    //     isLoggedIn: false,
-                    // });
+                    },
+                    error: (err) => {
+                        this.store.dispatch(new LogErrorEntry(err));
+                        ctx.patchState({
+                            isLoggedIn: false,
+                        });
+                        // console.error(err);
+                    },
+                    complete: () => {
+                        this.store.dispatch(new StrapiUserActions.GetStrapiUser())
+                        // console.info('complete');
+                    }
                 }
             );
     }
     @Action(StrapiUserActions.StrapiRegister)
     async strapiRegister(ctx: StateContext<UserStateModel>, { payload }: StrapiUserActions.StrapiRegister) {
-        // console.log(payload);
-        // console.log(payload);
         this.strapi.strapiRegister(payload)
             .pipe(
-                tap((response: any) => {
-                    console.log(response.user.id);
-                })
+                catchError((err: HttpErrorResponse) => throwError(() => {
+                    console.log('err0', err);
+                    this.store.dispatch(new LogErrorEntry(err));
+                    return new Error(err.message)
+                })),
             ).subscribe(
-            // (response) => {
-            //     console.log(response.user.id);
-            //     // return this.strapi.loadUser(response.user.id)
-            //     //     .subscribe((loadedUser) => {
-            //     //         // console.log('loadedUser', loadedUser);
-            //     //         return ctx.patchState({
-            //     //             user: loadedUser,
-            //     //             isLoggedIn: true,
-            //     //             token: response.jwt,
-            //     //             strapiUserId: response.user.id,
-            //     //         });
-            //     //     });
-            // }
-        );
+                {
+                    next: (v: any) => {
+                        // console.log('v', v);
+                        ctx.patchState({
+                            user: v.user,
+                            isLoggedIn: true,
+                            token: v.jwt,
+                            strapiUserId: v.user.id,
+                        });
+                    },
+                    error: (err) => {
+                        this.store.dispatch(new LogErrorEntry(err));
+                        ctx.patchState({
+                            isLoggedIn: false,
+                        });
+                        // console.error(err);
+                    },
+                    complete: () => {
+                        this.store.dispatch(new StrapiUserActions.GetStrapiUser())
+                        // console.info('complete');
+                    }
+                },
+            );
     }
     @Action(StrapiUserActions.UpdateStrapiUser)
     updateStrapiUser(ctx: StateContext<UserStateModel>, { profileForm }: StrapiUserActions.UpdateStrapiUser) {
@@ -137,45 +135,33 @@ export class StrapiUserState {
     }
     @Action(StrapiUserActions.UploadProfileImage)
     async uploadProfileImage(ctx: StateContext<UserStateModel>, { formData }: StrapiUserActions.UploadProfileImage) {
-
-        this.strapi.uploadData(formData)
-            .subscribe((response: any) => {
-                if (response) {
-                    const fileId = response[0].id;
-                    const user = this.store.selectSnapshot<any>((state) => state.strapiUser.user);
-                    this.strapi.setProfileImage(user?.id, fileId)
-                        .subscribe((resUser: any) => {
-                            // console.log(resUser);
-                            this.strapi.loadUser(user?.id)
-                                .subscribe((loadedUser) => {
-                                    console.log('loadedUser', loadedUser);
-                                    return ctx.patchState({
-                                        user: loadedUser,
-                                        isLoggedIn: true,
-                                        token: response.jwt,
-                                        strapiUserId: response.user.id,
-                                    });
-                                });
-                        });
-                }
-            });
+        const res: any = await firstValueFrom(this.strapi.uploadData(formData));
+        const fileId = res[0].id;
+        const user = this.store.selectSnapshot<any>((state) => state.strapiUser.user);
+        if (user && fileId) {
+            const updatedUser = await firstValueFrom(this.strapi.setProfileImage(user?.id, fileId));
+            this.store.dispatch(new StrapiUserActions.GetStrapiUser());
+        }
     }
     @Action(StrapiUserActions.GetStrapiUser)
     getStrapiUser(ctx: StateContext<UserStateModel>) {
         const state = ctx.getState();
-
         const user = this.store.selectSnapshot<any>((state) => state.strapiUser?.user);
-        // console.log('user', user);
-
         if (user?.id) {
             this.strapi.loadUser(user?.id)
-                .subscribe((loadedUser) => {
-                    console.log('loadedUser', loadedUser);
-                    return ctx.patchState({
-                        ...state,
-                        user: loadedUser,
-                    });
-                });
+                .subscribe(
+                    {
+                        next: (loadedUser) => {
+                            console.log(loadedUser);
+                            ctx.patchState({
+                                ...state,
+                                user: loadedUser,
+                            });
+                        },
+                        error: (e) => console.error(e),
+                        complete: () => console.info('complete')
+                    }
+                );
         }
         if (!user) {
             const err: any = {
@@ -188,7 +174,7 @@ export class StrapiUserState {
     getStrapiLoggedIn(ctx: StateContext<UserStateModel>) {
         try {
             const state = ctx.getState();
-            return ctx.patchState({
+            ctx.patchState({
                 ...state,
             });
         }

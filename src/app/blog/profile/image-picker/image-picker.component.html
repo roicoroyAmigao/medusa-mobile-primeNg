@@ -2,7 +2,7 @@
   <ion-img role="button" class="image" (click)="onPickImage()" [src]="selectedImage" *ngIf="selectedImage"></ion-img>
 
   <ion-button color="primary" (click)="onPickImage()" *ngIf="!selectedImage">
-    <ion-icon name="camera" slot="start"></ion-icon>
+    <ion-icon name="camera"></ion-icon>
     <ion-label> {{ 'GET_IMAGE' }} </ion-label>
   </ion-button>
 </div>

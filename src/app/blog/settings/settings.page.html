@@ -1,10 +1,6 @@
 <ion-header [translucent]="false" collapse="none">
   <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button (click)="presentPopover()">
-        <ion-icon name="language-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -20,9 +16,46 @@
   </ion-header>
 
   <ion-grid>
+
     <ion-row>
       <ion-col size="12">
+        <form [formGroup]="themeForm">
+          <app-theme-picker-form formControlName="styles"></app-theme-picker-form>
+        </form>
+        <ion-button (click)="submitForm()" expand="block" fill="solid">
+          Update theme
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
+    <ion-row>
+      <ion-col size="12">
+        <ion-button (click)="presentPopover()">
+          <ion-icon name="language-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button (click)="initTheme()" expand="block" fill="solid" shape="round">
+          Theme Init
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+
+
+
+
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-button (click)="darkTheme()" expand="block" fill="clear" shape="round">
+          Dark Theme
+        </ion-button>
+        <ion-button (click)="removeDarkTheme()" expand="block" fill="clear" shape="round">
+          Remove Dark Theme
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

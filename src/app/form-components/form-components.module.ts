@@ -40,7 +40,7 @@ import { PrimeComponentsModule } from './prime-components.module';
         ProfileFormComponent,
         AddressFormComponent,
         LoginFormComponent,
-        UserFormComponent,
+        UserFormComponent
     ]
 })
 export class FormComponentsModule { }

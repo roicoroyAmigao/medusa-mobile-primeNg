@@ -1,12 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable, Subject, Subscription, takeUntil, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppAuthService } from 'src/app/shared/services/auth.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
-import { AddressesActions } from 'src/app/store/addresses/addresses.actions';
-import { CartActions } from 'src/app/store/cart/cart.actions';
-import { CustomerActions } from 'src/app/store/customer/customer.actions';
-import { MedusaActions } from 'src/app/store/medusa/medusa.actions';
 import { StrapiUserActions } from 'src/app/store/strapi-user/strapi-user.actions';
 import { NewsFacade } from './news.facade';
 
@@ -15,12 +11,9 @@ import { NewsFacade } from './news.facade';
   templateUrl: './news.page.html',
   styleUrls: ['./news.page.scss'],
 })
-export class NewsPage implements OnDestroy {
+export class NewsPage {
 
   viewState$: Observable<any>;
-
-  subscription!: Subscription;
-  private readonly ngUnsubscribe = new Subject();
 
   constructor(
     private navigation: NavigationService,
@@ -41,13 +34,6 @@ export class NewsPage implements OnDestroy {
     this.auth.logout();
   }
   home() {
-    this.navigation.navigateForward('/home', 'back');
-  }
-  ngOnDestroy() {
-    this.ngUnsubscribe.next(null);
-    this.ngUnsubscribe.complete();
-    if(this.subscription){
-      this.subscription.unsubscribe();
-    }
+    this.navigation.navigateFlip('/home');
   }
 }

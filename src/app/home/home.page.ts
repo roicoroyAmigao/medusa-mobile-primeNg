@@ -17,7 +17,7 @@ import { AuthRoutePath } from '../auth/route-path.enum';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class HomePage implements OnDestroy {
+export class HomePage {
     products!: any[];
 
     subscription!: Subscription;
@@ -49,10 +49,5 @@ export class HomePage implements OnDestroy {
     }
     logout() {
         this.auth.logout();
-    }
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
     }
 }
