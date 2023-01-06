@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { CartActions } from 'src/app/store/cart/cart.actions';
-import { clearSelectedVariant } from 'src/app/store/products/products.actions';
 import { ProductsFacade } from '../products.facade';
 
 @Component({

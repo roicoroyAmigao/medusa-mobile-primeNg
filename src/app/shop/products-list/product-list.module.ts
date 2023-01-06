@@ -13,7 +13,7 @@ import { NgxsModule } from '@ngxs/store';
 import { VariantModalComponent } from './variant-modal/variant-modal.component';
 import { ComponentsModule } from 'projects/components/src/public-api';
 import { FormComponentsModule } from 'projects/form-components/src/public-api';
-import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
+import { ServicesModule } from 'projects/services/src/public-api';
 
 @NgModule({
   imports: [
@@ -26,12 +26,12 @@ import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
     NgxsModule,
     NgxsFormPluginModule,
     ComponentsModule,
-    FormComponentsModule
+    FormComponentsModule,
+    ServicesModule
   ],
   declarations: [
     ProductListPage,
     VariantModalComponent,
-    TruncatePipe
   ],
   entryComponents:[
 
